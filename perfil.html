@@ -23,7 +23,8 @@
             </div>
 
             <ul class="nav-links">
-                <li><a href="index.html"><i class="bi bi-house-door-fill"></i> <span class="link-text">Inicio</span></a></li>
+                <li><a href="index.html"><i class="bi bi-house-door-fill"></i> <span class="link-text">Inicio</span></a>
+                </li>
                 <li><a href="#"><span class="emoji-icon">📚</span> <span class="link-text">Materias</span></a></li>
                 <li><a href="#"><span class="emoji-icon">🧪</span> <span class="link-text">Práctica</span></a></li>
                 <li><a href="#"><span class="emoji-icon">🗺️</span> <span class="link-text">Ruta</span></a></li>
@@ -43,7 +44,19 @@
                 <span class="ms-2 d-none d-md-inline">Menú</span>
             </button>
 
-            <section class="mb-5 pb-lg-3" style="margin-top: 90px;">
+            <style>
+                #perfil-top {
+                    margin-top: 45px;
+                }
+
+                @media (max-width: 769px) {
+                    #perfil-top {
+                        margin-top: 90px;
+                    }
+                }
+            </style>
+
+            <section class="mb-5 pb-lg-3" id="perfil-top">
                 <div class="bento-card position-relative overflow-hidden p-4 p-lg-5">
                     <div class="decoration-circle"
                         style="right: -50px; top: -50px; background: var(--bg-secondary); width: 300px; height: 300px; z-index: 0;">
@@ -103,7 +116,8 @@
                                 <div class="col-12 col-sm-6">
                                     <div class="p-4 rounded-4 text-center h-100 d-flex flex-column justify-content-center position-relative overflow-hidden"
                                         style="background: linear-gradient(135deg, #22f995, #7597de); color: white; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                                        <div class="fs-3 mb-2" style="text-shadow: 0 2px 5px rgba(255, 255, 255, 0.3);">👑</div>
+                                        <div class="fs-3 mb-2" style="text-shadow: 0 2px 5px rgba(255, 255, 255, 0.3);">
+                                            👑</div>
                                         <h3 class="fw-bold mb-1 fs-2">Nivel 15</h3>
                                         <p class="small fw-bold mb-0" style="color: white;">Rango: Erudito</p>
                                     </div>
