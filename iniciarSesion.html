@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - AbejaGO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-control-custom {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 12px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .form-control-custom:focus {
+            background-color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+            outline: none;
+        }
+
+        .form-label {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            margin-left: 5px;
+        }
+
+        .auth-container {
+            max-width: 450px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .fade-view {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ajustes del Panel Lateral */
+        .auth-side-panel {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #E7F1FF 100%);
+            position: relative;
+        }
+
+        /* --- MOCKUPS DE TELÉFONOS CON CSS (Escala 80%) --- */
+        .phones-container {
+            position: absolute; 
+            bottom: 0px; 
+            left: 10px; 
+            height: 240px; 
+            width: 200px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            z-index: 2;
+        }
+
+        .phone-mockup {
+            width: 112px; /* 80% de 140px */
+            height: 232px; /* 80% de 290px */
+            background: #1A1A1A;
+            border-radius: 22px; 
+            border: 4px solid #2A2A2A; 
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            overflow: hidden;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* La pestañita superior (notch) */
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px; 
+            height: 16px; 
+            background: #1A1A1A;
+            border-radius: 0 0 10px 10px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            border-radius: 18px; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Teléfono 1 (Fondo azul/gráfico) */
+        .phone-1 {
+            transform: rotate(-12deg) translateX(-15px) translateY(15px);
+            z-index: 1;
+        }
+
+        .phone-1 .phone-screen {
+            background: linear-gradient(to bottom right, #ffffff, #bbedf7);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 12px; 
+        }
+
+        /* Teléfono 2 (Interfaz clara) */
+        .phone-2 {
+            transform: rotate(8deg) translateX(30px) translateY(-8px);
+            z-index: 2;
+        }
+
+        .phone-2 .phone-screen {
+            background: var(--bg-secondary);
+            padding: 24px 8px 8px 8px; 
+        }
+
+        /* Efecto Hover juguetón */
+        .phones-container:hover .phone-1 {
+            transform: rotate(-15deg) translateX(-25px) translateY(8px);
+        }
+        .phones-container:hover .phone-2 {
+            transform: rotate(12deg) translateX(40px) translateY(-16px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <nav class="sidebar collapsed" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo">
+                    <span class="logo-icon">🐝</span>
+                    <span class="logo-text">Abeja GO</span>
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="bi bi-house-door-fill"></i> <span class="link-text">Inicio</span></a></li>
+                <li><a href="#"><span class="emoji-icon">📚</span> <span class="link-text">Materias</span></a></li>
+                <li><a href="#"><span class="emoji-icon">🧪</span> <span class="link-text">Práctica</span></a></li>
+                <li><a href="#"><span class="emoji-icon">🗺️</span> <span class="link-text">Ruta</span></a></li>
+                <li><a href="#"><span class="emoji-icon">🎓</span> <span class="link-text">Clases</span></a></li>
+                <li class="mt-auto"><a href="perfil.html"><span class="emoji-icon">👤</span> <span class="link-text">Perfil</span></a></li>
+            </ul>
+        </nav>
+
+        <div class="menu-overlay" id="overlay"></div>
+
+        <main class="main-content d-flex flex-column min-vh-100 p-0 position-relative">
+
+            <div class="position-absolute top-0 start-0 p-3 p-md-4 z-3">
+                <button class="menu-toggle-cylinder shadow-sm" id="menuToggle" aria-label="Abrir menú">
+                    <div class="cylinder-face"></div>
+                    <i class="bi bi-list"></i>
+                    <span class="ms-2 d-none d-md-inline">Menú</span>
+                </button>
+            </div>
+
+            <div class="row g-0 flex-grow-1 w-100" style="margin-top: 90px; margin-bottom: 45px;">
+                
+                <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-center align-items-center auth-side-panel overflow-hidden position-relative p-5">
+                    
+                    <div class="decoration-circle position-absolute" style="width: 500px; height: 500px; top: -150px; left: -150px; background: rgba(255,255,255,0.6); z-index: 0;"></div>
+                    
+                    <div class="position-relative z-1 text-center w-100 mb-5 pb-5"> 
+                        <div class="mb-2">
+                            <span class="logo-icon" style="font-size: 3rem;">🐝</span>
+                        </div>
+                        <h1 class="display-5 mb-2" style="letter-spacing: -1px; line-height: 1.1; font-weight: 1000 !important;">Domina tu<br><span class="text-accent">futuro.</span></h1>
+                        <p class="text-secondary fw-bold mx-auto mt-3" style="max-width: 400px;">Entra a tu centro de comando y sigue subiendo de nivel.</p>
+                    </div>
+
+                    <div class="phones-container">
+                        <div class="phone-mockup phone-1">
+                            <div class="phone-screen">
+                                <div style="background: rgba(255,255,255,0.2); height: 80px; border-radius: 12px; margin-bottom: 8px;"></div>
+                                <div style="background: rgba(255,255,255,0.3); height: 30px; border-radius: 8px;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="phone-mockup phone-2">
+                            <div class="phone-screen">
+                                <div style="background: #E7F1FF; height: 60px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; padding: 10px;">
+                                    <span class="fs-2">🔥</span>
+                                </div>
+                                <div style="background: white; height: 45px; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);"></div>
+                                <div style="background: white; height: 45px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center p-4 p-md-5 bg-white">
+                    <div class="auth-container">
+
+                        <div id="view-login" class="fade-view">
+                            <div class="text-center mb-5">
+                                <div class="step-icon-bg bg-blue-soft mx-auto mb-3 d-lg-none" style="width: 70px; height: 70px;">
+                                    <span class="fs-1">👋</span>
+                                </div>
+                                <h2 class="fw-bold mb-1 display-6">¡Hola de nuevo!</h2>
+                                <p class="text-muted fw-bold fs-6">Entra a tu aula virtual</p>
+                            </div>
+
+                            <button class="btn btn-outline-custom w-100 d-flex align-items-center justify-content-center gap-2 mb-4 py-3" type="button">
+                                <i class="bi bi-google fs-5"></i> Continuar con Google
+                            </button>
+
+                            <div class="d-flex align-items-center mb-4">
+                                <hr class="flex-grow-1 border-secondary opacity-25">
+                                <span class="mx-3 text-muted small fw-bold">O con tu correo</span>
+                                <hr class="flex-grow-1 border-secondary opacity-25">
+                            </div>
+
+                            <form onsubmit="event.preventDefault();">
+                                <div class="mb-3">
+                                    <label class="form-label">Correo electrónico</label>
+                                    <input type="email" class="form-control-custom w-100" placeholder="ejemplo@correo.com" required>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="form-label">Contraseña</label>
+                                        <a href="#" class="text-accent text-decoration-none small fw-bold">¿Olvidaste tu contraseña?</a>
+                                    </div>
+                                    <input type="password" class="form-control-custom w-100" placeholder="••••••••" required>
+                                </div>
+
+                                <button class="btn btn-primary-custom w-100 py-3 mb-3 fs-6" type="submit">Iniciar Sesión</button>
+
+                                <p class="text-center text-muted fw-bold small mt-4 mb-0">
+                                    ¿No tienes cuenta? <a href="#" class="text-accent text-decoration-none" onclick="switchView('view-register')">Regístrate aquí</a>
+                                </p>
+                            </form>
+                        </div>
+
+                        <div id="view-register" class="fade-view d-none">
+                            <div class="text-center mb-4">
+                                <div class="step-icon-bg bg-green-soft mx-auto mb-3 d-lg-none" style="width: 70px; height: 70px;">
+                                    <span class="fs-1">🚀</span>
+                                </div>
+                                <h2 class="fw-bold mb-1 display-6">Crea tu cuenta</h2>
+                                <p class="text-muted fw-bold fs-6">Únete a Abeja GO y hackea tu aprendizaje</p>
+                            </div>
+
+                            <form onsubmit="event.preventDefault(); switchView('view-academic');">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre completo</label>
+                                    <input type="text" class="form-control-custom w-100" placeholder="Juan Pérez" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Correo electrónico</label>
+                                    <input type="email" class="form-control-custom w-100" placeholder="ejemplo@correo.com" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Contraseña</label>
+                                        <input type="password" class="form-control-custom w-100" placeholder="Mínimo 8" required>
+                                    </div>
+                                    <div class="col-sm-6 mb-4">
+                                        <label class="form-label">Confirmar</label>
+                                        <input type="password" class="form-control-custom w-100" placeholder="Repite" required>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary-custom w-100 py-3 mb-3 fs-6" type="submit">Siguiente paso <i class="bi bi-arrow-right"></i></button>
+
+                                <p class="text-center text-muted fw-bold small mt-3 mb-0">
+                                    ¿Ya tienes cuenta? <a href="#" class="text-accent text-decoration-none" onclick="switchView('view-login')">Inicia sesión</a>
+                                </p>
+                            </form>
+                        </div>
+
+                        <div id="view-academic" class="fade-view d-none">
+                            <div class="text-center mb-5">
+                                <div class="step-icon-bg bg-purple-soft mx-auto mb-3 d-lg-none" style="width: 70px; height: 70px;">
+                                    <span class="fs-1">🧠</span>
+                                </div>
+                                <h2 class="fw-bold mb-1 display-6">Casi terminamos</h2>
+                                <p class="text-muted fw-bold fs-6">Ayúdanos a personalizar tu ruta de estudio</p>
+                            </div>
+
+                            <form onsubmit="event.preventDefault(); window.location.href='perfil.html';">
+                                <div class="mb-4">
+                                    <label class="form-label">¿A qué semestre o bachillerato perteneces?</label>
+                                    <select class="form-control-custom w-100" required>
+                                        <option value="" disabled selected>Selecciona una opción</option>
+                                        <option value="1">1ero</option>
+                                        <option value="2">2do</option>
+                                        <option value="3">3ero</option>
+                                        <option value="4">4to</option>
+                                        <option value="5">5to</option>
+                                        <option value="6">6to</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-5">
+                                    <label class="form-label">Área o especialidad:</label>
+                                    <select class="form-control-custom w-100" required>
+                                        <option value="" disabled selected>Selecciona tu área</option>
+                                        <option value="ingenierias">Ingenierías</option>
+                                        <option value="economico">Económico-Administrativo</option>
+                                        <option value="salud">Ciencias Exactas y de la Salud</option>
+                                        <option value="artes">Artes</option>
+                                        <option value="otra">Otra</option>
+                                    </select>
+                                </div>
+
+                                <button class="btn btn-primary-custom w-100 py-3 mb-3 fs-6" type="submit">Finalizar y entrar <i class="bi bi-check-circle-fill ms-1"></i></button>
+
+                                <button type="button" class="btn btn-outline-secondary w-100 border-0 fw-bold py-2" onclick="switchView('view-register')">
+                                    <i class="bi bi-arrow-left"></i> Regresar
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-auto pt-5 border-top bg-white w-100" style="z-index: 5;">
+                <div class="container-fluid px-4 px-lg-5">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="brand-logo mb-3">
+                                <span class="logo-icon ms-0">🐝</span>
+                                <span class="logo-text">Abeja GO</span>
+                            </div>
+                            <p class="text-muted small">
+                                Plataforma educativa diseñada para estudiantes de nivel medio superior en México. Hecho con ❤️ en Guanajuato.
+                            </p>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <h6 class="fw-bold mb-3">Plataforma</h6>
+                            <ul class="list-unstyled text-small">
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Inicio</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Materias</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Precios</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <h6 class="fw-bold mb-3">Recursos</h6>
+                            <ul class="list-unstyled text-small">
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Blog</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Guías de estudio</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Comunidad</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="fw-bold mb-3">Contacto</h6>
+                            <div class="d-flex gap-3">
+                                <a href="#" class="text-dark fs-5"><i class="bi bi-instagram"></i></a>
+                                <a href="#" class="text-dark fs-5"><i class="bi bi-twitter"></i></a>
+                                <a href="#" class="text-dark fs-5"><i class="bi bi-discord"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center py-4 mt-4 border-top w-100">
+                    <small class="text-muted">&copy; 2026 Abeja GO. Todos los derechos reservados.</small>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        function switchView(viewId) {
+            document.getElementById('view-login').classList.add('d-none');
+            document.getElementById('view-register').classList.add('d-none');
+            document.getElementById('view-academic').classList.add('d-none');
+
+            document.getElementById(viewId).classList.remove('d-none');
+        }
+    </script>
+</body>
+
+</html>
