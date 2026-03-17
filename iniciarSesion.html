@@ -158,7 +158,7 @@
 
             <ul class="nav-links">
                 <li><a href="index.html"><i class="bi bi-house-door-fill"></i> <span class="link-text">Inicio</span></a></li>
-                <li><a href="#"><span class="emoji-icon">📚</span> <span class="link-text">Materias</span></a></li>
+                <li><a href="materias.html"><span class="emoji-icon">📚</span> <span class="link-text">Materias</span></a></li>
                 <li><a href="#"><span class="emoji-icon">🧪</span> <span class="link-text">Práctica</span></a></li>
                 <li><a href="#"><span class="emoji-icon">🗺️</span> <span class="link-text">Ruta</span></a></li>
                 <li><a href="#"><span class="emoji-icon">🎓</span> <span class="link-text">Clases</span></a></li>
@@ -168,17 +168,15 @@
 
         <div class="menu-overlay" id="overlay"></div>
 
-        <main class="main-content d-flex flex-column min-vh-100 p-0 position-relative">
+        <main class="main-content">
 
-            <div class="position-absolute top-0 start-0 p-3 p-md-4 z-3">
-                <button class="menu-toggle-cylinder shadow-sm" id="menuToggle" aria-label="Abrir menú">
-                    <div class="cylinder-face"></div>
-                    <i class="bi bi-list"></i>
-                    <span class="ms-2 d-none d-md-inline">Menú</span>
-                </button>
-            </div>
+            <button class="menu-toggle-cylinder" id="menuToggle" aria-label="Abrir menú">
+                <div class="cylinder-face"></div>
+                <i class="bi bi-list"></i>
+                <span class="ms-2 d-none d-md-inline">Menú</span>
+            </button>
 
-            <div class="row g-0 flex-grow-1 w-100" style="margin-top: 90px; margin-bottom: 45px;">
+            <div class="row g-0 flex-grow-1 w-100 mt-4 mb-5 rounded-4 overflow-hidden shadow-sm" style="min-height: 80vh;">
                 
                 <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-center align-items-center auth-side-panel overflow-hidden position-relative p-5">
                     
@@ -218,21 +216,11 @@
 
                         <div id="view-login" class="fade-view">
                             <div class="text-center mb-5">
-                                <div class="step-icon-bg bg-blue-soft mx-auto mb-3 d-lg-none" style="width: 70px; height: 70px;">
+                                <div class="step-icon-bg bg-blue-soft mx-auto d-lg-none" style="width: 70px; height: 70px; margin-top: 40px; margin-bottom: 30px;">
                                     <span class="fs-1">👋</span>
                                 </div>
                                 <h2 class="fw-bold mb-1 display-6">¡Hola de nuevo!</h2>
                                 <p class="text-muted fw-bold fs-6">Entra a tu aula virtual</p>
-                            </div>
-
-                            <button class="btn btn-outline-custom w-100 d-flex align-items-center justify-content-center gap-2 mb-4 py-3" type="button">
-                                <i class="bi bi-google fs-5"></i> Continuar con Google
-                            </button>
-
-                            <div class="d-flex align-items-center mb-4">
-                                <hr class="flex-grow-1 border-secondary opacity-25">
-                                <span class="mx-3 text-muted small fw-bold">O con tu correo</span>
-                                <hr class="flex-grow-1 border-secondary opacity-25">
                             </div>
 
                             <form onsubmit="event.preventDefault();">
@@ -249,11 +237,21 @@
                                 </div>
 
                                 <button class="btn btn-primary-custom w-100 py-3 mb-3 fs-6" type="submit">Iniciar Sesión</button>
-
-                                <p class="text-center text-muted fw-bold small mt-4 mb-0">
-                                    ¿No tienes cuenta? <a href="#" class="text-accent text-decoration-none" onclick="switchView('view-register')">Regístrate aquí</a>
-                                </p>
                             </form>
+
+                            <div class="d-flex align-items-center my-4">
+                                <hr class="flex-grow-1 border-secondary opacity-25">
+                                <span class="mx-3 text-muted small fw-bold">O entra rápido con</span>
+                                <hr class="flex-grow-1 border-secondary opacity-25">
+                            </div>
+
+                            <button class="btn btn-outline-custom w-100 d-flex align-items-center justify-content-center gap-2 mb-4 py-3" type="button">
+                                <i class="bi bi-google fs-5"></i> Continuar con Google
+                            </button>
+
+                            <p class="text-center text-muted fw-bold small mt-4 mb-0">
+                                ¿No tienes cuenta? <a href="#" class="text-accent text-decoration-none" onclick="switchView('view-register')">Regístrate aquí</a>
+                            </p>
                         </div>
 
                         <div id="view-register" class="fade-view d-none">
@@ -286,11 +284,21 @@
                                 </div>
 
                                 <button class="btn btn-primary-custom w-100 py-3 mb-3 fs-6" type="submit">Siguiente paso <i class="bi bi-arrow-right"></i></button>
-
-                                <p class="text-center text-muted fw-bold small mt-3 mb-0">
-                                    ¿Ya tienes cuenta? <a href="#" class="text-accent text-decoration-none" onclick="switchView('view-login')">Inicia sesión</a>
-                                </p>
                             </form>
+
+                            <div class="d-flex align-items-center my-4">
+                                <hr class="flex-grow-1 border-secondary opacity-25">
+                                <span class="mx-3 text-muted small fw-bold">O regístrate con</span>
+                                <hr class="flex-grow-1 border-secondary opacity-25">
+                            </div>
+
+                            <button class="btn btn-outline-custom w-100 d-flex align-items-center justify-content-center gap-2 mb-4 py-3" type="button" onclick="switchView('view-academic')">
+                                <i class="bi bi-google fs-5"></i> Registrarse con Google
+                            </button>
+
+                            <p class="text-center text-muted fw-bold small mt-3 mb-0">
+                                ¿Ya tienes cuenta? <a href="#" class="text-accent text-decoration-none" onclick="switchView('view-login')">Inicia sesión</a>
+                            </p>
                         </div>
 
                         <div id="view-academic" class="fade-view d-none">
