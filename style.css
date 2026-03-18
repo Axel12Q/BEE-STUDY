@@ -700,15 +700,3 @@ body.mobile-menu-active {
     height: 100vh; /* Asegura que no se mueva en algunos navegadores iOS */
     touch-action: none; /* Deshabilita gestos táctiles fuera del menú */
 }
-/* FIX SEO - mostrar contenido sin animaciones si no hay JS */
-.no-js .animate-fade-up {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-}
-
-/* También el footer (porque igual empieza oculto) */
-.no-js footer {
-    opacity: 1 !important;
-    transform: none !important;
-}
