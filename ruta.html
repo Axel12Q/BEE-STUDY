@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mapa de Aventura | Física 1 | Abeja GO 🐝</title>
+
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+
+    <script>
+        document.documentElement.classList.remove("no-js");
+    </script>
+
+    <meta name="theme-color" content="#FFD700">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ========================================================
+           === REDISEÑO DEL HEADER (ESTILO BENTO) =================
+           ======================================================== */
+        .ruta-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid rgba(13, 110, 253, 0.15);
+            margin-top: 90px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Detalle decorativo de fondo */
+        .ruta-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(13, 110, 253, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .header-icon-container {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            border: 2px solid #e3f2fd;
+            flex-shrink: 0;
+            transform: rotate(-5deg);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .header-icon-container:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .header-emoji {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .header-title {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            letter-spacing: -1px;
+            color: var(--text-primary);
+        }
+
+        .progress-bento-card {
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+        }
+
+        .progress-bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .xp-badge {
+            background: linear-gradient(135deg, #FFF8D6 0%, #FFE480 100%);
+            color: #B8860B;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2);
+        }
+
+        /* --- ESTILOS PARA MÓVIL --- */
+        @media (max-width: 767px) {
+            .header-icon-container {
+                margin: 0 !important;
+            }
+
+            .unidad-badge-principal {
+                margin-bottom: 20px !important;
+            }
+
+            .ruta-header {
+                padding: 1.5rem;
+                border-radius: 20px;
+            }
+
+            .header-icon-container {
+                width: 60px;
+                height: 60px;
+                border-radius: 15px;
+                margin-bottom: 1rem;
+                /* Añadido para separar del texto cuando se apila */
+                transform: rotate(0deg);
+                /* Opcional: alinea el icono cuando se apila */
+            }
+
+            .header-emoji {
+                font-size: 2.2rem;
+            }
+
+            /* Clase nueva para fix de layout en móvil */
+            .header-content-flex {
+                flex-direction: column;
+                /* Apila verticalmente en móvil */
+                align-items: center;
+                /* Centra los elementos */
+                text-align: center;
+                /* Centra todo el texto */
+                gap: 0;
+                /* Elimina el gap horizontal, se maneja con margen vertical */
+                margin-bottom: 15px !important;
+                /* Añade espacio entre el icono y el texto */
+            }
+        }
+
+        /* --- CONTENEDOR DEL MAPA FULL WIDTH --- */
+        .adventure-map {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .adventure-map-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            z-index: 2;
+            height: 100%;
+        }
+
+        /* --- ESTILO DE LA ISLA/BOTÓN --- */
+        .node-island {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 8px 0 0 rgba(0, 0, 0, 0.05), 0 15px 25px rgba(0, 0, 0, 0.08);
+            border: 5px solid transparent;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            flex-shrink: 0;
+        }
+
+        .adventure-map-node:hover .node-island {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 0 0 rgba(0, 0, 0, 0.05), 0 20px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .node-number {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            background: white;
+            border: 3px solid var(--border-light);
+            color: var(--text-secondary);
+            font-weight: 900;
+            font-size: 1.2rem;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 6;
+        }
+
+        .node-icon {
+            font-size: 3.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .adventure-map-node:hover .node-icon {
+            transform: scale(1.1);
+        }
+
+        .node-info-simple {
+            text-align: center;
+            margin-top: 15px;
+            z-index: 5;
+        }
+
+        .node-title-simple {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        /* --- ESTADOS DE LOS NODOS --- */
+        .adventure-map-node.completed .node-island {
+            background: var(--accent-color);
+            border-color: #0b5ed7;
+            box-shadow: 0 8px 0 0 #084298, 0 15px 25px rgba(13, 110, 253, 0.3);
+        }
+
+        .adventure-map-node.completed .node-number {
+            background: #198754;
+            color: white;
+            border-color: white;
+        }
+
+        .adventure-map-node.completed .node-title-simple {
+            color: var(--accent-color);
+        }
+
+        .adventure-map-node.completed .badge-status {
+            background: rgba(25, 135, 84, 0.1);
+            color: #198754;
+        }
+
+        .adventure-map-node.current .node-island {
+            background: white;
+            border-color: var(--accent-color);
+            animation: pulse-node 2s infinite;
+        }
+
+        .adventure-map-node.current .node-number {
+            background: var(--accent-color);
+            color: white;
+            border-color: white;
+        }
+
+        .adventure-map-node.current .node-title-simple {
+            color: var(--accent-color);
+        }
+
+        .adventure-map-node.current .badge-status {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .adventure-map-node.locked {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .adventure-map-node.locked .node-island {
+            background: #F1F3F5;
+            border-color: #DEE2E6;
+            box-shadow: 0 8px 0 0 #CED4DA;
+        }
+
+        .adventure-map-node.locked .node-number {
+            background: #DEE2E6;
+            color: #6C757D;
+            border-color: white;
+        }
+
+        .adventure-map-node.locked .node-icon {
+            filter: grayscale(1) opacity(0.5);
+            font-size: 2.5rem;
+        }
+
+        .adventure-map-node.locked .badge-status {
+            background: #E9ECEF;
+            color: #6C757D;
+        }
+
+        .adventure-map-node.boss .node-island {
+            background: #FFD700;
+            border-color: white;
+            box-shadow: 0 8px 0 0 #DAA520, 0 15px 30px rgba(255, 215, 0, 0.4);
+            width: 130px;
+            height: 130px;
+        }
+
+        .adventure-map-node.boss .node-number {
+            background: #B8860B;
+            color: white;
+            border-color: white;
+        }
+
+        .adventure-map-node.boss .node-icon {
+            font-size: 4.5rem;
+            color: #B8860B;
+        }
+
+        @media (max-width: 991px) {
+            .adventure-map {
+                padding: 20px !important;
+            }
+        }
+
+        /* --- LÓGICA DE CONEXIÓN ORGÁNICA PARA PC (TIPO MAPA DE VIDEOJUEGO) --- */
+        @media (min-width: 992px) {
+            .adventure-map {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                padding: 40px 20px;
+                row-gap: 90px;
+            }
+
+            .adventure-map-node::before,
+            .adventure-map-node::after {
+                content: '';
+                position: absolute;
+                z-index: 1;
+                border: 6px dashed var(--border-light);
+            }
+
+            /* 📍 RUTA ORGÁNICA NODO POR NODO */
+            .adventure-map-node:nth-child(1) {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .adventure-map-node:nth-child(1)::before {
+                border-top: 6px dashed var(--border-light);
+                width: 100%;
+                top: 52px;
+                left: 50%;
+                height: 0;
+                border-bottom: none;
+                border-left: none;
+                border-right: none;
+            }
+
+            .adventure-map-node:nth-child(2) {
+                grid-column: 2;
+                grid-row: 1;
+            }
+
+            .adventure-map-node:nth-child(2)::after {
+                border-left: 6px dashed var(--border-light);
+                height: calc(100% + 90px);
+                top: 55px;
+                left: calc(50% - 3px);
+                width: 0;
+                border-top: none;
+                border-bottom: none;
+                border-right: none;
+            }
+
+            .adventure-map-node:nth-child(3) {
+                grid-column: 2;
+                grid-row: 2;
+            }
+
+            .adventure-map-node:nth-child(3)::before {
+                border-top: 6px dashed var(--border-light);
+                width: 100%;
+                top: 52px;
+                left: 50%;
+                height: 0;
+                border-bottom: none;
+                border-left: none;
+                border-right: none;
+            }
+
+            .adventure-map-node:nth-child(4) {
+                grid-column: 3;
+                grid-row: 2;
+            }
+
+            .adventure-map-node:nth-child(4)::after {
+                border-left: 6px dashed var(--border-light);
+                height: calc(100% + 90px);
+                top: 55px;
+                left: calc(50% - 3px);
+                width: 0;
+                border-top: none;
+                border-bottom: none;
+                border-right: none;
+            }
+
+            .adventure-map-node:nth-child(5) {
+                grid-column: 3;
+                grid-row: 3;
+            }
+
+            .adventure-map-node:nth-child(5)::before {
+                border-top: 6px dashed var(--border-light);
+                width: 100%;
+                top: 52px;
+                right: 50%;
+                height: 0;
+                border-bottom: none;
+                border-left: none;
+                border-right: none;
+            }
+
+            .adventure-map-node:nth-child(6) {
+                grid-column: 2;
+                grid-row: 3;
+            }
+
+            .adventure-map-node:nth-child(6)::after {
+                border-left: 6px dashed var(--border-light);
+                height: calc(100% + 90px);
+                top: 55px;
+                left: calc(50% - 3px);
+                width: 0;
+                border-top: none;
+                border-bottom: none;
+                border-right: none;
+            }
+
+            .adventure-map-node:nth-child(7) {
+                grid-column: 2;
+                grid-row: 4;
+            }
+
+            .adventure-map-node:nth-child(7)::before {
+                border-top: 6px dashed var(--border-light);
+                width: 100%;
+                top: 52px;
+                right: 50%;
+                height: 0;
+                border-bottom: none;
+                border-left: none;
+                border-right: none;
+            }
+
+            .adventure-map-node:nth-child(8) {
+                grid-column: 1;
+                grid-row: 4;
+            }
+
+            .adventure-map-node:nth-child(8)::after {
+                border-left: 6px dashed var(--border-light);
+                height: calc(100% + 90px);
+                top: 55px;
+                left: calc(50% - 3px);
+                width: 0;
+                border-top: none;
+                border-bottom: none;
+                border-right: none;
+            }
+
+            .adventure-map-node:nth-child(9) {
+                grid-column: 1;
+                grid-row: 5;
+            }
+
+            /* --- COLOREAR LÍNEAS COMPLETADAS AUTOMÁTICAMENTE --- */
+            .adventure-map-node.completed:nth-child(1)::before,
+            .adventure-map-node.completed:nth-child(3)::before,
+            .adventure-map-node.completed:nth-child(5)::before,
+            .adventure-map-node.completed:nth-child(7)::before {
+                border-top-color: var(--accent-color);
+            }
+
+            .adventure-map-node.completed:nth-child(2)::after,
+            .adventure-map-node.completed:nth-child(4)::after,
+            .adventure-map-node.completed:nth-child(6)::after,
+            .adventure-map-node.completed:nth-child(8)::after {
+                border-left-color: var(--accent-color);
+            }
+
+            /* Ocultar pseudo-elementos innecesarios */
+            .adventure-map-node:nth-child(2)::before,
+            .adventure-map-node:nth-child(4)::before,
+            .adventure-map-node:nth-child(6)::before,
+            .adventure-map-node:nth-child(8)::before,
+            .adventure-map-node:nth-child(9)::before,
+            .adventure-map-node:nth-child(1)::after,
+            .adventure-map-node:nth-child(3)::after,
+            .adventure-map-node:nth-child(5)::after,
+            .adventure-map-node:nth-child(7)::after,
+            .adventure-map-node:nth-child(9)::after {
+                display: none;
+            }
+
+            .node-number {
+                left: calc(50% - 65px);
+            }
+
+            .adventure-map-node.boss .node-number {
+                left: calc(50% - 75px);
+            }
+        }
+
+        /* --- LÓGICA TELÉFONO PERFECTA (SÚPER ESPACIADA) --- */
+        @media (max-width: 991px) {
+            .adventure-map {
+                display: flex;
+                flex-direction: column;
+                padding: 20px 0;
+                gap: 50px;
+            }
+
+            .adventure-map-node {
+                flex-direction: row;
+                text-align: left;
+                width: 100%;
+                justify-content: flex-start;
+                padding: 0;
+            }
+
+            .node-island {
+                margin-right: 25px;
+            }
+
+            .node-info-simple {
+                margin-top: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                flex-grow: 1;
+                justify-content: center;
+            }
+
+            .node-title-simple {
+                font-size: 1.2rem;
+            }
+
+            .adventure-map-node:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 55px;
+                left: 52px;
+                width: 6px;
+                height: calc(100% + 50px);
+                background: repeating-linear-gradient(to bottom, var(--border-light), var(--border-light) 10px, transparent 10px, transparent 20px);
+                z-index: 1;
+            }
+
+            .adventure-map-node.completed:not(:last-child)::after {
+                background: var(--accent-color);
+            }
+
+            .adventure-map-node::before {
+                display: none !important;
+            }
+        }
+
+        /* ========================================================
+           === REDISEÑO TOTAL DEL MODAL (ESTILO BENTO AVENTURA) ===
+           ======================================================== */
+        #lessonModal .modal-content {
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            background: var(--bg-primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        #lessonModal .modal-header {
+            background: transparent;
+            border-bottom: none;
+            padding: 1.5rem 1.5rem 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .modal-dialog {
+            padding: 15px;
+        }
+
+        #modalStatus {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .node-info-simple {
+            background-color: white;
+            padding: 10px 10px;
+            border-radius: var(--radius-md);
+        }
+
+        .modal-header {
+            margin-bottom: 20px !important;
+        }
+
+        @media (min-width: 992px) {
+            .modal-header {
+                margin-bottom: 40px !important;
+            }
+        }
+
+        #lessonModal .btn-close {
+            background-color: var(--bg-secondary);
+            border-radius: 50%;
+            padding: 0.8rem;
+            opacity: 0.8;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+        }
+
+        #lessonModal .btn-close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        #lessonModal .modal-body {
+            padding: 0 2rem 2rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-img-prct {
+            object-fit: cover;
+            height: 250px;
+            width: 100%;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            margin-top: -1rem;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        #lessonModal .modal-title {
+            font-weight: 800;
+            letter-spacing: -1px;
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        #modalDesc {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 500;
+            max-width: 500px;
+            margin-bottom: 0;
+        }
+
+        #lessonModal .modal-footer {
+            border-top: 1px solid var(--border-light);
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .modal-xp-pill {
+            background: white;
+            border: 2px solid #FFE480;
+            color: #B8860B;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        #lessonModal .btn {
+            padding: 12px 28px;
+            font-weight: 700;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        @media (max-width: 576px) {
+            #lessonModal .modal-header {
+                padding: 1rem 1rem 0 1rem;
+            }
+
+            .modal-img-prct {
+                height: 180px;
+                margin-top: 0;
+            }
+
+            #lessonModal .modal-title {
+                font-size: 1.8rem;
+            }
+
+            #lessonModal .modal-footer {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .modal-actions {
+                width: 100%;
+                flex-direction: column-reverse;
+                gap: 8px;
+            }
+
+            #lessonModal .btn {
+                width: 100%;
+            }
+
+            .modal-xp-pill {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @keyframes pulse-node {
+            0% {
+                box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.4), 0 8px 0 0 rgba(13, 110, 253, 0.2);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(13, 110, 253, 0), 0 8px 0 0 rgba(13, 110, 253, 0.1);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(13, 110, 253, 0), 0 8px 0 0 rgba(13, 110, 253, 0.2);
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <nav class="sidebar collapsed" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo">
+                    <span class="logo-icon">🐝</span>
+                    <span class="logo-text">Abeja GO</span>
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="bi bi-house-door-fill"></i> <span class="link-text">Inicio</span></a>
+                </li>
+                <li><a href="materias.html"><span class="emoji-icon">📚</span> <span
+                            class="link-text">Materias</span></a></li>
+                <li><a href="#"><span class="emoji-icon">🧪</span> <span class="link-text">Práctica</span></a></li>
+                <li><a href="ruta.html" class="active"><span class="emoji-icon">🗺️</span> <span
+                            class="link-text">Ruta</span></a></li>
+                <li><a href="#"><span class="emoji-icon">🎓</span> <span class="link-text">Clases</span></a></li>
+                <li class="mt-auto"><a href="perfil.html"><span class="emoji-icon">👤</span> <span
+                            class="link-text">Perfil</span></a></li>
+            </ul>
+        </nav>
+
+        <div class="menu-overlay" id="overlay"></div>
+
+        <main class="main-content">
+            <button class="menu-toggle-cylinder mb-4" id="menuToggle" aria-label="Abrir menú">
+                <div class="cylinder-face"></div>
+                <i class="bi bi-list"></i>
+                <span class="ms-2 d-none d-md-inline">Menú</span>
+            </button>
+
+            <div class="ruta-header mb-5 animate-fade-up">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-7">
+                        <div class="header-content-flex d-flex align-items-center gap-4">
+                            <div class="header-icon-container">
+                                <span class="header-emoji">🍎</span>
+                            </div>
+                            <div>
+                                <span
+                                    class="badge bg-primary text-white mb-2 fw-bold px-3 py-2 rounded-pill shadow-sm unidad-badge-principal "
+                                    style="font-size: 0.85rem; letter-spacing: 0.5px;">UNIDAD 2: CINEMÁTICA Y
+                                    DINÁMICA</span>
+                                <h1 class="header-title fw-bold mb-1">Física 1: El Mapa</h1>
+                                <p class="text-secondary mb-0 fw-medium">Completa los niveles para enfrentar al Jefe
+                                    Final.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="progress-bento-card p-4 rounded-4 shadow-sm h-100">
+                            <div class="d-flex justify-content-between align-items-end mb-3">
+                                <div>
+                                    <p class="text-muted small fw-bold mb-1 text-uppercase"
+                                        style="letter-spacing: 1px;">Tu Progreso</p>
+                                    <h3 class="fw-bold text-primary mb-0" style="font-size: 2rem;">33%</h3>
+                                </div>
+                                <div class="xp-badge">
+                                    ⭐ 350 XP
+                                </div>
+                            </div>
+                            <div class="progress" style="height: 12px; border-radius: 12px; background-color: #E9ECEF;">
+                                <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
+                                    role="progressbar" style="width: 33%; border-radius: 12px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="adventure-map animate-fade-up" style="animation-delay: 0.1s;">
+
+                <div class="adventure-map-node completed" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="1. Intro a Vectores" data-desc="Entendiste la diferencia entre escalar y vectorial."
+                    data-xp="150"
+                    data-img="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=600&q=80"
+                    data-status="Pasada" data-action="Repasar Lección">
+                    <div class="node-island"><span class="node-icon">🚀</span></div>
+                    <div class="node-number">1</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple">Intro Vectores</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">COMPLETADO</span>
+                    </div>
+                </div>
+
+                <div class="adventure-map-node completed" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="2. Simulación MRU" data-desc="Calculaste la velocidad constante de los autos."
+                    data-xp="200"
+                    data-img="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=600&q=80"
+                    data-status="Pasada" data-action="Repasar Lección">
+                    <div class="node-island"><span class="node-icon">🏎️</span></div>
+                    <div class="node-number">2</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple">Simulación MRU</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">COMPLETADO</span>
+                    </div>
+                </div>
+
+                <div class="adventure-map-node current" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="3. Leyes de Newton" data-desc="Descubre por qué las cosas se mueven." data-xp="300"
+                    data-img="https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&w=600&q=80"
+                    data-status="Actual" data-action="Continuar Misión">
+                    <div class="node-island"><span class="node-icon">🍎</span></div>
+                    <div class="node-number">3</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple">MRUA Lab</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">ACTIVO</span>
+                    </div>
+                </div>
+
+                <div class="adventure-map-node locked" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="4. Caída Libre" data-desc="La gravedad te espera en este módulo." data-xp="250"
+                    data-img="" data-status="Bloqueado" data-action="Requiere Nivel Anterior">
+                    <div class="node-island"><span class="node-icon"><i class="bi bi-lock-fill"></i></span></div>
+                    <div class="node-number">4</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple">Caída Libre</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">BLOQUEADO</span>
+                    </div>
+                </div>
+
+                <div class="adventure-map-node locked" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="5. Tiro Parabólico" data-desc="Calcula la trayectoria del proyectil." data-xp="300"
+                    data-img="" data-status="Bloqueado" data-action="Requiere Nivel Anterior">
+                    <div class="node-island"><span class="node-icon"><i class="bi bi-lock-fill"></i></span></div>
+                    <div class="node-number">5</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple">Tiro Parabólico</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">BLOQUEADO</span>
+                    </div>
+                </div>
+
+                <div class="adventure-map-node locked" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="6. Fricción y Tensión" data-desc="Fuerzas que se oponen al movimiento." data-xp="250"
+                    data-img="" data-status="Bloqueado" data-action="Requiere Nivel Anterior">
+                    <div class="node-island"><span class="node-icon"><i class="bi bi-lock-fill"></i></span></div>
+                    <div class="node-number">6</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple">Fricción Lab</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">BLOQUEADO</span>
+                    </div>
+                </div>
+
+                <div class="adventure-map-node locked" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="7. Energía Potencial" data-desc="La energía almacenada en las alturas." data-xp="200"
+                    data-img="" data-status="Bloqueado" data-action="Requiere Nivel Anterior">
+                    <div class="node-island"><span class="node-icon"><i class="bi bi-lock-fill"></i></span></div>
+                    <div class="node-number">7</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple">Energía Pot.</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">BLOQUEADO</span>
+                    </div>
+                </div>
+
+                <div class="adventure-map-node locked" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="8. Energía Cinética" data-desc="La energía del movimiento en acción." data-xp="200"
+                    data-img="" data-status="Bloqueado" data-action="Requiere Nivel Anterior">
+                    <div class="node-island"><span class="node-icon"><i class="bi bi-lock-fill"></i></span></div>
+                    <div class="node-number">8</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple">Energía Cin.</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">BLOQUEADO</span>
+                    </div>
+                </div>
+
+                <div class="adventure-map-node boss locked" data-bs-toggle="modal" data-bs-target="#lessonModal"
+                    data-titulo="Simulador: Defensa del Castillo" data-desc="Aplica todo para calibrar los cañones."
+                    data-xp="1000 + Cofre"
+                    data-img="https://images.unsplash.com/photo-1578311631505-8e50337e6b0a?auto=format&fit=crop&w=600&q=80"
+                    data-status="Bloqueado" data-action="Desbloquear Todo Primero">
+                    <div class="node-island"><span class="node-icon"><i class="bi bi-trophy-fill"></i></span></div>
+                    <div class="node-number">9</div>
+                    <div class="node-info-simple">
+                        <div class="node-title-simple text-warning">¡Examen Final!</div>
+                        <span class="badge badge-status fw-bold rounded-pill px-3">JEFE FINAL</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer class="mt-5 pt-5 border-top">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="brand-logo mb-3">
+                            <span class="logo-icon">🐝</span>
+                            <span class="logo-text">Abeja GO</span>
+                        </div>
+                        <p class="text-muted small">
+                            Plataforma educativa diseñada para estudiantes de nivel medio superior en México. Hecho con
+                            ❤️ para la comunidad de Guanajuato.
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <h6 class="fw-bold mb-3">Plataforma</h6>
+                        <ul class="list-unstyled text-small">
+                            <li class="mb-2"><a href="index.html" class="text-decoration-none text-muted">Inicio</a>
+                            </li>
+                            <li class="mb-2"><a href="materias.html"
+                                    class="text-decoration-none text-muted">Materias</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Precios</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <h6 class="fw-bold mb-3">Recursos</h6>
+                        <ul class="list-unstyled text-small">
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Blog</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Guías de estudio</a>
+                            </li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Comunidad</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="fw-bold mb-3">Contacto</h6>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="text-dark fs-5"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-dark fs-5"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="text-dark fs-5"><i class="bi bi-discord"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center py-4 mt-4 border-top">
+                    <small class="text-muted">&copy; 2026 Abeja GO. Todos los derechos reservados. | Diseñado en
+                        Guanajuato, México.</small>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <div class="modal fade" id="lessonModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header">
+                    <span id="modalStatus" class="badge">Estado</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <img src="" alt="Práctica" class="modal-img-prct d-none" id="modalImg">
+
+                    <h2 class="modal-title" id="lessonModalLabel">Título de la Lección</h2>
+                    <p class="modal-desc" id="modalDesc">Descripción...</p>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="modal-xp-pill shadow-sm">
+                        <span>⭐</span> <span id="modalXP"></span> XP
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-outline-custom px-4"
+                            data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary-custom" id="modalMainBtn">Comenzar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        const lessonModal = document.getElementById('lessonModal');
+        const menuToggleBtn = document.getElementById('menuToggle');
+
+        // Cuando el modal se ABRE
+        lessonModal.addEventListener('show.bs.modal', event => {
+            // Desactivamos el botón del menú
+            if (menuToggleBtn) {
+                menuToggleBtn.disabled = true;
+                menuToggleBtn.style.opacity = '0.5'; // Opcional: le bajamos la opacidad para que se vea apagado
+                menuToggleBtn.style.cursor = 'not-allowed';
+            }
+
+            const button = event.relatedTarget;
+
+            document.getElementById('lessonModalLabel').textContent = button.getAttribute('data-titulo');
+            document.getElementById('modalDesc').textContent = button.getAttribute('data-desc');
+            document.getElementById('modalXP').textContent = button.getAttribute('data-xp');
+
+            const statusText = button.getAttribute('data-status');
+            const statusBadge = document.getElementById('modalStatus');
+            const mainBtn = document.getElementById('modalMainBtn');
+            mainBtn.textContent = button.getAttribute('data-action');
+
+            const imgEl = document.getElementById('modalImg');
+            const imgUrl = button.getAttribute('data-img');
+
+            // Lógica de Imagen: Mantenemos la imagen si existe, o la ocultamos.
+            if (imgUrl && imgUrl !== "") {
+                imgEl.src = imgUrl;
+                imgEl.classList.remove('d-none');
+            } else {
+                imgEl.classList.add('d-none');
+            }
+
+            // Lógica de estilos por estado
+            if (statusText === 'Bloqueado') {
+                statusBadge.className = 'badge bg-secondary';
+                mainBtn.className = 'btn btn-secondary fw-bold'; // Botón gris pesado
+                mainBtn.disabled = true;
+            } else if (statusText.includes('Actual')) {
+                statusBadge.className = 'badge bg-primary';
+                mainBtn.className = 'btn btn-primary-custom'; // Botón negro pesado (igual a Landing)
+                mainBtn.disabled = false;
+            } else {
+                statusBadge.className = 'badge bg-success';
+                mainBtn.className = 'btn btn-outline-primary'; // Botón azul outline pesado
+                mainBtn.disabled = false;
+            }
+        });
+
+        // Cuando el modal se CIERRA
+        lessonModal.addEventListener('hidden.bs.modal', () => {
+            // Volvemos a activar el botón del menú
+            if (menuToggleBtn) {
+                menuToggleBtn.disabled = false;
+                menuToggleBtn.style.opacity = '1';
+                menuToggleBtn.style.cursor = 'pointer';
+            }
+        });
+    </script>
+</body>
+
+</html>
