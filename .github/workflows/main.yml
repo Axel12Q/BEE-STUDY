@@ -11,8 +11,9 @@ jobs:
       uses: actions/checkout@v4
 
     - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v2
+      uses: azure/webapps-deploy@v3
       with:
-        app-name: 'abejago' # El nombre que le pusiste en Azure
+        app-name: 'abejago'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: . # Sube todo el contenido de la carpeta actual
+        package: .
+        clean: true # <--- ESTO ES LO QUE HACE LA MAGIA PARA BORRAR ARCHIVOS VIEJOS

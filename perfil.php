@@ -35,14 +35,13 @@
             </div>
 
             <ul class="nav-links">
-                <li><a href="index.html"><i class="bi bi-house-door-fill"></i> <span class="link-text">Inicio</span></a>
-                </li>
-                <li><a href="materias.html"><span class="emoji-icon">📚</span> <span
-                            class="link-text">Materias</span></a></li>
-                <li><a href="#"><span class="emoji-icon">🧪</span> <span class="link-text">Práctica</span></a></li>
-                <li><a href="#"><span class="emoji-icon">🗺️</span> <span class="link-text">Ruta</span></a></li>
-                <li><a href="#"><span class="emoji-icon">🎓</span> <span class="link-text">Clases</span></a></li>
-                <li class="mt-auto"><a href="perfil.html" class="active"><span class="emoji-icon">👤</span> <span
+                <li><a href="index.html" class="active"><i class="bi bi-house-door-fill"></i> <span
+                            class="link-text">Inicio</span></a></li>
+                <li><a href="materias.html"><span class="emoji-icon">📚</span> <span class="link-text">Materias</span></a></li>
+                <li><a href="practica.html"><span class="emoji-icon">🧪</span> <span class="link-text">Práctica</span></a></li>
+                <li><a href="ruta.html"><span class="emoji-icon">🗺️</span> <span class="link-text">Ruta</span></a></li>
+                <li><a href="clases.html"><span class="emoji-icon">🎓</span> <span class="link-text">Clases</span></a></li>
+                <li class="mt-auto"><a href="perfil.html"><span class="emoji-icon">👤</span> <span
                             class="link-text">Perfil</span></a></li>
             </ul>
         </nav>
