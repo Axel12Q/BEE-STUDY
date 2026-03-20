@@ -343,48 +343,7 @@
                 </div>
             </div>
 
-            <footer class="mt-auto pt-5 border-top bg-white w-100" style="z-index: 5;">
-                <div class="container-fluid px-4 px-lg-5">
-                    <div class="row g-4">
-                        <div class="col-md-4">
-                            <div class="brand-logo mb-3">
-                                <span class="logo-icon ms-0">🐝</span>
-                                <span class="logo-text">Abeja GO</span>
-                            </div>
-                            <p class="text-muted small">
-                                Plataforma educativa diseñada para estudiantes de nivel medio superior en México. Hecho con ❤️ en Guanajuato.
-                            </p>
-                        </div>
-                        <div class="col-md-2 col-6">
-                            <h6 class="fw-bold mb-3">Plataforma</h6>
-                            <ul class="list-unstyled text-small">
-                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Inicio</a></li>
-                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Materias</a></li>
-                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Precios</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-2 col-6">
-                            <h6 class="fw-bold mb-3">Recursos</h6>
-                            <ul class="list-unstyled text-small">
-                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Blog</a></li>
-                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Guías de estudio</a></li>
-                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Comunidad</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
-                            <h6 class="fw-bold mb-3">Contacto</h6>
-                            <div class="d-flex gap-3">
-                                <a href="#" class="text-dark fs-5"><i class="bi bi-instagram"></i></a>
-                                <a href="#" class="text-dark fs-5"><i class="bi bi-twitter"></i></a>
-                                <a href="#" class="text-dark fs-5"><i class="bi bi-discord"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center py-4 mt-4 border-top w-100">
-                    <small class="text-muted">&copy; 2026 Abeja GO. Todos los derechos reservados.</small>
-                </div>
-            </footer>
+            <?php require_once 'components/footer.php'; ?>
 
         </main>
     </div>
