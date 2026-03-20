@@ -756,25 +756,7 @@
 <body>
 
     <div class="app-layout">
-        <nav class="sidebar collapsed" id="sidebar">
-            <div class="sidebar-header">
-                <div class="brand-logo">
-                    <span class="logo-icon">🐝</span>
-                    <span class="logo-text">Abeja GO</span>
-                </div>
-            </div>
-
-            <ul class="nav-links">
-                <li><a href="index.html"><i class="bi bi-house-door-fill"></i> <span class="link-text">Inicio</span></a></li>
-                <li><a href="materias.html"><span class="emoji-icon">📚</span> <span class="link-text">Materias</span></a></li>
-                <li><a href="practica.html" class="active"><span class="emoji-icon">🧪</span> <span class="link-text">Práctica</span></a></li>
-                <li><a href="ruta.html"><span class="emoji-icon">🗺️</span> <span class="link-text">Ruta</span></a></li>
-                <li><a href="clases.html"><span class="emoji-icon">🎓</span> <span class="link-text">Clases</span></a></li>
-                <li class="mt-auto"><a href="perfil.html"><span class="emoji-icon">👤</span> <span class="link-text">Perfil</span></a></li>
-            </ul>
-        </nav>
-
-        <div class="menu-overlay" id="overlay"></div>
+        <?php require_once 'components/nav.php'; ?>
 
         <main class="main-content">
             <button class="menu-toggle-cylinder mb-4" id="menuToggle" aria-label="Abrir menú">
