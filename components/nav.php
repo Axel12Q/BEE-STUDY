@@ -37,6 +37,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 <span class="emoji-icon">🎓</span> <span class="link-text">Clases</span>
             </a>
         </li>
+        <li>
+            <a href="iniciarSesion.php" class="<?= ($pagina_actual == 'iniciarSesion.php') ? 'active' : '' ?>">
+                <span class="emoji-icon">🔑</span> <span class="link-text">Iniciar Sesión</span>
+            </a>
+        </li>
         <li class="mt-auto">
             <a href="perfil.php" class="<?= ($pagina_actual == 'perfil.php') ? 'active' : '' ?>">
                 <span class="emoji-icon">👤</span> <span class="link-text">Perfil</span>

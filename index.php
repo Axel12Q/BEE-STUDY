@@ -50,7 +50,7 @@
 
                     <div class="mt-5 d-flex gap-3 justify-content-center flex-wrap">
                         <button class="btn mt-3 btn-primary-custom btn-lg"
-                            onclick="window.location.href='iniciarSesion.html'">
+                            onclick="window.location.href='iniciarSesion.php'">
                             Comenzar Lección <i class="bi bi-arrow-right-short"></i>
                         </button>
                     </div>
