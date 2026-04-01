@@ -89,6 +89,7 @@ body {
     display: flex;
     border: 2px solid var(--abeja-border);
     overflow: hidden;
+    transition: max-width 0.3s ease; /* Suaviza cambios de tamaño */
 }
 
 /* Columna Izquierda (Amarilla) */
@@ -281,7 +282,6 @@ body {
     text-align: right;
     margin-top: 35px;
     margin-bottom: 35px;
-    /* Margen exacto para empujar el botón al mismo nivel que Registro */
     font-size: 0.95rem;
     font-weight: 800;
     color: #999;
@@ -424,7 +424,6 @@ body {
     width: 100%;
     margin-bottom: 0;
     outline: none;
-    /* Evita bordes feos al dar clic */
 }
 
 .btn-duo-register:hover {
@@ -439,10 +438,75 @@ body {
 }
 
 /* =========================================
-           ADAPTACIÓN PARA DISPOSITIVOS MÓVILES
-           ========================================= */
-@media (max-width: 768px) {
+   ADAPTACIÓN PARA TABLETS (PANTALLAS MEDIANAS - MODO HORIZONTAL O ANCHO)
+   - Soluciona "Textos pequeños" de image_73b8c6.png
+   ========================================= */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .auth-card {
+        max-width: 850px;
+    }
+    .auth-image-col {
+        width: 40%; /* Ajuste proporción */
+        padding: 30px 20px;
+    }
+    .auth-image-col h2 {
+        font-size: 2rem;
+    }
+    .auth-mascot {
+        max-width: 200px;
+    }
+    .auth-form-col {
+        width: 60%; 
+    }
+    .auth-form-inner {
+        padding: 30px 35px 60px 35px; /* Más aire interior */
+    }
 
+    /* AUMENTO MASIVO DE TEXTOS (BOOST) para aprovechar espacio */
+    .form-view h3 {
+        font-size: 2.6rem; /* Título grande */
+        margin-bottom: 10px;
+    }
+    .form-view p {
+        font-size: 1.3rem; /* Párrafo legible */
+        font-weight: 800;
+    }
+    .form-control-duo {
+        font-size: 1.3rem; /* Texto de inputs grande */
+        padding: 18px 15px 18px 52px;
+        border-radius: 16px;
+    }
+    .input-group-duo i {
+        font-size: 1.25rem;
+    }
+    .forgot-password {
+        font-size: 1.1rem;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    .btn-duo-form, .btn-duo-register {
+        font-size: 1.3rem; /* Botones grandes */
+        padding: 18px 20px;
+        border-radius: 16px;
+    }
+    .btn-google {
+        font-size: 1.3rem;
+        padding: 18px 20px;
+        border-radius: 16px;
+    }
+    .divider {
+        font-size: 1rem;
+        margin: 10px 0 20px 0;
+    }
+    .auth-form-footer {
+        padding: 20px 35px 35px 35px;
+    }
+}
+
+/* =========================================
+   ADAPTACIÓN PARA CELULARES Y TABLETS VERTICALES (UNA COLUMNA)
+   ========================================= */
+@media (max-width: 768px) {
     .navbar-collapse {
         background-color: var(--abeja-white);
         padding: 20px;
@@ -451,74 +515,104 @@ body {
         margin-top: 15px;
         text-align: center;
     }
-
     .navbar-nav .nav-item {
         margin-bottom: 10px;
     }
-
     .btn-duo-nav {
         width: 100%;
         display: block;
     }
-
     .auth-wrapper {
         padding: 100px 15px 20px 15px;
-        align-items: flex-start;
+        align-items: flex-start; /* Para permitir scroll si la pantalla es chaparrita */
     }
-
     .auth-card {
         flex-direction: column;
         max-width: 100%;
     }
-
     .auth-image-col {
-        display: none;
+        display: none; /* Oculta abeja en vertical */
     }
-
     .auth-form-col {
         width: 100%;
     }
-
     .auth-form-inner {
-        padding: 40px 25px 50px 25px;
+        padding: 40px 20px 50px 20px;
     }
-
+    
+    /* Títulos y textos móviles (Ya eran grandes, los mantengo) */
     .form-view h3 {
-        font-size: 2rem;
+        font-size: 2.2rem;
         text-align: center;
         margin-bottom: 20px;
     }
-
     .form-view p {
         display: none;
     }
-
     .form-control-duo {
-        font-size: 1.1rem;
+        font-size: 1.15rem; /* Texto generoso en celular */
         padding: 16px 15px 16px 48px;
     }
-
     .input-group-duo i {
         font-size: 1.2rem;
     }
-
     .forgot-password {
-        font-size: 1rem;
+        font-size: 1.05rem;
         margin-bottom: 40px;
-        /* Mantenemos el empuje hacia abajo en celular */
+        text-align: center;
     }
-
-    .btn-duo-form,
-    .btn-duo-register {
+    .btn-duo-form, .btn-duo-register {
         font-size: 1.2rem;
         padding: 16px 20px;
     }
-
     .btn-google {
         margin-bottom: 0 !important;
     }
-
     .auth-form-footer {
-        padding: 10px 25px 35px 25px;
+        padding: 20px 25px 35px 25px;
+    }
+}
+
+/* =========================================
+   CORRECCIÓN IPAD MINI VERTICAL ("MUY GORDO" - image_73b5dd.png)
+   - Se activa entre el ancho del celular y de la tablet vertical
+   ========================================= */
+@media (min-width: 577px) and (max-width: 768px) {
+    .auth-wrapper {
+        align-items: center; /* Centramos verticalmente en tablet vertical si hay altura */
+    }
+    .auth-card {
+        max-width: 520px; /* Constreñimos el ancho de la tarjeta para que no se vea "gorda" */
+        margin: 0 auto; /* Centrada horizontalmente */
+    }
+    /* Eliminamos el límite interno para que use el ancho real de la tarjeta constreñida */
+    .slider-wrapper, .fixed-bottom-elements {
+        max-width: 100%;
+        margin: 0;
+    }
+    .btn-duo-register {
+        max-width: 100%;
+        margin: 0;
+    }
+}
+
+/* =========================================
+   CORRECCIÓN PARA PANTALLAS CHAPARRITAS (MODO HORIZONTAL CELULAR/TABLET PEQUEÑA)
+   - Mantiene el estilo y funcionalidad cuando no hay altura.
+   ========================================= */
+@media (max-height: 700px) {
+    .auth-wrapper {
+        padding-top: 90px;
+        align-items: flex-start !important; /* Forza alineación arriba para scrollear */
+    }
+    .auth-image-col {
+        display: none !important; /* Oculta abeja si no cabe */
+    }
+    .auth-form-col {
+        width: 100% !important;
+    }
+    .auth-card {
+        max-width: 600px; /* Evita formulario estirado en horizontal */
+        margin: 0 auto;
     }
 }

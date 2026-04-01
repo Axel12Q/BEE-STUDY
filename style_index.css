@@ -1,4 +1,4 @@
- /* Variables de color */
+/* Variables de color */
  :root {
      --abeja-yellow: #FFC800;
      --abeja-yellow-dark: #E5B400;
@@ -360,7 +360,6 @@
 
  .features-wrapper {
      background-color: var(--abeja-white);
-     /* <--- Ahora sí, puro blanco */
      border-top: 2px solid #EBEBEB;
  }
 
@@ -389,7 +388,6 @@
          padding: 20px;
          border-bottom: 2px solid #EBEBEB;
          position: relative;
-         /* Para los hexágonos de fondo */
          overflow: hidden;
      }
  }
@@ -583,7 +581,7 @@
  }
 
  /* =========================================
-           ADAPTACIÓN PARA DISPOSITIVOS MÓVILES
+           ADAPTACIÓN PARA DISPOSITIVOS MÓVILES (VERTICAL)
            ========================================= */
  @media (max-width: 768px) {
 
@@ -615,11 +613,10 @@
      }
 
      .hero-mascot {
-         max-width: 200px;
+         max-width: 175px;
          margin: 0 auto;
      }
 
-     /* Atenuar hexágonos globales en móvil */
      .hexagon {
          opacity: 0.08 !important;
          transform: scale(0.8);
@@ -706,5 +703,37 @@
 
      .achievement-card h4 {
          font-size: 1.2rem;
+     }
+ }
+
+ /* =========================================
+    NUEVO: LÍMITE DE ALTURA (MATA EL IMÁN SI LA PANTALLA ES MUY CHAPARRITA)
+    ========================================= */
+ @media (max-height: 850px), (max-width: 900px) and (orientation: landscape) {
+     html {
+         /* Si la pantalla mide menos de 850px de alto, el imán se desactiva */
+         scroll-snap-type: none !important; 
+     }
+
+     .snap-section, .feature-mobile-snap, .features-wrapper {
+         scroll-snap-align: none !important;
+         min-height: auto !important;
+         height: auto !important;
+         padding-top: 120px !important; /* Damos margen extra arriba para que la navbar no estorbe */
+         padding-bottom: 60px !important;
+     }
+
+     /* Ajustes ligeros para que nada estorbe visualmente cuando quitamos el imán */
+     .hero-mascot {
+         max-width: 250px; 
+         margin-bottom: 20px;
+     }
+     
+     .info-image {
+         max-width: 250px; 
+     }
+
+     .hero-title {
+         font-size: 2.8rem;
      }
  }
