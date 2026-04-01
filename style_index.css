@@ -26,14 +26,13 @@
  .snap-section {
      scroll-snap-align: center;
      min-height: 100vh;
-     min-height: 100dvh;
-     /* Soporte moderno para móviles */
+     /* dvh: Dynamic Viewport Height (Calcula el espacio real sin la barra de Chrome) */
+     min-height: 100dvh; 
      display: flex;
      flex-direction: column;
      justify-content: center;
      position: relative;
      padding-top: 60px;
-     /* Espacio para que el navbar no tape el contenido */
      width: 100%;
  }
 
@@ -218,7 +217,6 @@
      background-color: var(--abeja-yellow);
      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
      opacity: 0.08;
-     /* Muy sutil */
      z-index: 0;
      animation: float 5s ease-in-out infinite alternate;
  }
@@ -323,7 +321,6 @@
      position: relative;
      z-index: 2;
  }
-
 
  /* Tarjetas de características */
  .feature-card {
@@ -477,6 +474,7 @@
      text-align: center;
      color: var(--abeja-dark);
      border-top: 4px solid var(--abeja-white);
+     padding-bottom: 80px; /* Margen global inferior para proteger del oleaje */
  }
 
  .cta-section h2 {
@@ -498,6 +496,8 @@
      background-color: var(--abeja-white);
      color: var(--abeja-dark);
      border-bottom: 6px solid #E5E5E5;
+     position: relative;
+     z-index: 5; /* Asegura que el botón esté sobre las olas */
  }
 
  .cta-section .btn-duo:hover {
@@ -672,9 +672,10 @@
          margin-bottom: 30px;
      }
 
-     .btn-duo {
+     /* REQUERIDO: Acomodo perfecto del botón y margin bottom */
+     .cta-section .btn-duo {
          width: 90%;
-         margin: 0 auto;
+         margin: 0 auto 50px auto; /* 50px de aire por debajo */
          display: block;
          font-size: 1.1rem;
      }
@@ -707,11 +708,18 @@
  }
 
  /* =========================================
-    NUEVO: LÍMITE DE ALTURA (MATA EL IMÁN SI LA PANTALLA ES MUY CHAPARRITA)
+    NUEVO: LÍMITE DE ALTURA INTELIGENTE (MATA EL IMÁN SOLO CUANDO ES NECESARIO)
     ========================================= */
- @media (max-height: 850px), (max-width: 900px) and (orientation: landscape) {
+ /* Reglas que se activan SOLAMENTE para:
+    1. Laptops/PC con resoluciones extrañas o ventanas muy bajitas (menores a 850px)
+    2. Celulares Acostados (Landscape)
+    3. Celulares en vertical ridículamente pequeños (menores a 600px de altura real)
+ */
+ @media (min-width: 769px) and (max-height: 850px),
+        (max-width: 900px) and (orientation: landscape),
+        (max-width: 768px) and (max-height: 600px) {
+     
      html {
-         /* Si la pantalla mide menos de 850px de alto, el imán se desactiva */
          scroll-snap-type: none !important; 
      }
 
@@ -719,11 +727,10 @@
          scroll-snap-align: none !important;
          min-height: auto !important;
          height: auto !important;
-         padding-top: 120px !important; /* Damos margen extra arriba para que la navbar no estorbe */
+         padding-top: 120px !important; 
          padding-bottom: 60px !important;
      }
 
-     /* Ajustes ligeros para que nada estorbe visualmente cuando quitamos el imán */
      .hero-mascot {
          max-width: 250px; 
          margin-bottom: 20px;
