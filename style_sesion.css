@@ -1,0 +1,524 @@
+/* Variables de color de Abeja Go */
+:root {
+    --abeja-yellow: #FFC800;
+    --abeja-yellow-dark: #E5B400;
+    --abeja-white: #FFFFFF;
+    --abeja-dark: #3C3C3C;
+    --abeja-gray: #F7F7F7;
+    --abeja-border: #E5E5E5;
+    --abeja-shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--abeja-gray);
+    background-image: radial-gradient(#d5d5d5 2px, transparent 2px);
+    background-size: 30px 30px;
+    color: var(--abeja-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Navbar Dinámico */
+.navbar {
+    padding: 1rem 2rem;
+    background-color: var(--abeja-white);
+    border-bottom: 2px solid var(--abeja-gray);
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+}
+
+.navbar-scrolled {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 10px 30px var(--abeja-shadow);
+    border-bottom: 2px solid var(--abeja-yellow);
+    backdrop-filter: blur(5px);
+    padding: 0.5rem 2rem;
+}
+
+.navbar-brand {
+    font-weight: 900;
+    color: var(--abeja-yellow-dark) !important;
+    font-size: 1.8rem;
+    letter-spacing: -0.5px;
+}
+
+.btn-duo-nav {
+    background-color: var(--abeja-white);
+    color: var(--abeja-dark);
+    border: 2px solid var(--abeja-gray);
+    border-bottom: 5px solid #E5E5E5;
+    font-weight: 800;
+    font-size: 1.2rem;
+    padding: 12px 30px;
+    border-radius: 16px;
+    transition: all 0.1s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-duo-nav:hover {
+    background-color: var(--abeja-gray);
+    border-bottom: 3px solid #E5E5E5;
+    transform: translateY(2px);
+}
+
+.btn-duo-nav:active {
+    transform: translateY(5px);
+    border-bottom: 0px solid #E5E5E5;
+    margin-bottom: 5px;
+}
+
+.auth-wrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 20px 40px 20px;
+    position: relative;
+}
+
+.auth-card {
+    background-color: var(--abeja-white);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    border: 2px solid var(--abeja-border);
+    overflow: hidden;
+}
+
+/* Columna Izquierda (Amarilla) */
+.auth-image-col {
+    background-color: var(--abeja-yellow);
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 45%;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.auth-image-col::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+    animation: rotateBg 15s linear infinite;
+    z-index: 0;
+}
+
+@keyframes rotateBg {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.auth-image-col h2 {
+    font-weight: 900;
+    color: var(--abeja-white);
+    font-size: 2.2rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.auth-mascot {
+    width: 100%;
+    max-width: 220px;
+    filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.15));
+    animation: float 4s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+/* Columna Derecha (Formularios) */
+.auth-form-col {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--abeja-white);
+    z-index: 5;
+    position: relative;
+}
+
+.auth-form-inner {
+    padding: 30px 40px 60px 40px;
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Contenedor Grid para el efecto deslizante */
+.slider-wrapper {
+    display: grid;
+    grid-template-areas: "forms";
+    width: 100%;
+}
+
+.form-view {
+    grid-area: forms;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+    width: 100%;
+}
+
+.view-login {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.view-register {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.auth-form-inner.show-register .view-login {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.auth-form-inner.show-register .view-register {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.form-view h3 {
+    font-weight: 900;
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+    color: var(--abeja-dark);
+}
+
+.form-view p {
+    font-weight: 700;
+    color: #888;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+/* Campos de Entrada */
+.input-group-duo {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.input-group-duo i {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    color: #AAA;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.form-control-duo {
+    background-color: var(--abeja-gray);
+    border: 2px solid var(--abeja-border);
+    border-radius: 14px;
+    padding: 14px 15px 14px 48px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--abeja-dark);
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.form-control-duo:focus {
+    background-color: var(--abeja-white);
+    border-color: var(--abeja-yellow);
+    box-shadow: 0 0 0 4px rgba(255, 200, 0, 0.2);
+    outline: none;
+}
+
+.form-control-duo:focus+i,
+.input-group-duo:focus-within i {
+    color: var(--abeja-yellow-dark);
+}
+
+.form-control-duo::placeholder {
+    color: #AAA;
+    font-weight: 700;
+}
+
+/* Enlace de contraseña centrado y espaciado para alinear botones */
+.forgot-password {
+    display: block;
+    text-align: right;
+    margin-top: 35px;
+    margin-bottom: 35px;
+    /* Margen exacto para empujar el botón al mismo nivel que Registro */
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #999;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.forgot-password:hover {
+    color: var(--abeja-yellow-dark);
+}
+
+/* Botones de Formulario */
+.btn-duo-form {
+    background-color: var(--abeja-yellow);
+    color: var(--abeja-dark);
+    font-weight: 800;
+    font-size: 1.15rem;
+    padding: 14px 20px;
+    border-radius: 14px;
+    border: none;
+    border-bottom: 4px solid var(--abeja-yellow-dark);
+    transition: all 0.1s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-duo-form:hover {
+    background-color: #FFD226;
+    transform: translateY(2px);
+    border-bottom: 2px solid var(--abeja-yellow-dark);
+}
+
+.btn-duo-form:active {
+    transform: translateY(4px);
+    border-bottom: 0px solid var(--abeja-yellow-dark);
+    margin-bottom: 10px;
+}
+
+/* Divisor y Google (Fuera del slider) */
+.fixed-bottom-elements {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    background-color: var(--abeja-white);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #AAA;
+    font-weight: 800;
+    margin: 5px 0 15px 0;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 2px solid var(--abeja-border);
+}
+
+.divider:not(:empty)::before {
+    margin-right: 15px;
+}
+
+.divider:not(:empty)::after {
+    margin-left: 15px;
+}
+
+.btn-google {
+    background-color: var(--abeja-white);
+    color: var(--abeja-dark);
+    border: 2px solid var(--abeja-border);
+    border-bottom: 4px solid #D5D5D5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    width: 100%;
+}
+
+.btn-google:hover {
+    background-color: var(--abeja-gray);
+    border-bottom: 2px solid #D5D5D5;
+}
+
+.btn-google:active {
+    border-bottom: 0px solid #D5D5D5;
+}
+
+/* Ola */
+.form-wave {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    z-index: 2;
+}
+
+.form-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 35px;
+}
+
+.form-wave .shape-fill {
+    fill: #FFF9E6;
+}
+
+/* ZONA INFERIOR DISTINTIVA */
+.auth-form-footer {
+    background-color: #FFF9E6;
+    padding: 10px 40px 30px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-duo-register {
+    background-color: var(--abeja-white);
+    color: var(--abeja-dark);
+    border: 2px solid var(--abeja-yellow);
+    border-bottom: 4px solid var(--abeja-yellow-dark);
+    font-weight: 800;
+    font-size: 1.15rem;
+    padding: 14px 20px;
+    border-radius: 14px;
+    transition: all 0.1s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    margin-bottom: 0;
+    outline: none;
+    /* Evita bordes feos al dar clic */
+}
+
+.btn-duo-register:hover {
+    background-color: var(--abeja-yellow);
+    transform: translateY(2px);
+    border-bottom: 2px solid var(--abeja-yellow-dark);
+}
+
+.btn-duo-register:active {
+    transform: translateY(4px);
+    border-bottom: 0px solid var(--abeja-yellow-dark);
+}
+
+/* =========================================
+           ADAPTACIÓN PARA DISPOSITIVOS MÓVILES
+           ========================================= */
+@media (max-width: 768px) {
+
+    .navbar-collapse {
+        background-color: var(--abeja-white);
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+
+    .btn-duo-nav {
+        width: 100%;
+        display: block;
+    }
+
+    .auth-wrapper {
+        padding: 100px 15px 20px 15px;
+        align-items: flex-start;
+    }
+
+    .auth-card {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .auth-image-col {
+        display: none;
+    }
+
+    .auth-form-col {
+        width: 100%;
+    }
+
+    .auth-form-inner {
+        padding: 40px 25px 50px 25px;
+    }
+
+    .form-view h3 {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-view p {
+        display: none;
+    }
+
+    .form-control-duo {
+        font-size: 1.1rem;
+        padding: 16px 15px 16px 48px;
+    }
+
+    .input-group-duo i {
+        font-size: 1.2rem;
+    }
+
+    .forgot-password {
+        font-size: 1rem;
+        margin-bottom: 40px;
+        /* Mantenemos el empuje hacia abajo en celular */
+    }
+
+    .btn-duo-form,
+    .btn-duo-register {
+        font-size: 1.2rem;
+        padding: 16px 20px;
+    }
+
+    .btn-google {
+        margin-bottom: 0 !important;
+    }
+
+    .auth-form-footer {
+        padding: 10px 25px 35px 25px;
+    }
+}
