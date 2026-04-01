@@ -8,6 +8,17 @@
     --abeja-shadow: rgba(0, 0, 0, 0.1);
 }
 
+/* =========================================
+   MAGIA: OCULTAR SCROLLBAR (ESTILO APP NATIVA)
+   ========================================= */
+::-webkit-scrollbar {
+    display: none; /* Chrome, Safari y Opera */
+}
+html {
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 /* MAGIA: Scroll Snapping Global */
 html {
     scroll-snap-type: y mandatory;
@@ -97,6 +108,30 @@ body {
 .btn-duo-outline:hover {
     background-color: var(--abeja-gray);
     border-bottom: 3px solid #E5E5E5;
+}
+
+/* NUEVO: Mini Botón de Entrada (Exclusivo para celular) */
+.btn-mobile-nav {
+    padding: 8px 20px;
+    font-size: 1rem;
+    border-radius: 14px;
+    border-bottom: 4px solid #E5E5E5;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.1s ease-in-out;
+}
+
+.btn-mobile-nav:hover {
+    background-color: var(--abeja-gray);
+    border-bottom: 2px solid #E5E5E5;
+    transform: translateY(2px);
+}
+
+.btn-mobile-nav:active {
+    transform: translateY(4px);
+    border-bottom: 0px solid #E5E5E5;
+    margin-bottom: 0px;
 }
 
 /* Tipografías Globales */
@@ -587,27 +622,30 @@ body {
           ADAPTACIÓN PARA DISPOSITIVOS MÓVILES (VERTICAL)
           ========================================= */
 @media (max-width: 768px) {
+
+    /* AJUSTE NAVBAR MÓVIL: Quita el padding gigante para pegar el logo y botón a las esquinas */
+    .navbar {
+        padding: 1rem 5px !important;
+    }
+    
+    .navbar-scrolled {
+        padding: 0.5rem 5px !important;
+    }
+
+    .navbar .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
     /* AJUSTE PARA QUE NADA SE SALGA EN MÓVIL */
     .snap-section {
         padding-top: 85px; /* Damos más margen arriba para despegar el contenido de la barra */
     }
 
+    /* Mantenemos el padding normal para el resto del sitio */
     .container {
         padding-left: 24px !important;
         padding-right: 24px !important;
-    }
-
-    .navbar-collapse {
-        background-color: var(--abeja-white);
-        padding: 20px;
-        border-radius: 16px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        margin-top: 15px;
-        text-align: center;
-    }
-
-    .navbar-nav .nav-item {
-        margin-bottom: 10px;
     }
 
     /* Ajuste de Hero para que quepa la abeja y el texto */
@@ -712,11 +750,6 @@ body {
         margin: 0 auto; /* SIN el margin-bottom extra, así se centra perfecto */
         display: block;
         font-size: 1.1rem;
-    }
-
-    .navbar-nav .btn-duo {
-        width: 100%;
-        margin: 0;
     }
 
     .info-image {
