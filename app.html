@@ -35,10 +35,9 @@
             --abeja-bg: #FFFFFF;
             
             --sidebar-width: 260px;
-            --right-panel-width: 340px;
+            --right-panel-width: 400px; /* ¡AUMENTADO A 400px! Desplaza el centro a la izquierda */
         }
 
-        /* Evitar scroll horizontal estricto en toda la página */
         html, body {
             overflow-x: clip !important;
             max-width: 100vw;
@@ -62,7 +61,7 @@
         }
 
         /* =========================================
-           SIDEBAR IZQUIERDO (PEGADO A LA IZQUIERDA)
+           SIDEBAR IZQUIERDO
            ========================================= */
         .app-sidebar {
             position: fixed;
@@ -135,7 +134,7 @@
         }
 
         /* =========================================
-           SIDEBAR DERECHO (PEGADO A LA DERECHA)
+           SIDEBAR DERECHO
            ========================================= */
         .right-sidebar {
             position: fixed;
@@ -163,10 +162,49 @@
             align-items: center;
             min-height: 100vh;
             padding: 0; 
+            position: relative; 
+        }
+
+        /* -----------------------------------------
+           FONDO DE HEXÁGONOS FLOTANTES EN 3D Y SCROLL
+           ----------------------------------------- */
+        .bg-floating-hexagons {
+            position: absolute; 
+            top: 0; 
+            bottom: 0;
+            left: 0; 
+            right: 0;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0; 
+            pointer-events: none; 
+        }
+
+        .floating-hex {
+            position: absolute;
+            opacity: 0.1; 
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            animation: float-hex-3d infinite linear;
+        }
+
+        .hex-1 { background-color: var(--primary-yellow); width: 120px; height: 120px; top: 5%; left: 8%; animation-duration: 25s; }
+        .hex-2 { background-color: var(--primary-blue); width: 80px; height: 80px; top: 15%; right: 12%; animation-duration: 18s; animation-direction: reverse; }
+        .hex-3 { background-color: var(--secondary-orange); width: 160px; height: 160px; top: 30%; left: -5%; animation-duration: 30s; }
+        .hex-4 { background-color: var(--primary-yellow); width: 90px; height: 90px; top: 45%; right: 15%; animation-duration: 22s; }
+        .hex-5 { background-color: var(--primary-blue); width: 60px; height: 60px; top: 55%; left: 70%; animation-duration: 15s; animation-direction: reverse; }
+        .hex-6 { background-color: var(--secondary-orange); width: 100px; height: 100px; top: 70%; left: 20%; animation-duration: 28s; }
+        .hex-7 { background-color: var(--primary-yellow); width: 140px; height: 140px; top: 85%; right: 5%; animation-duration: 35s; animation-direction: reverse; }
+        .hex-8 { background-color: var(--primary-blue); width: 110px; height: 110px; top: 95%; left: 10%; animation-duration: 20s; }
+        .hex-9 { background-color: var(--secondary-orange); width: 70px; height: 70px; top: 20%; left: 40%; animation-duration: 19s; animation-direction: reverse;}
+
+        @keyframes float-hex-3d {
+            0% { transform: translateY(0) rotateX(35deg) rotateZ(0deg); }
+            50% { transform: translateY(-40px) rotateX(35deg) rotateZ(180deg); }
+            100% { transform: translateY(0) rotateX(35deg) rotateZ(360deg); }
         }
 
         /* =========================================
-           CABECERA PEGAJOSA
+           CABECERA PEGAJOSA Y COMPONENTES
            ========================================= */
         .sticky-header-area {
             position: sticky;
@@ -202,6 +240,37 @@
             align-items: center;
             margin-bottom: 15px; 
             padding: 5px 10px;
+            position: relative;
+            z-index: 55;
+        }
+
+        .course-dropdown-btn {
+            background-color: var(--abeja-gray-light);
+            border: 2px solid var(--abeja-gray-medium);
+            border-radius: 20px; 
+            padding: 6px 14px;
+            color: var(--abeja-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .course-dropdown-btn:hover, .course-dropdown-btn:focus { 
+            background-color: #e5f6f9;
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .course-dropdown-btn .main-icon { font-size: 1.4rem; }
+        .course-dropdown-btn .caret-icon { font-size: 0.85rem; color: inherit; }
+        
+        .text-honey { 
+            color: #FFB300 !important; 
+            filter: drop-shadow(0px 2px 3px rgba(255, 179, 0, 0.4));
         }
 
         .section-header {
@@ -258,6 +327,7 @@
             flex-direction: column;
             align-items: center;
             padding: 20px 20px 120px 20px; 
+            position: relative;
         }
 
         .path-nodes {
@@ -266,6 +336,7 @@
             align-items: center;
             width: 100%;
             position: relative;
+            z-index: 1; 
         }
 
         .node-wrapper {
@@ -274,123 +345,113 @@
             justify-content: center;
             align-items: flex-start;
             width: 100%;
-            height: 110px; 
+            height: 115px; 
         }
 
         .node-wrapper.tall-wrapper {
-            height: 140px; 
+            height: 125px; 
         }
 
-        .offset-right-1 { transform: translateX(45px); }
-        .offset-right-2 { transform: translateX(90px); }
-        .offset-left-1 { transform: translateX(-45px); }
-        .offset-left-2 { transform: translateX(-90px); }
+        /* Curva tipo serpiente (Ola) */
+        .offset-left-2 { transform: translateX(-110px); }
+        .offset-left-1 { transform: translateX(-55px); }
         .offset-center { transform: translateX(0); }
+        .offset-right-1 { transform: translateX(55px); }
+        .offset-right-2 { transform: translateX(110px); }
 
+        /* =========================================
+           FÍSICA 3D CON HEXÁGONOS
+           ========================================= */
         .path-node {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            width: 102px;
+            height: 85px;
+            background: transparent;
             border: none;
+            padding: 0;
+            position: relative;
+            cursor: pointer;
+            z-index: 2;
+            filter: drop-shadow(0px 8px 0px var(--shadow-color));
+            transition: transform 0.1s, filter 0.1s;
+        }
+
+        .hex-inner {
+            width: 100%;
+            height: 100%;
+            background-color: var(--node-bg);
+            color: var(--node-color, white);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2.2rem;
-            color: white;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.1s;
-            z-index: 2;
+            font-size: 2.3rem;
         }
 
         .path-node:active {
             transform: translateY(6px); 
-            border-bottom-width: 2px !important; 
+            filter: drop-shadow(0px 2px 0px var(--shadow-color));
         }
 
         .node-completed {
-            background-color: var(--primary-blue);
-            border-bottom: 8px solid var(--primary-blue-dark);
-            box-shadow: 0 6px 0 var(--primary-blue-dark);
+            --node-bg: var(--primary-blue);
+            --shadow-color: var(--primary-blue-dark);
         }
 
         .node-chest {
-            background-color: var(--secondary-orange);
-            border-bottom: 8px solid #CC7800;
-            box-shadow: 0 6px 0 #CC7800;
+            --node-bg: var(--secondary-orange);
+            --shadow-color: #CC7800;
         }
 
         .node-locked {
-            background-color: var(--abeja-gray-light);
-            border-bottom: 8px solid var(--abeja-gray-medium);
-            color: var(--abeja-gray-dark);
+            --node-bg: var(--abeja-gray-light);
+            --shadow-color: var(--abeja-gray-medium);
+            --node-color: var(--abeja-gray-dark);
             cursor: not-allowed;
-            box-shadow: 0 6px 0 var(--abeja-gray-medium);
         }
-        .node-locked:active { transform: none; border-bottom: 8px solid var(--abeja-gray-medium) !important;}
+        .node-locked:active {
+            transform: none; 
+            filter: drop-shadow(0px 8px 0px var(--shadow-color));
+        }
 
-        /* =========================================
-           NODO ACTIVO: DISEÑO NATURAL SIN CORTES
-           ========================================= */
+        .node-active {
+            --node-bg: var(--primary-yellow);
+            --shadow-color: #E6B800;
+            --node-color: var(--abeja-dark);
+        }
+
+        .node-purple {
+            --node-bg: #CE82FF;
+            --shadow-color: #A568CC;
+        }
+
         .active-node-group {
             position: relative;
-            width: 110px; 
-            height: 110px;
+            width: 102px;
+            height: 85px;
             display: flex;
             justify-content: center;
             align-items: center;
+            perspective: 1000px;
         }
 
-        /* Aura de luz pulsante suave de fondo */
         .active-node-group::before {
             content: '';
             position: absolute;
-            top: 15px; left: 15px; right: 15px; bottom: 15px;
-            background-color: var(--primary-blue);
-            border-radius: 50%;
-            filter: blur(12px);
-            animation: pulse-glow 2s infinite alternate;
-            z-index: 0;
-            opacity: 0.5;
-        }
-
-        @keyframes pulse-glow {
-            from { opacity: 0.2; transform: scale(0.95); }
-            to { opacity: 0.6; transform: scale(1.1); }
-        }
-
-        /* Botón Estrella: Sombras dinámicas para crear el borde sólido y que baje junto con el botón */
-        .active-node-group .node-active {
-            width: 85px; /* Ligeramente más grande para resaltar */
-            height: 85px;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-color: var(--primary-yellow);
-            border-bottom: 8px solid var(--primary-yellow-hover);
-            color: var(--abeja-dark);
-            /* Usamos box-shadow múltiple para crear los bordes exteriores: 
-               1. Espacio blanco, 2. Borde azul limpio, 3. Sombra paralela natural */
-            box-shadow: 
-                0 0 0 4px var(--abeja-bg),
-                0 0 0 8px var(--primary-blue),
-                0 8px 15px rgba(0, 0, 0, 0.15);
-            font-size: 2.5rem;
-            z-index: 2;
-            transition: transform 0.1s, border-bottom-width 0.1s, box-shadow 0.1s;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            z-index: 0;
+            animation: pulse-hex-3d 1.8s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
         }
 
-        /* Al hacer clic, TODO baja de forma unificada */
-        .active-node-group .node-active:active {
-            transform: translateY(4px);
-            border-bottom-width: 4px !important;
-            box-shadow: 
-                0 0 0 4px var(--abeja-bg),
-                0 0 0 8px var(--primary-blue),
-                0 4px 8px rgba(0, 0, 0, 0.1) !important;
+        @keyframes pulse-hex-3d {
+            0% { transform: translateY(20px) rotateX(45deg) scale(0.8); opacity: 0.8; }
+            100% { transform: translateY(20px) rotateX(45deg) scale(2.2); opacity: 0; }
         }
 
-        /* Tooltip Animado "EMPEZAR" */
         .tooltip-start {
             position: absolute;
-            top: -50px;
+            top: -55px;
             left: 50%;
             transform: translateX(-50%);
             background-color: var(--primary-blue);
@@ -434,6 +495,8 @@
             background-color: #F8F9FA;
             border-radius: 16px;
             border: 2px solid var(--abeja-gray-light);
+            position: relative;
+            z-index: 55;
         }
 
         .text-orange { color: var(--secondary-orange); }
@@ -445,6 +508,28 @@
             background-color: var(--abeja-white);
             margin-top: 30px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* NUEVO BOTÓN "VER TODAS" */
+        .btn-ver-todas {
+            background-color: #e5f6f9;
+            color: var(--primary-blue);
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-ver-todas:hover {
+            background-color: var(--primary-blue);
+            color: white;
+            transform: scale(1.05);
         }
 
         .task-item {
@@ -550,35 +635,29 @@
             .header-info .section-title { font-size: 1.3rem; }
             .btn-guide { font-size: 0.85rem; padding: 8px 12px;}
 
-            .offset-right-1 { transform: translateX(25px); }
-            .offset-right-2 { transform: translateX(50px); }
-            .offset-left-1 { transform: translateX(-25px); }
-            .offset-left-2 { transform: translateX(-50px); }
+            .offset-left-2 { transform: translateX(-70px); }
+            .offset-left-1 { transform: translateX(-35px); }
+            .offset-center { transform: translateX(0); }
+            .offset-right-1 { transform: translateX(35px); }
+            .offset-right-2 { transform: translateX(70px); }
 
-            .path-node { width: 75px; height: 75px; font-size: 2rem; }
+            .path-node { width: 90px; height: 75px; filter: drop-shadow(0px 6px 0px var(--shadow-color));}
+            .path-node:active { transform: translateY(4px); filter: drop-shadow(0px 2px 0px var(--shadow-color)); }
+            .hex-inner { font-size: 2rem; }
             
-            /* Ajuste del botón activo en móvil */
-            .active-node-group .node-active { 
-                width: 75px; 
-                height: 75px; 
-                font-size: 2.2rem; 
-                box-shadow: 0 0 0 3px var(--abeja-bg), 0 0 0 6px var(--primary-blue), 0 6px 12px rgba(0, 0, 0, 0.15);
-            }
-            .active-node-group .node-active:active {
-                box-shadow: 0 0 0 4px var(--abeja-bg), 0 0 0 6px var(--primary-blue), 0 3px 6px rgba(0, 0, 0, 0.1) !important;
-            }
-            .active-node-group { width: 100px; height: 100px; } 
+            .active-node-group { width: 90px; height: 75px; } 
             
             .node-wrapper { height: 105px; }
-            .node-wrapper.tall-wrapper { height: 130px; }
-            .tooltip-start { top: -45px; font-size: 0.85rem; padding: 8px 14px;}
+            .node-wrapper.tall-wrapper { height: 115px; }
+            .tooltip-start { top: -50px; font-size: 0.85rem; padding: 8px 14px;}
         }
 
         @media (max-width: 360px) {
-            .offset-right-1 { transform: translateX(15px); }
-            .offset-right-2 { transform: translateX(30px); }
-            .offset-left-1 { transform: translateX(-15px); }
-            .offset-left-2 { transform: translateX(-30px); }
+            .offset-left-2 { transform: translateX(-40px); }
+            .offset-left-1 { transform: translateX(-20px); }
+            .offset-center { transform: translateX(0); }
+            .offset-right-1 { transform: translateX(20px); }
+            .offset-right-2 { transform: translateX(40px); }
             
             .stat-item.fs-5 { font-size: 1.1rem !important; }
             .header-info .step-title { font-size: 0.8rem; }
@@ -615,17 +694,53 @@
 
         <main class="app-main">
             
+            <div class="bg-floating-hexagons">
+                <div class="floating-hex hex-1"></div>
+                <div class="floating-hex hex-2"></div>
+                <div class="floating-hex hex-3"></div>
+                <div class="floating-hex hex-4"></div>
+                <div class="floating-hex hex-5"></div>
+                <div class="floating-hex hex-6"></div>
+                <div class="floating-hex hex-7"></div>
+                <div class="floating-hex hex-8"></div>
+                <div class="floating-hex hex-9"></div>
+            </div>
+
             <div class="sticky-header-area">
                 <div class="sticky-header-content">
                     
                     <div class="top-stats-bar d-xl-none">
-                        <div class="stat-item fs-4" title="Curso: Álgebra">
-                            <i class="fa-solid fa-square-root-variable text-secondary"></i>
+                        <div class="stat-item fs-4">
+                            <div class="dropdown">
+                                <button class="course-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Cambiar Curso">
+                                    <i class="fa-solid fa-square-root-variable main-icon"></i>
+                                    <i class="fa-solid fa-chevron-down caret-icon"></i>
+                                </button>
+                                <ul class="dropdown-menu border-0 shadow rounded-4 mt-2 p-2" style="min-width: 220px;">
+                                    <li><h6 class="dropdown-header fw-bold text-uppercase" style="font-size: 0.8rem; letter-spacing: 1px;">Tus Cursos</h6></li>
+                                    <li>
+                                        <a class="dropdown-item fw-bold rounded-3 active d-flex align-items-center mb-1" href="#" style="background-color: #e5f6f9; color: var(--primary-blue);">
+                                            <i class="fa-solid fa-square-root-variable me-3 fs-5"></i> Álgebra
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item fw-bold rounded-3 text-muted d-flex align-items-center mb-2" href="#">
+                                            <i class="fa-solid fa-atom me-3 fs-5"></i> Física
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item fw-bold text-primary rounded-3 d-flex align-items-center" href="#">
+                                            <i class="fa-solid fa-circle-plus me-3 fs-5"></i> Añadir curso
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="stat-item text-orange fs-5 fw-bold">
                             <i class="fa-solid fa-fire me-1"></i> 14
                         </div>
-                        <div class="stat-item text-primary fs-5 fw-bold" style="color: var(--primary-blue) !important;">
+                        <div class="stat-item text-honey fs-5 fw-bold">
                             <i class="fa-solid fa-droplet me-1"></i> 776
                         </div>
                         <div class="stat-item text-danger fs-5 fw-bold">
@@ -646,55 +761,54 @@
             </div>
 
             <div class="path-container">
-                
                 <div class="path-nodes">
 
-                    <div class="node-wrapper offset-right-1">
+                    <div class="node-wrapper offset-left-2">
                         <button class="path-node node-completed">
-                            <i class="fa-solid fa-check"></i>
+                            <div class="hex-inner"><i class="fa-solid fa-check"></i></div>
                         </button>
                     </div>
 
-                    <div class="node-wrapper offset-right-2">
+                    <div class="node-wrapper offset-left-1">
                         <button class="path-node node-completed">
-                            <i class="fa-solid fa-check"></i>
+                            <div class="hex-inner"><i class="fa-solid fa-check"></i></div>
                         </button>
                     </div>
 
-                    <div class="node-wrapper offset-right-1">
+                    <div class="node-wrapper offset-center">
                         <button class="path-node node-chest">
-                            <i class="fa-solid fa-box-open"></i>
+                            <div class="hex-inner"><i class="fa-solid fa-box-open"></i></div>
                         </button>
                     </div>
 
-                    <div class="node-wrapper tall-wrapper offset-center">
+                    <div class="node-wrapper tall-wrapper offset-right-1">
                         <div class="active-node-group">
                             <div class="tooltip-start">EMPEZAR</div>
                             <button class="path-node node-active"> 
-                                <i class="fa-solid fa-star"></i>
+                                <div class="hex-inner"><i class="fa-solid fa-star"></i></div>
                             </button>
                         </div>
                     </div>
 
-                    <div class="node-wrapper offset-left-1">
+                    <div class="node-wrapper offset-right-2">
                         <button class="path-node node-locked">
-                            <i class="fa-solid fa-crown"></i>
+                            <div class="hex-inner"><i class="fa-solid fa-crown"></i></div>
                         </button>
                     </div>
 
-                    <div class="node-wrapper offset-left-2">
+                    <div class="node-wrapper offset-right-1">
                         <button class="path-node node-locked">
-                            <i class="fa-solid fa-dumbbell"></i>
+                            <div class="hex-inner"><i class="fa-solid fa-dumbbell"></i></div>
                         </button>
                     </div>
 
-                    <div class="section-divider my-4 text-center w-100" style="border-top: 2px solid #E5E5E5; position: relative;">
+                    <div class="section-divider my-4 text-center w-100" style="border-top: 2px solid #E5E5E5; position: relative; z-index: 2;">
                         <span style="background: var(--abeja-bg); padding: 0 15px; position: relative; top: -12px; color: #AAA; font-weight: 800; text-transform: uppercase;">Ecuaciones de 1er Grado</span>
                     </div>
 
                     <div class="node-wrapper offset-center">
-                        <button class="path-node" style="background-color: #CE82FF; border-bottom: 8px solid #A568CC; box-shadow: 0 6px 0 #A568CC;">
-                            <i class="fa-solid fa-forward-step"></i>
+                        <button class="path-node node-purple">
+                            <div class="hex-inner"><i class="fa-solid fa-forward-step"></i></div>
                         </button>
                     </div>
                 </div>
@@ -703,13 +817,37 @@
 
         <aside class="right-sidebar d-none d-xl-flex">
             <div class="desktop-stats-bar">
-                <div class="stat-item fs-4" title="Curso: Álgebra">
-                    <i class="fa-solid fa-square-root-variable text-secondary"></i>
+                <div class="stat-item fs-4">
+                    <div class="dropdown">
+                        <button class="course-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Cambiar Curso">
+                            <i class="fa-solid fa-square-root-variable main-icon"></i>
+                            <i class="fa-solid fa-chevron-down caret-icon"></i>
+                        </button>
+                        <ul class="dropdown-menu border-0 shadow rounded-4 mt-2 p-2" style="min-width: 220px;">
+                            <li><h6 class="dropdown-header fw-bold text-uppercase" style="font-size: 0.8rem; letter-spacing: 1px;">Tus Cursos</h6></li>
+                            <li>
+                                <a class="dropdown-item fw-bold rounded-3 active d-flex align-items-center mb-1" href="#" style="background-color: #e5f6f9; color: var(--primary-blue);">
+                                    <i class="fa-solid fa-square-root-variable me-3 fs-5"></i> Álgebra
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item fw-bold rounded-3 text-muted d-flex align-items-center mb-2" href="#">
+                                    <i class="fa-solid fa-atom me-3 fs-5"></i> Física
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item fw-bold text-primary rounded-3 d-flex align-items-center" href="#">
+                                    <i class="fa-solid fa-circle-plus me-3 fs-5"></i> Añadir curso
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="stat-item text-orange fs-5 fw-bold">
                     <i class="fa-solid fa-fire me-1"></i> 14
                 </div>
-                <div class="stat-item fs-5 fw-bold" style="color: var(--primary-blue);">
+                <div class="stat-item text-honey fs-5 fw-bold">
                     <i class="fa-solid fa-droplet me-1"></i> 776
                 </div>
                 <div class="stat-item text-danger fs-5 fw-bold">
@@ -718,9 +856,9 @@
             </div>
 
             <div class="widget-card honey-theme">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="m-0">Misiones del día</h5>
-                    <a href="#" class="text-uppercase fw-bold text-decoration-none" style="color: var(--primary-blue); font-size: 0.9rem;">Ver todas</a>
+                <div class="d-flex justify-content-between align-items-center mb-4" style="border-bottom: 2px solid #F0F0F0; padding-bottom: 15px;">
+                    <h5 class="m-0" style="font-weight: 900; font-size: 1.25rem; color: var(--abeja-dark);">Misiones <span style="color: var(--secondary-orange);">del día</span></h5>
+                    <a href="#" class="btn-ver-todas">Ver todas</a>
                 </div>
                 
                 <div class="task-item">
