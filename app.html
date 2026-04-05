@@ -372,6 +372,12 @@
             width: 100%;
             height: auto;
             filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); 
+            transition: all 0.3s ease;
+        }
+
+        /* CLASE PARA MASCOTA BLOQUEADA */
+        .mascot-locked {
+            filter: grayscale(100%) opacity(0.5) brightness(1.2) drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
         /* Solo las pequeñas tienen la animación de flotado */
@@ -379,14 +385,14 @@
             animation: mascot-float 3s ease-in-out infinite; 
         }
 
-        /* Tamaños PC - ¡Mascotas Grandes Aumentadas! */
+        /* Tamaños PC */
         .mascot-large { width: 220px; }
         .mascot-small { width: 95px; }
 
-        /* Ubicaciones INTERCALADAS y MUY SEPARADAS en PC */
-        .zone-1-top-right { right: -15%; top: 60px; } 
+        /* Ubicaciones */
+        .zone-1-top-right { right: -20%; top: 0px; } 
         .zone-2-mid-left  { left: -12%; top: 70px; z-index: 1; } 
-        .zone-3-bot-left  { left: -8%; top: 40px; } 
+        .zone-3-bot-left  { left: -20%; top: -60px; } 
         .zone-4-bot-right { right: -10%; top: -80px; z-index: 1;}
 
         @keyframes mascot-float {
@@ -658,6 +664,16 @@
             .path-container { padding-top: 30px; }
         }
 
+        /* NUEVA REGLA PARA PANTALLAS MEDIAS (TABLETS/LAPTOPS PEQUEÑAS) */
+        @media (max-width: 1199px) and (min-width: 440px) {
+            /* Acercar las mascotas a la ruta central para que no queden tan separadas */
+            .zone-1-top-right { right: -10% !important; top: 20px !important; }
+            .zone-3-bot-left  { left: -10% !important; top: -30px !important; }
+            
+            /* Hacemos a las mascotas un poco más pequeñas para que no choquen con los hexágonos */
+            .mascot-large { width: 180px; }
+        }
+
         @media (max-width: 768px) {
             .app-sidebar { display: none !important; }
             .app-main { margin-left: 0; }
@@ -685,14 +701,14 @@
             .node-wrapper.tall-wrapper { height: 115px; }
             .tooltip-start { top: -50px; font-size: 0.85rem; padding: 8px 14px;}
 
-            /* Ajustes de mascotas para móvil - ¡GRANDES PEGADAS A LOS BORDES! */
+            /* Ajustes de mascotas para móvil */
             .mascot-large { width: 150px; }
             .mascot-small { width: 65px; }
             
             /* En móvil aumentamos la separación para pegarlas a los bordes laterales */
-            .zone-1-top-right { right: -15%; top: 50px; } 
+            .zone-1-top-right { right: -20%; top: 50px; } 
             .zone-2-mid-left  { left: -2%; top: 40px; }
-            .zone-3-bot-left  { left: -15%; top: 20px;}
+            .zone-3-bot-left  { left: -20%; top: -25px;}
             .zone-4-bot-right { right: -2%; top: -50px;}
         }
 
@@ -843,7 +859,7 @@
 
                     <div class="node-wrapper offset-right-2">
                         <div class="mascot-zone mascot-large zone-3-bot-left">
-                            <img src="webp_animations/2.webp" class="mascot-img" alt="Abeja Estudiando">
+                            <img src="webp_animations/2_estatico.png" class="mascot-img mascot-locked" alt="Abeja Estudiando Bloqueada">
                         </div>
                         <button class="path-node node-locked">
                             <div class="hex-inner"><i class="fa-solid fa-crown"></i></div>
@@ -960,6 +976,27 @@
         <a href="#" class="nav-item"><i class="fa-regular fa-face-smile"></i></a>
     </nav>
 
+    <audio id="node-click-sound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathNodes = document.querySelectorAll('.path-node');
+            const clickSound = document.getElementById('node-click-sound');
+
+            pathNodes.forEach(node => {
+                node.addEventListener('click', () => {
+                    // Solo reproducimos el sonido si el botón NO tiene la clase 'node-locked'
+                    if (!node.classList.contains('node-locked')) {
+                        clickSound.currentTime = 0;
+                        clickSound.play().catch(error => {
+                            console.log("El navegador previno la reproducción del audio:", error);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
