@@ -35,7 +35,7 @@
             --abeja-bg: #FFFFFF;
             
             --sidebar-width: 260px;
-            --right-panel-width: 400px; /* ¡AUMENTADO A 400px! Desplaza el centro a la izquierda */
+            --right-panel-width: 400px;
         }
 
         html, body {
@@ -360,6 +360,41 @@
         .offset-right-2 { transform: translateX(110px); }
 
         /* =========================================
+           ZONAS PARA MASCOTAS (GIFS/SVGS)
+           ========================================= */
+        .mascot-zone {
+            position: absolute;
+            pointer-events: none; 
+            z-index: 3; 
+        }
+
+        .mascot-img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); 
+        }
+
+        /* Solo las pequeñas tienen la animación de flotado */
+        .mascot-small .mascot-img {
+            animation: mascot-float 3s ease-in-out infinite; 
+        }
+
+        /* Tamaños PC - ¡Mascotas Grandes Aumentadas! */
+        .mascot-large { width: 220px; }
+        .mascot-small { width: 95px; }
+
+        /* Ubicaciones INTERCALADAS y MUY SEPARADAS en PC */
+        .zone-1-top-right { right: -15%; top: 60px; } 
+        .zone-2-mid-left  { left: -12%; top: 70px; z-index: 1; } 
+        .zone-3-bot-left  { left: -8%; top: 40px; } 
+        .zone-4-bot-right { right: -10%; top: -80px; z-index: 1;}
+
+        @keyframes mascot-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* =========================================
            FÍSICA 3D CON HEXÁGONOS
            ========================================= */
         .path-node {
@@ -512,7 +547,6 @@
             z-index: 2;
         }
 
-        /* NUEVO BOTÓN "VER TODAS" */
         .btn-ver-todas {
             background-color: #e5f6f9;
             color: var(--primary-blue);
@@ -650,6 +684,16 @@
             .node-wrapper { height: 105px; }
             .node-wrapper.tall-wrapper { height: 115px; }
             .tooltip-start { top: -50px; font-size: 0.85rem; padding: 8px 14px;}
+
+            /* Ajustes de mascotas para móvil - ¡GRANDES PEGADAS A LOS BORDES! */
+            .mascot-large { width: 150px; }
+            .mascot-small { width: 65px; }
+            
+            /* En móvil aumentamos la separación para pegarlas a los bordes laterales */
+            .zone-1-top-right { right: -15%; top: 50px; } 
+            .zone-2-mid-left  { left: -2%; top: 40px; }
+            .zone-3-bot-left  { left: -15%; top: 20px;}
+            .zone-4-bot-right { right: -2%; top: -50px;}
         }
 
         @media (max-width: 360px) {
@@ -661,6 +705,9 @@
             
             .stat-item.fs-5 { font-size: 1.1rem !important; }
             .header-info .step-title { font-size: 0.8rem; }
+            
+            .mascot-large { width: 110px; }
+            .mascot-small { width: 50px; }
         }
     </style>
 </head>
@@ -764,6 +811,9 @@
                 <div class="path-nodes">
 
                     <div class="node-wrapper offset-left-2">
+                        <div class="mascot-zone mascot-large zone-1-top-right">
+                            <img src="webp_animations/1.webp" class="mascot-img" alt="Abeja Estudiando">
+                        </div>
                         <button class="path-node node-completed">
                             <div class="hex-inner"><i class="fa-solid fa-check"></i></div>
                         </button>
@@ -776,6 +826,7 @@
                     </div>
 
                     <div class="node-wrapper offset-center">
+                        
                         <button class="path-node node-chest">
                             <div class="hex-inner"><i class="fa-solid fa-box-open"></i></div>
                         </button>
@@ -791,6 +842,9 @@
                     </div>
 
                     <div class="node-wrapper offset-right-2">
+                        <div class="mascot-zone mascot-large zone-3-bot-left">
+                            <img src="webp_animations/2.webp" class="mascot-img" alt="Abeja Estudiando">
+                        </div>
                         <button class="path-node node-locked">
                             <div class="hex-inner"><i class="fa-solid fa-crown"></i></div>
                         </button>
@@ -807,10 +861,12 @@
                     </div>
 
                     <div class="node-wrapper offset-center">
+                        
                         <button class="path-node node-purple">
                             <div class="hex-inner"><i class="fa-solid fa-forward-step"></i></div>
                         </button>
                     </div>
+                    
                 </div>
             </div>
         </main>
