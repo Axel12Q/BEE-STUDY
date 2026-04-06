@@ -36,7 +36,7 @@
             --abeja-gray-dark: #AFAFAF;
             --abeja-body-bg: #F7F9FA;
             --sidebars-bg: #FFFBDC;
-            --sidebar-width: 350px;
+            --sidebar-width: 390px;
             --right-panel-width: 400px;
         }
 
@@ -55,18 +55,30 @@
             position: relative;
         }
 
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            opacity: 0.4;
-            pointer-events: none;
-            background-image: radial-gradient(var(--abeja-gray-medium) 2px, transparent 2px);
-            background-size: 30px 30px;
-        }
+       .bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    opacity: 0.04; /* Bajamos la opacidad porque los hexágonos llenan más espacio */
+    pointer-events: none;
+
+    /* Patrón de panal con CSS */
+    background-color: transparent;
+    background-image: 
+        linear-gradient(30deg, var(--abeja-gray-medium) 12%, transparent 12.5%, transparent 87%, var(--abeja-gray-medium) 87.5%, var(--abeja-gray-medium)),
+        linear-gradient(150deg, var(--abeja-gray-medium) 12%, transparent 12.5%, transparent 87%, var(--abeja-gray-medium) 87.5%, var(--abeja-gray-medium)),
+        linear-gradient(30deg, var(--abeja-gray-medium) 12%, transparent 12.5%, transparent 87%, var(--abeja-gray-medium) 87.5%, var(--abeja-gray-medium)),
+        linear-gradient(150deg, var(--abeja-gray-medium) 12%, transparent 12.5%, transparent 87%, var(--abeja-gray-medium) 87.5%, var(--abeja-gray-medium)),
+        linear-gradient(60deg, var(--abeja-gray-dark) 25%, transparent 25.5%, transparent 75%, var(--abeja-gray-dark) 75.5%, var(--abeja-gray-dark)),
+        linear-gradient(60deg, var(--abeja-gray-dark) 25%, transparent 25.5%, transparent 75%, var(--abeja-gray-dark) 75.5%, var(--abeja-gray-dark));
+    
+    /* Control de separación: el primer número es el ancho y el segundo el alto */
+    background-size: 80px 140px; 
+    background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+}
 
         #mouse-effect-container {
             position: fixed;
@@ -199,7 +211,7 @@
             height: 100vh;
             padding: 30px 25px;
             border-right: none;
-            background-color: rgb(250, 254, 255);
+            background-color: initial;
             box-shadow: 4px 0 25px rgba(0, 0, 0, 0.04);
             z-index: 100;
             display: flex;
@@ -334,7 +346,7 @@
             height: 100vh;
             padding: 30px;
             border-left: none;
-            background-color: rgb(250, 254, 255);
+            background-color: initial;
             box-shadow: -4px 0 25px rgba(0, 0, 0, 0.04);
             z-index: 100;
             display: flex;
@@ -963,7 +975,7 @@
                 <h6>¿Necesitas ayuda?</h6>
                 <p>Contacta nuestros asesores para agendar una clase virtual personalizada.</p>
                 <div class="help-img-container">
-                    <img src="https://img.freepik.com/premium-photo/isometric-illustration_841014-9899.jpg" alt="Ilustración Asesoría Abeja">
+                    <img src="img/personas.png" alt="Ilustración Asesoría Abeja">
                 </div>
                 <button class="btn btn-contact w-100">
                     <i class="fa-solid fa-headset me-2"></i> Contactar Asesor
