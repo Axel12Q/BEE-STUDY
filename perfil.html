@@ -113,6 +113,81 @@
         }
 
         /* =========================================
+           CONTENEDOR Y ANIMACIONES DE MINI ABEJAS
+           ========================================= */
+        #flying-bees-container {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: var(--sidebar-width);
+            right: var(--right-panel-width);
+            z-index: 80; 
+            pointer-events: none; 
+            overflow: hidden; 
+        }
+
+        .tiny-bee-wrapper {
+            position: absolute;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .tiny-bee-rotator {
+            display: inline-block;
+            transition: transform 0.15s ease-out; 
+            will-change: transform;
+        }
+
+        .tiny-bee-inner {
+            font-size: 15px; 
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+            animation: bee-fade var(--flight-duration) ease-in-out forwards, bee-wiggle 0.1s infinite alternate;
+        }
+
+        @keyframes bee-fade {
+            0% { opacity: 0; transform: scale(0.3); }
+            10% { opacity: 0.6; transform: scale(1); }
+            90% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.3); }
+        }
+
+        @keyframes bee-wiggle {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-3px); }
+        }
+
+        @keyframes fly-path-1 { 
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(300px, -200px); }
+            50% { transform: translate(600px, 50px); }
+            75% { transform: translate(900px, -100px); }
+            100% { transform: translate(1200px, 200px); }
+        }
+
+        @keyframes fly-path-2 { 
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-200px, 200px); }
+            50% { transform: translate(-400px, 50px); }
+            75% { transform: translate(-200px, -200px); }
+            100% { transform: translate(200px, -400px); }
+        }
+
+        @keyframes fly-path-3 { 
+            0% { transform: translate(0, 0); }
+            30% { transform: translate(250px, 250px); }
+            50% { transform: translate(100px, 150px); }
+            70% { transform: translate(400px, -100px); }
+            100% { transform: translate(700px, 500px); }
+        }
+
+        @keyframes fly-path-4 { 
+            0% { transform: translate(0, 0); }
+            33% { transform: translate(-300px, -300px); }
+            66% { transform: translate(200px, -500px); }
+            100% { transform: translate(-400px, -800px); }
+        }
+
+        /* =========================================
            ESTRUCTURA PRINCIPAL Y SIDEBARS
            ========================================= */
         .app-layout {
@@ -661,6 +736,14 @@
             .app-main { margin-right: 0 !important; }
         }
 
+        /* MEDIA QUERIES PARA ABEJITAS VOLADORAS */
+        @media (max-width: 1199px) {
+            #flying-bees-container { right: 0; } 
+        }
+        @media (max-width: 768px) {
+            #flying-bees-container { left: 0; } 
+        }
+
         /* 2. Layout Desktop (Foto más grande y separada, y margen top) */
         @media (min-width: 1200px) {
             .profile-container { 
@@ -762,7 +845,7 @@
         @media (max-width: 767px) {
             .app-sidebar { display: none !important; }
             .app-main { margin-left: 0 !important; }
-            .profile-container { padding: 0 15px; margin-top: 0px; }
+            .profile-container { padding: 0 15px; margin-top: 15px; }
             .profile-master-wrapper { padding: 0; background: transparent; box-shadow: none; border: none; }
             
             .header-title-mobile { margin-top: 25px !important; } 
@@ -792,6 +875,8 @@
     <div id="mouse-effect-container">
         <div id="cursor-illuminator"></div>
     </div>
+
+    <div id="flying-bees-container"></div>
 
     <div class="app-layout">
 
@@ -1200,6 +1285,119 @@
                     particle.remove();
                 }, 1000);
             }
+
+            // =========================================
+            // NUEVO: SISTEMA DE MINI ABEJAS VOLADORAS CON VECTORES
+            // =========================================
+            const activeBees = [];
+
+            function spawnTinyBee() {
+                const container = document.getElementById('flying-bees-container');
+                if (!container) return;
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'tiny-bee-wrapper';
+
+                // Añadimos un div rotador intermedio para controlar la dirección
+                const rotator = document.createElement('div');
+                rotator.className = 'tiny-bee-rotator';
+
+                const inner = document.createElement('div');
+                inner.className = 'tiny-bee-inner';
+                inner.innerText = '🐝'; 
+
+                // 80% de probabilidad de salir de los bordes, 20% de salir desde adentro
+                let startX, startY;
+                if (Math.random() < 0.8) {
+                    const edge = Math.floor(Math.random() * 4);
+                    if (edge === 0) { startX = Math.random() * 100; startY = -10; } // Arriba
+                    else if (edge === 1) { startX = 110; startY = Math.random() * 100; } // Derecha
+                    else if (edge === 2) { startX = Math.random() * 100; startY = 110; } // Abajo
+                    else { startX = -10; startY = Math.random() * 100; } // Izquierda
+                } else {
+                    startX = 20 + Math.random() * 60;
+                    startY = 20 + Math.random() * 60;
+                }
+
+                wrapper.style.left = `${startX}%`;
+                wrapper.style.top = `${startY}%`;
+
+                const paths = ['fly-path-1', 'fly-path-2', 'fly-path-3', 'fly-path-4'];
+                const path = paths[Math.floor(Math.random() * paths.length)];
+                
+                const duration = 6 + Math.random() * 6; 
+
+                wrapper.style.animation = `${path} ${duration}s linear forwards`;
+                inner.style.setProperty('--flight-duration', `${duration}s`);
+
+                rotator.appendChild(inner);
+                wrapper.appendChild(rotator);
+                container.appendChild(wrapper);
+
+                // Trackeamos la abeja para poder calcular su dirección vectorial en vivo
+                const beeTracker = {
+                    wrapper: wrapper,
+                    rotator: rotator,
+                    lastX: null,
+                    lastY: null
+                };
+                activeBees.push(beeTracker);
+
+                setTimeout(() => {
+                    wrapper.remove();
+                    const index = activeBees.indexOf(beeTracker);
+                    if (index > -1) activeBees.splice(index, 1);
+                }, duration * 1000);
+            }
+
+            // MOTOR VECTORIAL: Calcula la tangente del movimiento y gira la abeja
+            function updateBeeRotations() {
+                activeBees.forEach(bee => {
+                    // Sacamos coordenadas absolutas de la pantalla
+                    const rect = bee.wrapper.getBoundingClientRect();
+                    const currentX = rect.left;
+                    const currentY = rect.top;
+
+                    if (bee.lastX !== null && bee.lastY !== null) {
+                        const dx = currentX - bee.lastX;
+                        const dy = currentY - bee.lastY;
+
+                        // Solo actualizamos el giro si se movió suficiente (evita temblores feos)
+                        if (Math.abs(dx) > 0.2 || Math.abs(dy) > 0.2) {
+                            // Math.atan2 nos da el ángulo del vector (en radianes, lo pasamos a grados)
+                            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+                            // Como la cara del emoji 🐝 apunta a la izquierda por default (180 grados)
+                            // le restamos 180 para alinearlo a nuestro vector de movimiento
+                            let rotation = angle - 180;
+                            let flip = '';
+
+                            // El trucazo: Si el vector va hacia la derecha (-90 a 90 grados), 
+                            // rotarla nomás haría que vuele de cabeza, así que invertimos su eje Y local.
+                            if (angle > -90 && angle < 90) {
+                                flip = 'scaleY(-1)'; 
+                            }
+
+                            // Aplicamos la rotación + flip al contenedor intermedio
+                            bee.rotator.style.transform = `rotate(${rotation}deg) ${flip}`;
+                        }
+                    }
+                    bee.lastX = currentX;
+                    bee.lastY = currentY;
+                });
+                
+                // Repetir el ciclo cada que la pantalla refresque
+                requestAnimationFrame(updateBeeRotations);
+            }
+
+            requestAnimationFrame(updateBeeRotations);
+
+            // Hacer que nazca una abeja cada 1.5 segundos
+            setInterval(spawnTinyBee, 1500);
+            
+            setTimeout(spawnTinyBee, 100);
+            setTimeout(spawnTinyBee, 500);
+            setTimeout(spawnTinyBee, 900);
         });
     </script>
 </body>
