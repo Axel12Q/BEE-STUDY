@@ -222,22 +222,16 @@
                 item.addEventListener('click', function(e) {
                     const page = this.getAttribute('data-page');
                     
-                    // Solo interceptar si tiene el data-page
                     if (page) {
-                        e.preventDefault(); // Evitamos que el href="#" brinque la página hacia arriba
-                        
-                        // Remover clase active de todos los links
+                        e.preventDefault(); 
                         navItems.forEach(nav => nav.classList.remove('active'));
                         
-                        // Añadir clase active a todos los botones que apunten a esta vista (escritorio y móvil)
                         document.querySelectorAll(`.nav-item[data-page="${page}"]`).forEach(nav => {
                             nav.classList.add('active');
                         });
 
-                        // Animación opcional de transición
                         mainContent.style.opacity = 0.5;
 
-                        // Petición al servidor para traer el PHP de la carpeta pages/
                         fetch(`pages/${page}.php`)
                             .then(response => {
                                 if (!response.ok) throw new Error('Página no encontrada');
@@ -247,8 +241,19 @@
                                 mainContent.innerHTML = html;
                                 mainContent.style.opacity = 1;
                                 
-                                // Si las vistas que cargas (ej: app.php) tienen eventos como los de los nodos de sonido, 
-                                // tendrías que re-vincularlos aquí o usar event delegation.
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                
+                                // ¡SOLUCIÓN AL MODAL! - Forzamos al navegador a ejecutar los <script> traídos por Fetch
+                                const scripts = mainContent.querySelectorAll('script');
+                                scripts.forEach(oldScript => {
+                                    const newScript = document.createElement('script');
+                                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                                    if (oldScript.innerHTML) {
+                                        newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                                    }
+                                    oldScript.parentNode.replaceChild(newScript, oldScript);
+                                });
+
                                 vincularNodos();
                             })
                             .catch(error => {
@@ -259,17 +264,17 @@
                                         <p class="text-muted">La sección <strong>${page}.php</strong> aún no está lista en la carpeta pages/.</p>
                                     </div>`;
                                 mainContent.style.opacity = 1;
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
                             });
                     }
                 });
             });
 
-            // Función para vincular sonidos a los nodos (separada para llamarla cuando cambies de vista)
+            // Función para vincular sonidos
             const clickSound = document.getElementById('node-click-sound');
             function vincularNodos() {
                 const pathNodes = document.querySelectorAll('.path-node');
                 pathNodes.forEach(node => {
-                    // Evitamos duplicar eventos eliminándolo primero
                     const nuevoNodo = node.cloneNode(true);
                     node.parentNode.replaceChild(nuevoNodo, node);
                     
@@ -283,13 +288,10 @@
                     });
                 });
             }
-            
-            // Llamada inicial
             vincularNodos();
 
-
             // =========================================
-            // EFECTOS DE MOUSE Y PARALLAX
+            // EFECTOS DE MOUSE Y ABEJAS
             // =========================================
             const mouseEffectContainer = document.getElementById('mouse-effect-container');
             const cursorIlluminator = document.getElementById('cursor-illuminator');
@@ -300,18 +302,12 @@
 
             document.addEventListener('mousemove', (e) => {
                 const { clientX, clientY } = e;
-
                 cursorIlluminator.style.left = `${clientX}px`;
                 cursorIlluminator.style.top = `${clientY}px`;
 
                 const mainRect = mainZone.getBoundingClientRect();
                 const isInMain = (clientX >= mainRect.left && clientX <= mainRect.right);
-
-                if (isInMain) {
-                    cursorIlluminator.style.display = 'block';
-                } else {
-                    cursorIlluminator.style.display = 'none';
-                }
+                cursorIlluminator.style.display = isInMain ? 'block' : 'none';
 
                 const centerX = window.innerWidth / 2;
                 const centerY = window.innerHeight / 2;
@@ -320,9 +316,7 @@
 
                 floatingHexagons.forEach((hex, index) => {
                     const depth = (index + 1) * 15;
-                    const translateX = moveX * depth;
-                    const translateY = moveY * depth;
-                    hex.style.transform = `translate(${translateX}px, ${translateY}px)`;
+                    hex.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px)`;
                 });
 
                 if (!particleInterval) {
@@ -336,21 +330,13 @@
             function createHoneyParticle(x, y) {
                 const particle = document.createElement('div');
                 particle.classList.add('honey-particle');
-
                 const offset = 8;
                 particle.style.left = `${x + (Math.random() - 0.5) * offset}px`;
                 particle.style.top = `${y + (Math.random() - 0.5) * offset}px`;
-
                 mouseEffectContainer.appendChild(particle);
-
-                setTimeout(() => {
-                    particle.remove();
-                }, 1000);
+                setTimeout(() => particle.remove(), 1000);
             }
 
-            // =========================================
-            // NUEVO: SISTEMA DE MINI ABEJAS VOLADORAS CON VECTORES
-            // =========================================
             const activeBees = [];
 
             function spawnTinyBee() {
@@ -384,7 +370,6 @@
 
                 const paths = ['fly-path-1', 'fly-path-2', 'fly-path-3', 'fly-path-4'];
                 const path = paths[Math.floor(Math.random() * paths.length)];
-                
                 const duration = 6 + Math.random() * 6; 
 
                 wrapper.style.animation = `${path} ${duration}s linear forwards`;
@@ -394,12 +379,7 @@
                 wrapper.appendChild(rotator);
                 container.appendChild(wrapper);
 
-                const beeTracker = {
-                    wrapper: wrapper,
-                    rotator: rotator,
-                    lastX: null,
-                    lastY: null
-                };
+                const beeTracker = { wrapper, rotator, lastX: null, lastY: null };
                 activeBees.push(beeTracker);
 
                 setTimeout(() => {
@@ -424,26 +404,19 @@
                             let rotation = angle - 180;
                             let flip = '';
 
-                            if (angle > -90 && angle < 90) {
-                                flip = 'scaleY(-1)'; 
-                            }
-
+                            if (angle > -90 && angle < 90) { flip = 'scaleY(-1)'; }
                             bee.rotator.style.transform = `rotate(${rotation}deg) ${flip}`;
                         }
                     }
                     bee.lastX = currentX;
                     bee.lastY = currentY;
                 });
-                
                 requestAnimationFrame(updateBeeRotations);
             }
 
             requestAnimationFrame(updateBeeRotations);
             setInterval(spawnTinyBee, 1500);
-            
             setTimeout(spawnTinyBee, 100);
-            setTimeout(spawnTinyBee, 500);
-            setTimeout(spawnTinyBee, 900);
         });
     </script>
 </body>

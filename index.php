@@ -38,11 +38,11 @@
                 <i class="fa-solid fa-bug"></i> Abeja Go
             </a>
             
-            <a href="sesion.html" class="btn btn-duo btn-duo-outline btn-mobile-nav d-md-none text-decoration-none">Entrar</a>
+            <a href="sesion.php" class="btn btn-duo btn-duo-outline btn-mobile-nav d-md-none text-decoration-none">Entrar</a>
 
             <div class="d-none d-md-flex align-items-center gap-4">
                 <a class="fw-bold text-dark text-decoration-none" href="#" style="font-size: 1.1rem;">Idioma del sitio</a>
-                <a href="sesion.html" class="btn btn-duo btn-duo-outline text-decoration-none">Ya tengo cuenta</a>
+                <a href="sesion.php" class="btn btn-duo btn-duo-outline text-decoration-none">Ya tengo cuenta</a>
             </div>
 
         </div>
@@ -218,7 +218,7 @@
         <div class="container">
             <h2>¿Listo para unirte al enjambre?</h2>
             <p>Empieza a aprender hoy mismo. Es gratis, divertido y efectivo.</p>
-            <a href="sesion.html" class="btn btn-duo text-decoration-none">¡Crea tu cuenta ahora!</a>
+            <a href="sesion.php" class="btn btn-duo text-decoration-none">¡Crea tu cuenta ahora!</a>
         </div>
         <div class="wave-divider">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">

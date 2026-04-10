@@ -26,15 +26,15 @@
     <nav class="navbar fixed-top" id="mainNavbar">
         <div class="container d-flex justify-content-between align-items-center">
             
-            <a class="navbar-brand m-0" href="index.html">
+            <a class="navbar-brand m-0" href="index.php">
                 <i class="fa-solid fa-bug"></i> Abeja Go
             </a>
             
-            <a href="index.html" class="btn btn-duo btn-duo-outline btn-mobile-nav d-md-none text-decoration-none">Inicio</a>
+            <a href="index.php" class="btn btn-duo btn-duo-outline btn-mobile-nav d-md-none text-decoration-none">Inicio</a>
 
             <div class="d-none d-md-flex align-items-center gap-4">
                 <a class="fw-bold text-dark text-decoration-none" href="#" style="font-size: 1.1rem;">Idioma del sitio</a>
-                <a href="index.html" class="btn btn-duo btn-duo-outline text-decoration-none">Volver al inicio</a>
+                <a href="index.php" class="btn btn-duo btn-duo-outline text-decoration-none">Volver al inicio</a>
             </div>
 
         </div>

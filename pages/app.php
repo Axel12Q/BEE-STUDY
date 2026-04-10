@@ -1,3 +1,13 @@
+<style>
+    @media (min-width: 1200px) {
+        .path-container{
+            margin-top: 0 !important;
+        }
+    }
+    .path-container{
+        padding-top: 15px;
+    }
+</style>
 <div class="bg-floating-hexagons">
     <div class="floating-hex hex-1"></div>
     <div class="floating-hex hex-2"></div>
