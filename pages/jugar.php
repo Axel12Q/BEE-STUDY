@@ -29,6 +29,55 @@
         --abeja-text-muted: #839192;
     }
 
+    /* Animación de entrada suave genérica (Banners, títulos) */
+    .fade-in-section {
+        animation: fadeInSlide 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        opacity: 0; transform: translateY(20px);
+    }
+    
+    @keyframes fadeInSlide { to { opacity: 1; transform: translateY(0); } }
+
+    /* Animación exclusiva para los Nodos del Camino (Respeta la curva de serpiente) */
+    .fade-in-node {
+        animation: fadeInNodeAnim 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        opacity: 0; 
+        transform: translate(var(--x-offset, 0px), 20px);
+    }
+    @keyframes fadeInNodeAnim { 
+        to { opacity: 1; transform: translate(var(--x-offset, 0px), 0); } 
+    }
+
+    /* Retrasos progresivos cada 0.05 segundos para efecto dominó */
+    .delay-1 { animation-delay: 0.05s; }
+    .delay-2 { animation-delay: 0.10s; }
+    .delay-3 { animation-delay: 0.15s; }
+    .delay-4 { animation-delay: 0.20s; }
+    .delay-5 { animation-delay: 0.25s; }
+    .delay-6 { animation-delay: 0.30s; }
+    .delay-7 { animation-delay: 0.35s; }
+    .delay-8 { animation-delay: 0.40s; }
+    .delay-9 { animation-delay: 0.45s; }
+    .delay-10 { animation-delay: 0.50s; }
+    .delay-11 { animation-delay: 0.55s; }
+    .delay-12 { animation-delay: 0.60s; }
+    .delay-13 { animation-delay: 0.65s; }
+    .delay-14 { animation-delay: 0.70s; }
+    .delay-15 { animation-delay: 0.75s; }
+    .delay-16 { animation-delay: 0.80s; }
+    .delay-17 { animation-delay: 0.85s; }
+    .delay-18 { animation-delay: 0.90s; }
+    .delay-19 { animation-delay: 0.95s; }
+    .delay-20 { animation-delay: 1.00s; }
+    .delay-21 { animation-delay: 1.05s; }
+
+    /* Animación exclusiva para las líneas conectoras del camino */
+    .path-line-anim {
+        opacity: 0;
+        animation: fadeInLine 0.8s ease forwards;
+        animation-delay: 0.15s;
+    }
+    @keyframes fadeInLine { to { opacity: 1; } }
+
     /* 0. Pantalla de Bloqueo por Rotación (Solo Móviles en Horizontal) */
     .landscape-warning {
         display: none;
@@ -101,7 +150,7 @@
         flex-shrink: 0;
     }
     
-    /* Menú Desplegable (Animación fluida) */
+    /* Menú Desplegable */
     .custom-dropdown-menu { 
         display: block; 
         position: absolute; 
@@ -137,7 +186,7 @@
         position: relative;
     }
     
-    /* Banners de otras secciones (Verde y Morado Pastel) */
+    /* Banners de otras secciones */
     .banner-green { 
         background: linear-gradient(135deg, var(--pastel-green), var(--pastel-green-dark)); 
         box-shadow: 0 8px 20px rgba(72, 201, 176, 0.2);
@@ -180,7 +229,7 @@
     .floating-hex-bg {
         position: absolute;
         background-color: var(--primary-yellow);
-        opacity: 0.15; /* Subido ligeramente porque el pastel es muy claro */
+        opacity: 0.15;
         clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         animation: float-hex-isometric infinite linear;
     }
@@ -196,7 +245,6 @@
         padding: 10px 0 50px 0; position: relative; z-index: 1;
     }
     
-    /* Hexágonos Exclusivos del Camino y colores pastel */
     .path-bg-hexagons {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         overflow: hidden; z-index: -1; pointer-events: none;
@@ -231,13 +279,15 @@
     .node-wrapper {
         display: flex; justify-content: center; margin-bottom: 20px;
         position: relative; z-index: 2; height: 95px; width: 100%;
+        --x-offset: 0px; /* Variable CSS para la serpiente */
     }
 
-    .offset-left-2 { transform: translateX(-60px); }
-    .offset-left-1 { transform: translateX(-30px); }
-    .offset-center { transform: translateX(0); }
-    .offset-right-1 { transform: translateX(30px); }
-    .offset-right-2 { transform: translateX(60px); }
+    /* Offsets Móvil usando Variables CSS */
+    .offset-left-2 { --x-offset: -60px; }
+    .offset-left-1 { --x-offset: -30px; }
+    .offset-center { --x-offset: 0px; }
+    .offset-right-1 { --x-offset: 30px; }
+    .offset-right-2 { --x-offset: 60px; }
 
     /* 5. Mascotas Interactivas */
     .mascot-zone { position: absolute; pointer-events: none; z-index: 3; }
@@ -250,8 +300,8 @@
     
     .mascot-locked { filter: grayscale(100%) opacity(0.5) brightness(1.2) drop-shadow(0 8px 12px rgba(0,0,0,0.05)); }
 
-    .zone-right { left: 50%; margin-left: 75px; top: 10px; }
-    .zone-left { right: 50%; margin-right: 75px; top: 10px; }
+    .zone-right { left: 50%; margin-left: 85px; top: 10px; }
+    .zone-left { right: 50%; margin-right: 85px; top: 10px; }
 
     .zone-right .mascot-img:hover {
         transform: translateY(-8px) rotate(5deg);
@@ -280,11 +330,12 @@
         .banner-text-col h3 { font-size: 1.5rem; }
         .banner-img-col { width: 140px; }
 
-        .offset-left-2 { transform: translateX(-160px); }
-        .offset-left-1 { transform: translateX(-80px); }
-        .offset-center { transform: translateX(0); }
-        .offset-right-1 { transform: translateX(80px); }
-        .offset-right-2 { transform: translateX(160px); }
+        /* Offsets PC usando Variables CSS */
+        .offset-left-2 { --x-offset: -160px; }
+        .offset-left-1 { --x-offset: -80px; }
+        .offset-center { --x-offset: 0px; }
+        .offset-right-1 { --x-offset: 80px; }
+        .offset-right-2 { --x-offset: 160px; }
 
         .path-line-svg-desktop { display: block; }
         .path-line-svg-mobile { display: none; }
@@ -294,21 +345,18 @@
         .zone-left { margin-right: clamp(130px, 12vw, 180px); top: -10px; }
     }
 
-    /* 6. Botones Hexagonales 3D (Animaciones Corregidas) */
+    /* 6. Botones Hexagonales 3D */
     .btn-hex-wrapper {
         position: relative; display: inline-block;
         width: 85px; height: 95px; z-index: 3;
-        /* Al quitar el mouse: regreso lento y suave */
         transition: transform 0.4s ease-out, filter 0.4s ease-out;
     }
 
-    /* Al poner el mouse: salto rápido con giro a la izquierda */
     .btn-hex-wrapper:not(.state-locked):hover { 
         transform: translateY(-4px) rotate(-4deg); 
         transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s ease;
     }
 
-    /* Al hacer clic: baja de golpe rectamente sin efectos gelatinosos */
     .btn-hex-wrapper:not(.state-locked):active {
         transform: translateY(8px) rotate(0deg);
         transition: transform 0.05s ease-in, filter 0.05s ease-in;
@@ -322,7 +370,6 @@
         font-size: 2.2rem; color: white; cursor: pointer; border: none; padding: 0; z-index: 2;
     }
 
-    /* Manejo exclusivo de la sombra al aplastar (el transform ya se maneja globalmente arriba) */
     .state-completed { filter: drop-shadow(0 8px 0px var(--primary-blue-dark)); --btn-color: var(--primary-blue); }
     .state-completed:active { filter: drop-shadow(0 0px 0px var(--primary-blue-dark)); }
 
@@ -333,21 +380,16 @@
     .state-chest:active { filter: drop-shadow(0 0px 0px var(--secondary-orange-dark)); }
 
     .state-locked { filter: drop-shadow(0 8px 0px var(--abeja-gray-dark)); --btn-color: var(--abeja-gray-light); color: var(--abeja-text-muted); cursor: not-allowed; }
-    /* Locked state no necesita :active porque no se mueve ni pierde sombra */
 
     /* 7. Base de Aura 3D y Animaciones Dinámicas */
     .node-active-orbit {
-        position: absolute; 
-        bottom: -15px; 
-        left: 50%;
-        width: 110px; height: 45px; 
-        margin-left: -55px;
+        position: absolute; bottom: -15px; left: 50%;
+        width: 110px; height: 45px; margin-left: -55px;
         z-index: 1; pointer-events: none;
     }
     
     .node-active-ring {
-        width: 100%; height: 100%;
-        border-radius: 50%;
+        width: 100%; height: 100%; border-radius: 50%;
         border: 3px solid rgba(229, 180, 0, 0.4);
         box-shadow: 0 0 15px rgba(229, 180, 0, 0.2) inset, 0 0 15px rgba(229, 180, 0, 0.2);
         animation: ring-pulse 1.5s infinite alternate ease-in-out;
@@ -358,21 +400,15 @@
     }
 
     .orbit-hidden { display: none !important; }
-    .orbit-appear {
-        display: block !important;
-        animation: orbit-appear-anim 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
+    .orbit-appear { display: block !important; animation: orbit-appear-anim 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
     @keyframes orbit-appear-anim {
         0% { opacity: 0; transform: translateY(25px) scale(0.6); }
         100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .click-ripple-3d {
-        position: absolute; 
-        bottom: -15px; 
-        left: 50%;
-        width: 110px; height: 45px;
-        margin-left: -55px;
+        position: absolute; bottom: -15px; left: 50%;
+        width: 110px; height: 45px; margin-left: -55px;
         border-radius: 50%; border: 4px solid transparent;
         z-index: 1; pointer-events: none;
         animation: ripple-out-ellipse 0.5s ease-out forwards;
@@ -426,7 +462,7 @@
 </div>
 
 <div class="sticky-course-mobile">
-    <div style="position: relative; display: inline-block; width: 100%;">
+    <div style="position: relative; display: inline-block; width: 100%;" class="fade-in-section">
         <button class="course-selector-btn sound-nav" type="button" id="customCourseBtn">
             <div class="course-icon-box"><i class="fa-solid fa-square-root-variable"></i></div>
             <div class="text-start">
@@ -462,7 +498,7 @@
 </div>
 
 <div class="section-sticky-header">
-    <div class="section-banner">
+    <div class="section-banner fade-in-section delay-1">
         <div class="banner-text-col">
             <span>SECCIÓN 1, ÁLGEBRA FUNDAMENTAL</span>
             <h3>Introducción a Ecuaciones</h3>
@@ -483,17 +519,17 @@
 
     <div class="path-nodes">
         
-        <svg class="path-line-svg-desktop" style="position: absolute; top: 42px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
+        <svg class="path-line-svg-desktop path-line-anim" style="position: absolute; top: 42px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
             <path d="M -160 0 L -80 115 L 0 230 L 80 345 L 160 460 L 80 575" stroke="var(--abeja-gray-dark)" stroke-width="22" fill="none" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M -160 0 L -80 115 L 0 230 L 80 345" stroke="var(--primary-blue)" stroke-width="22" fill="none" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <svg class="path-line-svg-mobile" style="position: absolute; top: 37px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
+        <svg class="path-line-svg-mobile path-line-anim" style="position: absolute; top: 37px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
             <path d="M -60 0 L -30 115 L 0 230 L 30 345 L 60 460 L 30 575" stroke="var(--abeja-gray-dark)" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M -60 0 L -30 115 L 0 230 L 30 345" stroke="var(--primary-blue)" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <div class="node-wrapper offset-left-2">
+        <div class="node-wrapper offset-left-2 fade-in-node delay-2">
             <div class="mascot-zone zone-right">
                 <img src="webp_animations/1.webp" class="mascot-img sound-nav" alt="Abeja" onerror="this.src='https://cdn-icons-png.flaticon.com/512/826/826955.png';">
             </div>
@@ -502,19 +538,19 @@
             </div>
         </div>
         
-        <div class="node-wrapper offset-left-1">
+        <div class="node-wrapper offset-left-1 fade-in-node delay-3">
             <div class="btn-hex-wrapper state-completed sound-nav">
                 <button class="btn-hex"><i class="fa-solid fa-check"></i></button>
             </div>
         </div>
 
-        <div class="node-wrapper offset-center">
+        <div class="node-wrapper offset-center fade-in-node delay-4">
             <div class="btn-hex-wrapper state-chest sound-nav">
                 <button class="btn-hex"><i class="fa-solid fa-box-open"></i></button>
             </div>
         </div>
 
-        <div class="node-wrapper offset-right-1">
+        <div class="node-wrapper offset-right-1 fade-in-node delay-5">
             <div class="btn-hex-wrapper state-active sound-nav">
                 <div class="tooltip-start">EMPEZAR</div>
                 <div class="node-active-orbit">
@@ -524,7 +560,7 @@
             </div>
         </div>
 
-        <div class="node-wrapper offset-right-2">
+        <div class="node-wrapper offset-right-2 fade-in-node delay-6">
             <div class="mascot-zone zone-left">
                 <img src="webp_animations/2_estatico.png" class="mascot-img mascot-locked sound-locked" alt="Abeja" onerror="this.src='https://cdn-icons-png.flaticon.com/512/826/826955.png';">
             </div>
@@ -533,7 +569,7 @@
             </div>
         </div>
         
-        <div class="node-wrapper offset-right-1">
+        <div class="node-wrapper offset-right-1 fade-in-node delay-7">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-dumbbell"></i></button>
             </div>
@@ -543,7 +579,7 @@
 </div>
 
 <div class="section-sticky-header">
-    <div class="section-banner banner-green">
+    <div class="section-banner banner-green fade-in-section delay-8">
         <div class="banner-text-col">
             <span>SECCIÓN 2, ÁLGEBRA AVANZADA</span>
             <h3>Sistemas de Ecuaciones</h3>
@@ -563,25 +599,25 @@
 
     <div class="path-nodes">
         
-        <svg class="path-line-svg-desktop" style="position: absolute; top: 42px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
+        <svg class="path-line-svg-desktop path-line-anim" style="position: absolute; top: 42px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
             <path d="M 0 0 L -80 115 L -160 230 L -80 345 L 0 460 L 80 575" stroke="var(--abeja-gray-dark)" stroke-width="22" fill="none" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <svg class="path-line-svg-mobile" style="position: absolute; top: 37px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
+        <svg class="path-line-svg-mobile path-line-anim" style="position: absolute; top: 37px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
             <path d="M 0 0 L -30 115 L -60 230 L -30 345 L 0 460 L 30 575" stroke="var(--abeja-gray-dark)" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <div class="node-wrapper offset-center">
+        <div class="node-wrapper offset-center fade-in-node delay-9">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-forward-step"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-left-1">
+        <div class="node-wrapper offset-left-1 fade-in-node delay-10">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-book-open"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-left-2">
+        <div class="node-wrapper offset-left-2 fade-in-node delay-11">
             <div class="mascot-zone zone-right">
                 <img src="webp_animations/2_estatico.png" class="mascot-img mascot-locked sound-locked" alt="Abeja" onerror="this.src='https://cdn-icons-png.flaticon.com/512/826/826955.png';">
             </div>
@@ -589,12 +625,12 @@
                 <button class="btn-hex"><i class="fa-solid fa-shield-halved"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-left-1">
+        <div class="node-wrapper offset-left-1 fade-in-node delay-12">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-bolt"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-center">
+        <div class="node-wrapper offset-center fade-in-node delay-13">
             <div class="mascot-zone zone-left">
                 <img src="webp_animations/2_estatico.png" class="mascot-img mascot-locked sound-locked" alt="Abeja" onerror="this.src='https://cdn-icons-png.flaticon.com/512/826/826955.png';">
             </div>
@@ -602,7 +638,7 @@
                 <button class="btn-hex"><i class="fa-solid fa-brain"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-right-1">
+        <div class="node-wrapper offset-right-1 fade-in-node delay-14">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-medal"></i></button>
             </div>
@@ -611,7 +647,7 @@
 </div>
 
 <div class="section-sticky-header">
-    <div class="section-banner banner-purple">
+    <div class="section-banner banner-purple fade-in-section delay-15">
         <div class="banner-text-col">
             <span>SECCIÓN 3, GEOMETRÍA</span>
             <h3>Planos y Rectas</h3>
@@ -631,25 +667,25 @@
 
     <div class="path-nodes">
         
-        <svg class="path-line-svg-desktop" style="position: absolute; top: 42px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
+        <svg class="path-line-svg-desktop path-line-anim" style="position: absolute; top: 42px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
             <path d="M 0 0 L 80 115 L 160 230 L 80 345 L 0 460 L -80 575" stroke="var(--abeja-gray-dark)" stroke-width="22" fill="none" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <svg class="path-line-svg-mobile" style="position: absolute; top: 37px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
+        <svg class="path-line-svg-mobile path-line-anim" style="position: absolute; top: 37px; left: 50%; width: 0; height: 100%; z-index: 0; overflow: visible;">
             <path d="M 0 0 L 30 115 L 60 230 L 30 345 L 0 460 L -30 575" stroke="var(--abeja-gray-dark)" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
-        <div class="node-wrapper offset-center">
+        <div class="node-wrapper offset-center fade-in-node delay-16">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-shapes"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-right-1">
+        <div class="node-wrapper offset-right-1 fade-in-node delay-17">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-ruler-combined"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-right-2">
+        <div class="node-wrapper offset-right-2 fade-in-node delay-18">
             <div class="mascot-zone zone-left">
                 <img src="webp_animations/2_estatico.png" class="mascot-img mascot-locked sound-locked" alt="Abeja" onerror="this.src='https://cdn-icons-png.flaticon.com/512/826/826955.png';">
             </div>
@@ -657,12 +693,12 @@
                 <button class="btn-hex"><i class="fa-solid fa-compass"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-right-1">
+        <div class="node-wrapper offset-right-1 fade-in-node delay-19">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-calculator"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-center">
+        <div class="node-wrapper offset-center fade-in-node delay-20">
             <div class="mascot-zone zone-right">
                 <img src="webp_animations/2_estatico.png" class="mascot-img mascot-locked sound-locked" alt="Abeja" onerror="this.src='https://cdn-icons-png.flaticon.com/512/826/826955.png';">
             </div>
@@ -670,7 +706,7 @@
                 <button class="btn-hex"><i class="fa-solid fa-trophy"></i></button>
             </div>
         </div>
-        <div class="node-wrapper offset-left-1">
+        <div class="node-wrapper offset-left-1 fade-in-node delay-21">
             <div class="btn-hex-wrapper state-locked sound-locked">
                 <button class="btn-hex"><i class="fa-solid fa-flag-checkered"></i></button>
             </div>
