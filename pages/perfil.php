@@ -353,7 +353,7 @@
 
 <div class="perfil-header fade-in-section">
     <div class="hex-avatar-wrapper">
-        <img src="https://wallpapers.com/images/hd/xbox-360-profile-pictures-e2bpy4ip6cmbx6cr.jpg" alt="Axel" class="hex-avatar">
+        <img src="perfil-imgs/9.jpg" alt="Axel" class="hex-avatar">
     </div>
     
     <div class="perfil-main-divider"></div>

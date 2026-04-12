@@ -438,7 +438,7 @@
 
         <header class="mobile-top-bar d-lg-none">
             <div class="user-profile-info border-0 p-0 sound-nav" style="cursor:pointer;">
-                <img src="https://wallpapers.com/images/hd/xbox-360-profile-pictures-e2bpy4ip6cmbx6cr.jpg" alt="Axel" class="user-avatar" style="width: 50px; height: 50px;">
+                <img src="perfil-imgs/9.jpg" alt="Axel" class="user-avatar" style="width: 50px; height: 50px;">
                 <h6 class="m-0 fw-bold" style="color: var(--abeja-dark);">Axel</h6>
             </div>
             <div class="user-stats d-flex">
@@ -497,7 +497,7 @@
 
                 <div class="user-widget-desktop">
                     <div class="user-profile-info sound-nav" style="cursor:pointer;">
-                        <img src="https://wallpapers.com/images/hd/xbox-360-profile-pictures-e2bpy4ip6cmbx6cr.jpg" alt="Axel" class="user-avatar">
+                        <img src="perfil-imgs/9.jpg" alt="Axel" class="user-avatar">
                         <h5 class="m-0 fw-bold" style="color: var(--abeja-dark);">Axel</h5>
                     </div>
                     <div class="user-stats">
