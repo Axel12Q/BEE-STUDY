@@ -75,7 +75,7 @@
     .section-title { font-size: 1.3rem; font-weight: 900; color: var(--abeja-dark); margin: 0; }
 
     /* =========================================
-       1. TARJETA PROMOCIONAL
+       1. TARJETA PROMOCIONAL (Con Skeleton Loader)
        ========================================= */
     .promo-card {
         background-color: var(--primary-blue-light);
@@ -85,15 +85,44 @@
         padding: 20px;
         box-shadow: 0 4px 15px rgba(93, 173, 226, 0.15);
     }
+    
     .promo-left {
         flex: 0.8; display: flex; align-items: center; justify-content: center;
     }
-    .promo-left img {
-        width: 100%; height: 100%; max-height: 180px; object-fit: cover;
-        border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
+    
+    /* Magia para cargar la imagen elegantemente */
+    @keyframes shimmer-loading {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
     }
-    .promo-card:hover .promo-left img { transform: scale(1.03) rotate(-2deg); }
+
+    .img-skeleton-wrapper {
+        width: 100%; 
+        height: 100%; 
+        max-height: 180px; 
+        min-height: 180px; /* Previene colapsos en móvil antes de cargar */
+        border-radius: 16px; 
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        background: linear-gradient(90deg, #dceefc 25%, #ebf5fb 50%, #dceefc 75%);
+        background-size: 200% 100%;
+        animation: shimmer-loading 1.5s infinite linear;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .img-skeleton-wrapper img {
+        width: 100%; height: 100%; 
+        object-fit: cover; 
+        opacity: 0; /* Se oculta hasta que cargue */
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease;
+        display: block;
+    }
+    
+    .img-skeleton-wrapper img.loaded {
+        opacity: 1; /* Aparece suavemente */
+    }
+
+    .promo-card:hover .img-skeleton-wrapper img.loaded { transform: scale(1.03) rotate(-2deg); }
 
     .promo-divider {
         width: 3px; background-color: rgba(0,0,0,0.06);
@@ -187,7 +216,7 @@
     /* Cabecera Superior de Propuesta del Asesor */
     .proposal-header {
         display: flex; align-items: center; justify-content: space-between;
-        padding: 12px 18px; background-color: rgba(255, 255, 255, 0.4); /* Transparente para heredar color de fondo */
+        padding: 12px 18px; background-color: rgba(255, 255, 255, 0.4); 
         border-bottom: 2px solid rgba(0,0,0,0.05);
         flex-wrap: wrap; gap: 12px;
     }
@@ -198,7 +227,7 @@
     /* Botones 50-50 */
     .proposal-actions { display: flex; gap: 10px; width: 100%; flex: 1; }
     .btn-proposal {
-        flex: 1; /* Esto garantiza que midan 50% y 50% */
+        flex: 1;
         padding: 8px 12px; border-radius: 12px; border: none;
         font-weight: 900; font-size: 0.85rem; transition: all 0.2s; 
         display: flex; justify-content: center; align-items: center;
@@ -285,8 +314,12 @@
             min-height: 0;
             overflow-y: auto;
         }
-        /* En pantallas anchas, la propuesta puede ir en una fila si hay espacio */
         .proposal-actions { width: auto; flex: 1; }
+    }
+    @media (max-width: 992px) {
+        .titulo-seccion { 
+            display: none;
+        }
     }
 
     /* GRID PARA EVITAR CHOQUES EN VISTAS MEDIAS Y MÓVILES */
@@ -300,7 +333,6 @@
         .session-icon-box { grid-column: 1; grid-row: 1; align-self: start; }
         .session-info { grid-column: 2; grid-row: 1; }
         
-        /* El Badge baja a la segunda fila, ocupando el ancho completo sin chocar con info */
         .session-badge { 
             grid-column: 1 / span 2; 
             grid-row: 2; 
@@ -311,7 +343,7 @@
         .session-divider { display: none; }
     }
 
-    /* MÓVILES (Scroll vertical amplio) */
+    /* MÓVILES */
     @media (max-width: 991px) {
         .promo-card { flex-direction: column; text-align: center; padding: 20px; }
         .promo-left { margin-bottom: 15px; }
@@ -345,11 +377,13 @@
         
         <div class="promo-card sound-item">
             <div class="promo-left">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=500&q=80" alt="Estudiantes estudiando">
+                <div class="img-skeleton-wrapper">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=500&q=80" alt="Estudiantes estudiando" loading="eager" fetchpriority="high" onload="this.classList.add('loaded')">
+                </div>
             </div>
             <div class="promo-divider"></div>
             <div class="promo-right">
-                <h2>Asesorías</h2>
+                <h2 class="titulo-seccion">Asesorías</h2>
                 <p>Resuelve tus dudas con estudiantes de semestres superiores.</p>
                 <div class="promo-price-box">
                     <span class="badge-free">¡1ra sesión GRATIS!</span>

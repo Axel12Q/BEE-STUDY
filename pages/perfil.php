@@ -3,6 +3,23 @@
        ESTILOS EXCLUSIVOS DE PERFIL.PHP
        ========================================= */
 
+    :root {
+        --abeja-white: #ffffff;
+        --abeja-yellow-dark: #E5B400;
+        --abeja-gray-medium: #E5E5E5;
+        --abeja-gray-light: #F2F3F4;
+        --abeja-gray-dark: #D5D8DC;
+        --abeja-text: #4A5568;
+        --abeja-text-muted: #839192;
+        --abeja-dark: #2C3E50;
+        --abeja-orange: #FF9600;
+        
+        /* Paleta Pastel Roja para el botón de salida */
+        --pastel-red: #F5B7B1;
+        --pastel-red-light: #FDEDEC;
+        --pastel-red-dark: #E74C3C;
+    }
+
     /* Animación de entrada suave */
     .fade-in-section {
         animation: fadeInSlide 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
@@ -16,6 +33,30 @@
 
     @keyframes fadeInSlide {
         to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Título Móvil Superior (Estilo Tarjeta) */
+    .mobile-page-title-card {
+        background-color: var(--abeja-white);
+        border: 2px solid var(--abeja-gray-medium);
+        border-radius: 20px;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 55px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    }
+    .mobile-page-title-icon {
+        font-size: 1.5rem;
+        color: var(--abeja-yellow-dark);
+        display: flex; align-items: center; justify-content: center;
+    }
+    .mobile-page-title-divider {
+        width: 2px; height: 30px; background-color: var(--abeja-gray-medium); border-radius: 2px;
+    }
+    .mobile-page-title-text {
+        font-size: 1.6rem; font-weight: 900; color: var(--abeja-dark); margin: 0; letter-spacing: -0.5px;
     }
 
     /* --- CABECERA DE PERFIL --- */
@@ -85,11 +126,13 @@
         background-color: var(--abeja-gray-medium);
     }
 
+    /* =========================================
+       ACCIONES DEL PERFIL (Botones Dinámicos)
+       ========================================= */
     .perfil-actions {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 12px;
-        align-items: flex-end;
         flex-shrink: 0;
     }
 
@@ -100,24 +143,45 @@
         font-size: 0.95rem;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         transition: all 0.2s;
         border: 2px solid;
+        white-space: nowrap;
     }
+    
     .btn-edit { 
         background-color: var(--abeja-white); 
         border-color: var(--abeja-gray-medium); 
         color: var(--abeja-text); 
+        grid-column: 1 / -1; /* Ocupa las 2 columnas arriba en PC */
+        grid-row: 1;
     }
     .btn-edit:hover { 
-        background-color: var(--abeja-gray); 
+        background-color: var(--abeja-gray-light); 
         border-color: #d1d1d1;
+    }
+
+    .btn-logout {
+        background-color: var(--pastel-red-light);
+        border-color: var(--pastel-red);
+        color: var(--pastel-red-dark);
+        grid-column: 1; /* Abajo a la izquierda en PC */
+        grid-row: 2;
+    }
+    .btn-logout:hover {
+        background-color: var(--pastel-red-dark);
+        border-color: var(--pastel-red-dark);
+        color: var(--abeja-white);
+        transform: translateY(-2px);
     }
     
     .btn-group-view { 
-        background-color: #FFF9E6; /* Amarillo muy claro */
+        background-color: #FFF9E6; 
         border-color: #FFE066; 
         color: var(--abeja-yellow-dark); 
+        grid-column: 2; /* Abajo a la derecha en PC */
+        grid-row: 2;
     }
     .btn-group-view:hover { 
         background-color: #FFF0B3; 
@@ -136,7 +200,7 @@
         box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         height: 100%;
-        cursor: default; /* Removido el pointer por no ser interactivo */
+        cursor: default; 
     }
     .stat-card:hover {
         transform: translateY(-5px);
@@ -154,7 +218,6 @@
         flex-shrink: 0;
     }
     
-    /* Colores pastel/claros para los iconos de las tarjetas */
     .icon-orange { background-color: #FFF0E5; color: var(--abeja-orange); }
     .icon-yellow { background-color: #FFF9E6; color: var(--abeja-yellow-dark); }
     .icon-blue { background-color: #EBF5FB; color: #5DADE2; }
@@ -192,7 +255,7 @@
         align-items: center;
         margin: 45px 0 20px 0;
         padding-bottom: 15px;
-        border-bottom: 2px solid var(--abeja-gray);
+        border-bottom: 2px solid var(--abeja-gray-medium);
     }
     .section-title {
         font-size: 1.4rem;
@@ -214,8 +277,8 @@
     /* --- INVENTARIO (Hexágonos 3D) --- */
     .inventory-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Más grandes en PC */
-        gap: 40px; /* Más separados en PC */
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+        gap: 40px; 
         margin-top: 30px;
     }
 
@@ -227,7 +290,7 @@
     }
 
     .item-hex-container {
-        width: 130px; /* Incrementado tamaño base */
+        width: 130px; 
         height: 145px;
         position: relative;
         margin-bottom: 20px;
@@ -247,7 +310,6 @@
         z-index: 2;
     }
 
-    /* Colores claros/pastel por rareza con drop-shadow sutil */
     .rareza-legendario .item-hex-container { filter: drop-shadow(0 8px 0px #FFE066); }
     .rareza-legendario .item-hex { background-color: #FFF9E6; }
     .rareza-legendario .item-rarity { color: var(--abeja-yellow-dark); }
@@ -264,7 +326,6 @@
     .rareza-comun .item-hex { background-color: #F2F3F4; }
     .rareza-comun .item-rarity { color: #839192; }
 
-    /* Estilos para objetos no obtenidos/bloqueados */
     .rareza-bloqueado .item-hex-container { filter: drop-shadow(0 8px 0px var(--abeja-gray-medium)); }
     .rareza-bloqueado .item-hex { background-color: var(--abeja-white); }
     .rareza-bloqueado .item-hex i { font-size: 2.5rem; color: var(--abeja-gray-medium); }
@@ -288,13 +349,15 @@
     /* =========================================
        RESPONSIVE DESIGN (Móvil / Tablet)
        ========================================= */
+
+    /* TABLETS Y MÓVILES (Menos de 992px) */
     @media (max-width: 991px) {
         .perfil-header {
             flex-direction: column;
             text-align: center;
             gap: 20px;
             margin-bottom: 30px;
-            margin-top: 20px; /* Compensa la falta del título */
+            margin-top: 0; 
         }
 
         .hex-avatar {
@@ -315,14 +378,20 @@
 
         .badge-divider { display: none; }
 
+        /* Botones en Tablet (En una sola fila, 1/3 cada uno) */
         .perfil-actions {
+            display: flex;
             flex-direction: row;
-            justify-content: center;
+            justify-content: space-between;
             width: 100%;
             margin-top: 15px;
+            gap: 10px;
         }
 
         .btn-perfil { flex: 1; justify-content: center; }
+        .btn-edit { order: 1; }
+        .btn-group-view { order: 2; }
+        .btn-logout { order: 3; }
 
         /* Inventario Gigante en Móvil (1 por fila) */
         .inventory-grid {
@@ -349,7 +418,30 @@
         .item-name { font-size: 1.4rem; }
         .item-rarity { font-size: 1rem; }
     }
+
+    /* SOLO MÓVILES (Menos de 768px) */
+    @media (max-width: 767px) {
+        .perfil-actions {
+            flex-wrap: wrap;
+        }
+        /* Editar y Ver Grupo se dividen la fila superior (50% c/u) */
+        .btn-edit, .btn-group-view {
+            flex: 1 1 calc(50% - 5px);
+        }
+        /* Cerrar Sesión ocupa toda la fila inferior (100%) */
+        .btn-logout {
+            flex: 1 1 100%;
+        }
+    }
 </style>
+
+<div class="mobile-page-title-card d-lg-none fade-in-section">
+    <div class="mobile-page-title-icon">
+        <i class="fa-solid fa-user"></i>
+    </div>
+    <div class="mobile-page-title-divider"></div>
+    <h2 class="mobile-page-title-text">Perfil</h2>
+</div>
 
 <div class="perfil-header fade-in-section">
     <div class="hex-avatar-wrapper">
@@ -370,6 +462,9 @@
     <div class="perfil-actions">
         <button class="btn-perfil btn-edit sound-action">
             <i class="fa-solid fa-pen"></i> Editar
+        </button>
+        <button class="btn-perfil btn-logout sound-action">
+            <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
         </button>
         <button class="btn-perfil btn-group-view sound-action">
             <i class="fa-solid fa-users"></i> Ver grupo

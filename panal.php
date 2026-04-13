@@ -386,6 +386,28 @@
                 line-height: 1;
             }
 
+            /* Separador y Botón Configuración (Solo Móvil) */
+            .mobile-top-bar .user-stats > .top-config-divider {
+                width: 2px;
+                height: 30px;
+                background-color: var(--abeja-gray-medium);
+                margin: 0 5px !important;
+                flex-direction: row;
+            }
+            .mobile-top-bar .user-stats > .top-config-btn {
+                flex-direction: row;
+                color: var(--abeja-text-muted);
+            }
+            .mobile-top-bar .user-stats > .top-config-btn i {
+                margin: 0 !important;
+                font-size: 1.4rem;
+                transition: color 0.2s;
+            }
+            .mobile-top-bar .user-stats > .top-config-btn:hover i,
+            .mobile-top-bar .user-stats > .top-config-btn:active i {
+                color: var(--abeja-dark);
+            }
+
             /* Contenedor Dinámico Móvil */
             .dynamic-container {
                 margin: 0; 
@@ -437,7 +459,7 @@
     <div id="app-wrapper">
 
         <header class="mobile-top-bar d-lg-none">
-            <div class="user-profile-info border-0 p-0 sound-nav" style="cursor:pointer;">
+            <div class="user-profile-info border-0 p-0 sound-nav" style="cursor:pointer;" data-page="perfil">
                 <img src="perfil-imgs/9.jpg" alt="Axel" class="user-avatar" style="width: 50px; height: 50px;">
                 <h6 class="m-0 fw-bold" style="color: var(--abeja-dark);">Axel</h6>
             </div>
@@ -445,6 +467,11 @@
                 <div class="text-orange sound-item" style="cursor:pointer;"><i class="fa-solid fa-fire"></i><span>14</span></div>
                 <div class="text-warning sound-item" style="cursor:pointer;"><i class="fa-solid fa-droplet"></i><span>776</span></div>
                 <div class="text-danger sound-item" style="cursor:pointer;"><i class="fa-solid fa-heart"></i><span>∞</span></div>
+                
+                <div class="top-config-divider"></div>
+                <div class="top-config-btn sound-nav" data-page="configuracion" style="cursor:pointer;" title="Configuración">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
             </div>
         </header>
 
@@ -496,7 +523,7 @@
                 </div>
 
                 <div class="user-widget-desktop">
-                    <div class="user-profile-info sound-nav" style="cursor:pointer;">
+                    <div class="user-profile-info sound-nav" style="cursor:pointer;" data-page="perfil">
                         <img src="perfil-imgs/9.jpg" alt="Axel" class="user-avatar">
                         <h5 class="m-0 fw-bold" style="color: var(--abeja-dark);">Axel</h5>
                     </div>
@@ -551,7 +578,6 @@
             const sfxAction = document.getElementById('sfx-action');
             const sfxList = document.getElementById('sfx-list');
 
-            // Función global para reproducir sonido
             const playSound = (audioEl) => {
                 if (audioEl) {
                     audioEl.currentTime = 0;
@@ -559,21 +585,16 @@
                 }
             };
 
-            // Escuchar clics en TODO el documento (incluso en el contenido inyectado por fetch)
             document.addEventListener('click', (e) => {
-                // Sonido de Navegación principal (Botones del menú)
                 if (e.target.closest('.sound-nav') || e.target.closest('.nav-btn') || e.target.closest('.mobile-nav-btn') || e.target.closest('.path-node')) {
                     playSound(sfxNav);
                 } 
-                // Sonido de Acción/Botones fuertes (Comprar, Equipar, etc)
                 else if (e.target.closest('.sound-action') || e.target.closest('.btn') || e.target.closest('.shop-item-card-hz')) {
                     playSound(sfxAction);
                 } 
-                // Sonido de Lista/Items suaves (Dropdowns, recompensas, stats)
                 else if (e.target.closest('.sound-item') || e.target.closest('.dropdown-item') || e.target.closest('.rec-item')) {
                     playSound(sfxList);
                 }
-                // Sonido por defecto general (si quieres agregarlo a cualquier cosa que se llame .sound-default)
                 else if (e.target.closest('.sound-default')) {
                     playSound(sfxNav);
                 }
@@ -581,45 +602,52 @@
 
 
             // =========================================
-            // NAVEGACIÓN DINÁMICA (FETCH) Y MANEJO DE URL (?page=X)
+            // NAVEGACIÓN DINÁMICA (FETCH) Y MANEJO DE URL
             // =========================================
-            const navLinks = document.querySelectorAll('.nav-btn, .mobile-nav-btn');
+            // Actualizado para escuchar también el nuevo botón de configuración en móvil
+            const navLinks = document.querySelectorAll('.nav-btn, .mobile-nav-btn, .top-config-btn, .user-profile-info');
             const dynamicContent = document.getElementById('dynamic-content');
             const headerPageTitle = document.getElementById('header-page-title');
             const headerPageIcon = document.getElementById('header-page-icon');
 
-            // Función centralizada para cargar páginas
-            // Función centralizada para cargar páginas
             function loadPage(pageName, updateUrl = true) {
                 if (!pageName) return;
 
-                // 1. Sincronizar clases activas visualmente en el menú
-                navLinks.forEach(n => n.classList.remove('active'));
-                const activeNavs = document.querySelectorAll(`[data-page="${pageName}"]`);
-                activeNavs.forEach(n => n.classList.add('active'));
+                navLinks.forEach(n => {
+                    // Solo removemos 'active' de los botones de navegación reales, no de elementos extra
+                    if(n.classList.contains('nav-btn') || n.classList.contains('mobile-nav-btn')) {
+                        n.classList.remove('active');
+                    }
+                });
 
-                // 2. Actualizar el título y el ícono en la vista de PC
+                const activeNavs = document.querySelectorAll(`[data-page="${pageName}"]`);
+                activeNavs.forEach(n => {
+                    if(n.classList.contains('nav-btn') || n.classList.contains('mobile-nav-btn')) {
+                        n.classList.add('active');
+                    }
+                });
+
                 if (activeNavs.length > 0) {
                     const pcNavNode = Array.from(activeNavs).find(el => el.classList.contains('nav-btn'));
                     if (pcNavNode) {
-                        const iconHtml = pcNavNode.querySelector('i').outerHTML;
+                        const iconNode = pcNavNode.querySelector('i');
+                        const iconHtml = iconNode ? iconNode.outerHTML : '<i class="fa-solid fa-cube"></i>';
                         const pageText = pcNavNode.innerText.trim();
-                        headerPageTitle.innerText = pageText;
-                        headerPageIcon.innerHTML = iconHtml;
+                        if(headerPageTitle && headerPageIcon) {
+                            headerPageTitle.innerText = pageText;
+                            headerPageIcon.innerHTML = iconHtml;
+                        }
                     }
                 }
 
-                // 3. Actualizar la URL sin recargar la página (Magia del History API)
                 if (updateUrl) {
                     const newUrl = new URL(window.location);
                     newUrl.searchParams.set('page', pageName);
                     window.history.pushState({ page: pageName }, '', newUrl);
                 }
 
-                // 4. Efecto visual de carga y FETCH REAL
                 dynamicContent.style.opacity = '0.4';
                 
-                // Petición real al servidor para traer el archivo .php
                 fetch(`pages/${pageName}.php`)
                     .then(res => {
                         if (!res.ok) throw new Error('Página no encontrada');
@@ -628,10 +656,8 @@
                     .then(html => {
                         dynamicContent.innerHTML = html;
                         dynamicContent.style.opacity = '1';
-                        // Volver al scroll top interno al cambiar de página
                         dynamicContent.scrollTop = 0;
 
-                        // 5. ¡VITAL! Forzar al navegador a ejecutar los <script> inyectados
                         const scripts = dynamicContent.querySelectorAll('script');
                         scripts.forEach(oldScript => {
                             const newScript = document.createElement('script');
@@ -643,7 +669,6 @@
                         });
                     })
                     .catch(error => {
-                        // Pantalla de error si el archivo no existe en la carpeta pages/
                         dynamicContent.innerHTML = `
                             <div class="text-center mt-5 text-muted">
                                 <i class="fa-solid fa-person-digging fs-1 text-warning mb-3"></i>
@@ -654,16 +679,16 @@
                     });
             }
 
-            // Al hacer clic en el menú
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
+                    // Prevenir default solo si es un ancla
+                    if(this.tagName === 'A') e.preventDefault();
+                    
                     const page = this.getAttribute('data-page');
-                    loadPage(page, true);
+                    if(page) loadPage(page, true);
                 });
             });
 
-            // Manejar la navegación con los botones de "Atrás/Adelante" del navegador
             window.addEventListener('popstate', (e) => {
                 if (e.state && e.state.page) {
                     loadPage(e.state.page, false);
@@ -672,11 +697,9 @@
                 }
             });
 
-            // Lógica inicial al cargar la página por primera vez
             const urlParams = new URLSearchParams(window.location.search);
             const pageFromUrl = urlParams.get('page');
             
-            // Si hay un "?page=" en la URL, carga esa; si no, carga "jugar" por defecto
             if (pageFromUrl) {
                 loadPage(pageFromUrl, false);
             } else {
