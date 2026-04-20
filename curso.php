@@ -61,15 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 ");
         $stmtRacha->execute([$user_id]);
 
-        // Si sí se insertó hoy (fila nueva), sumamos +1 a campo racha del usuario
+
+        // Si sí se insertó hoy (fila nueva), sumamos +1 a campo racha_dias del usuario
         if ($stmtRacha->rowCount() > 0) {
             $pdo->prepare("
-        UPDATE usuarios
-        SET racha = racha + 1
-        WHERE id = ?
-    ")->execute([$user_id]);
+                UPDATE usuarios
+                SET racha_dias = racha_dias + 1
+                WHERE id = ?
+            ")->execute([$user_id]);
         }
-
         // =====================================================
         // 🍯⭐ Actualizar miel y XP del usuario
         // =====================================================
