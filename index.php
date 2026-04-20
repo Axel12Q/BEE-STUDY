@@ -27,6 +27,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     
     <link rel="stylesheet" href="css/style_index.css">
+
+    <style>
+        /* 1. Obligamos al navegador a detenerse en CADA sección en PC para que no se salte ninguna */
+        .snap-section, .features-wrapper {
+            scroll-snap-stop: always !important;
+        }
+
+        /* 2. En móviles, apagamos el imán por completo. 
+           Esto evita el rebote brusco y permite un deslizamiento nativo súper suave */
+        @media (max-width: 768px) {
+            html {
+                scroll-snap-type: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -162,14 +177,31 @@
             <div class="row align-items-center">
                 <div class="col-lg-5 info-text-box text-center text-lg-start order-2 order-lg-1">
                     <h2>Material de <br> apoyo <i class="fa-solid fa-book-open text-warning"></i></h2>
-                    <p>Obtén acceso a una biblioteca gigante de contenidos digitales<span class="hide-on-mobile">: hojas
-                            de trucos, apuntes y ejercicios</span>. Además, te enviamos material físico de apoyo<span
-                            class="hide-on-mobile"> directo a tus manos para complementar tu aprendizaje</span>.</p>
+                    <p>Obtén acceso a nuestra bóveda de conocimiento: <strong class="text-dark">ejercicios hechos especialmente para ti</strong>, guías paso a paso y hojas de trucos que te salvarán la vida. <span class="hide-on-mobile">Además, te enviamos material físico de apoyo directo a tus manos.</span></p>
                     <button class="btn btn-duo-outline btn-duo">Ver biblioteca</button>
                 </div>
                 <div class="col-lg-6 offset-lg-1 mb-4 mb-lg-0 text-center order-1 order-lg-2">
                     <img src="https://cdn.pixabay.com/photo/2020/09/30/12/18/books-5615562_1280.jpg"
                         alt="Materiales" class="info-image img-right">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="snap-section position-relative overflow-hidden" style="background-color: var(--abeja-dark);">
+        <div class="hexagon" style="background-color: #555555; top: 10%; left: 5%; width: 100px; height: 115px; animation-delay: 0s;"></div>
+        <div class="hexagon" style="background-color: #555555; bottom: 20%; right: 10%; width: 140px; height: 161px; animation-delay: 1.5s;"></div>
+        
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+                    <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Simulacros de Admisión" class="info-image" style="border-color: var(--abeja-yellow); transform: rotate(-3deg);">
+                </div>
+                <div class="col-lg-5 offset-lg-1 info-text-box text-center text-lg-start">
+                    <h2 class="text-white">Simulacros de Admisión <i class="fa-solid fa-rocket text-warning"></i></h2>
+                    <p style="color: #CCCCCC;">¿Nervios por la universidad? Mídete contra el reloj con nuestros <strong class="text-white">simulacros hiperrealistas</strong> tipo UG, UNAM e IPN. Descubre tus puntos débiles y destrúyelos antes del gran día. <br><br><strong>DISPONIBLES APARTIR DEL 22 DE ABRIL</strong></p>
+                    <button class="btn btn-duo" style="border-color: #CC9900;">¡Pon a prueba tu nivel!</button>
                 </div>
             </div>
         </div>

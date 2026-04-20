@@ -98,7 +98,6 @@ if ($vidas_mostrar < $max_vidas_base) {
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 6px;
             cursor: pointer;
             user-select: none;
         }
@@ -441,6 +440,7 @@ if ($vidas_mostrar < $max_vidas_base) {
 
         });
     </script>
+    
 </body>
 
 </html>

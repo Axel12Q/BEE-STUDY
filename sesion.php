@@ -204,14 +204,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="fixed-bottom-elements">
                             <div class="divider">
-                                <span class="d-none d-xl-inline">o</span>
-                                <span class="d-inline d-xl-none">o continuar con</span>
+                                <span class="d-none d-xl-inline">ABEJA GO</span>
+                                <span class="d-inline d-xl-none">ABEJA GO</span>
                             </div>
 
-                            <button class="btn-duo-form btn-google">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" style="width: 22px; height: 22px;">
-                                <span class="d-none d-xl-inline">Continuar con </span>Google
-                            </button>
                         </div>
 
                         <div class="form-wave">

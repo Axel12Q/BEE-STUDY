@@ -3984,4 +3984,111 @@
           background-color: var(--secondary-orange);
           opacity: 0.08;
       }
-      
+      /* =========================================
+   12. ESCALA DE CONTENIDO PARA PANTALLAS MINI
+   Reduce el interior sin deformar los contenedores principales
+/* =========================================
+   12. MODO CHAPARRITO (Prioridad al ALTO)
+   Optimiza el espacio vertical y encoge el contenido
+========================================= */
+
+/* 1. Si la pantalla empieza a quedarse corta de alto (ej. menos de 680px) */
+@media (max-height: 680px) {
+    /* Comprimir las barras de navegación drásticamente */
+    .mobile-top-bar { height: 60px !important; padding: 8px 15px !important; }
+    .mobile-top-bar .user-avatar { width: 38px !important; height: 38px !important; }
+    .mobile-top-bar h6 { font-size: 1rem !important; }
+    .mobile-top-bar .user-stats i { font-size: 1.2rem !important; margin-bottom: 2px !important; }
+    
+    .mobile-bottom-nav { height: 65px !important; padding: 5px !important; }
+    .mobile-nav-btn { font-size: 1.3rem !important; gap: 4px !important; }
+    .mobile-nav-btn span { font-size: 0.7rem !important; }
+
+    /* Expandir la caja blanca hacia arriba y abajo quitando padding muerto */
+    .main-zone { padding: 75px 12px 80px 12px !important; }
+    .dynamic-container { padding: 15px !important; }
+
+    /* >>> EL NUEVO AJUSTE DEL HEADER PEGAJOSO <<< */
+    .section-sticky-header {
+        padding: 5px 0 !important; /* Le quitamos 20px de espacio muerto (padding) */
+        top: 58px !important; /* Lo ajustamos a la nueva altura de tu barra superior */
+    }
+    .section-sticky-header > * {
+        zoom: 0.85; /* Hace un "zoom out" perfecto del banner azul para que se vea igual pero más chico */
+    }
+}
+
+/* 2. Si el alto ya es crítico (menos de 600px) */
+@media (max-height: 600px) {
+    .dynamic-container .item-card,
+    .dynamic-container .mission-card,
+    .dynamic-container .reward-card,
+    .dynamic-container .session-card,
+    .dynamic-container .mega-panal-wrapper,
+    .dynamic-container .perfil-header,
+    .dynamic-container .promo-card,
+    .dynamic-container .daily-header-card {
+        zoom: 0.85; 
+    }
+}
+
+/* 3. Para pantallas extremadamente bajas o cuando se abre el teclado (menos de 385px) */
+@media (max-height: 385px) {
+    .dynamic-container .item-card,
+    .dynamic-container .mission-card,
+    .dynamic-container .reward-card,
+    .dynamic-container .session-card,
+    .dynamic-container .mega-panal-wrapper,
+    .dynamic-container .perfil-header,
+    .dynamic-container .promo-card,
+    .dynamic-container .daily-header-card,
+    .section-sticky-header > * {  /* << También encogemos el banner aún MÁS aquí */
+        zoom: 0.75; 
+    }
+}
+/* =========================================
+   13. REDUCCIÓN FÍSICA DE HEXÁGONOS EN PANTALLAS CHICAS
+   Mata los tamaños gigantes que tenían en la vista móvil base
+========================================= */
+
+@media (max-width: 400px), (max-height: 650px) {
+    /* 1. Hexágonos de la tienda / inventario (Bajamos de 150x170 a algo decente) */
+    .item-hex-container {
+        width: 100px !important;
+        height: 115px !important;
+        margin-bottom: 15px !important;
+    }
+    .item-hex {
+        font-size: 3rem !important; /* El icono adentro se hace proporcionado */
+    }
+    .item-card {
+        padding: 20px 15px !important; /* Le quitamos el relleno excesivo a la tarjeta */
+    }
+    .item-name {
+        font-size: 1.15rem !important;
+    }
+
+    /* 2. El avatar del perfil (Bajamos de 250x250 que era brutal) */
+    .hex-avatar {
+        width: 150px !important;
+        height: 150px !important;
+    }
+
+    /* 3. El hexágono central de la miel (Mega Panal) */
+    .mega-panal-hex {
+        max-width: 180px !important;
+        padding: 15px !important;
+    }
+    .panal-content h2 {
+        font-size: 1.4rem !important;
+    }
+
+    /* 4. Hexágonos de las recompensas en las misiones */
+    .reward-hex-container {
+        width: 55px !important;
+        height: 65px !important;
+    }
+    .reward-hex {
+        font-size: 1.5rem !important;
+    }
+}
