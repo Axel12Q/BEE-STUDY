@@ -534,9 +534,9 @@
 
       .section-sticky-header {
           position: sticky;
-          top: 60px;
+          top: 62px;
           padding: 15px 0 15px 0;
-          background-color: var(--abeja-white);
+          background-color: transparent;
           z-index: 100;
       }
 
@@ -644,6 +644,7 @@
           flex-direction: column;
           align-items: center;
           padding: 10px 0 50px 0;
+          padding-bottom: 0;
           position: relative;
           z-index: 1;
       }
@@ -1458,8 +1459,7 @@
           height: 140px;
           object-fit: cover;
           clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-          border-left: 4px solid var(--abeja-yellow-dark);
-          border-right: 4px solid var(--abeja-yellow-dark);
+
       }
 
       .perfil-main-divider {
@@ -2336,6 +2336,7 @@
           gap: 15px;
           padding-right: 10px;
           padding-bottom: 5px;
+          padding-top: 10px;
       }
 
       .sessions-list-container::-webkit-scrollbar {
@@ -3570,8 +3571,8 @@
           }
 
           .hex-avatar {
-              width: 180px;
-              height: 180px;
+              width: 250px;
+              height: 250px;
           }
 
           .perfil-main-divider {
@@ -3904,3 +3905,83 @@
               transform: translateX(-50%);
           }
       }
+
+      .scroll-mask-top {
+          position: sticky;
+          top: -40px;
+          /* Compensa el padding del contenedor en PC */
+          margin: -40px -40px -65px -40px;
+          /* Se estira hacia los lados y no ocupa espacio hacia abajo */
+          height: 105px;
+          /* Cubre exactamente el espacio hasta los 65px del banner azul */
+          background-color: var(--abeja-white);
+          z-index: 95;
+          /* Z-index clave: oculta la ruta (1), pero se queda detrás del banner (100) */
+          pointer-events: none;
+          /* Evita que bloquee los clics en tus botones */
+      }
+
+      @media (max-width: 991px) {
+          .scroll-mask-top {
+              top: -20px;
+              /* Compensa el padding del contenedor en Móvil */
+              margin: -20px -20px -65px -20px;
+              height: 85px;
+          }
+      }
+
+      /* =========================================
+   EFECTOS DE CURSOS BLOQUEADOS E INSCRIPCIÓN
+========================================= */
+      .course-not-enrolled {
+          filter: grayscale(100%);
+          opacity: 0.6;
+      }
+
+      .content-blurred {
+          filter: blur(8px) grayscale(50%);
+          pointer-events: none;
+          user-select: none;
+          opacity: 0.5;
+          transition: filter 0.3s ease;
+      }
+
+      .enroll-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 50;
+          display: flex;
+          justify-content: center;
+          padding-top: 150px;
+      }
+
+      .enroll-card {
+          background: var(--abeja-white);
+          border: 2px solid var(--abeja-gray-medium);
+          border-radius: 24px;
+          padding: 40px 30px;
+          text-align: center;
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+          width: 90%;
+          max-width: 380px;
+          height: fit-content;
+      }
+
+      .section-banner {
+          /* (Tus otros estilos se quedan igual) */
+
+          box-shadow:
+              0px 8px 12px -2px rgba(255, 255, 255, 1),
+              /* Sombra oscura súper pegadita al borde inferior */
+              0px 16px 20px -6px rgba(255, 255, 255, 0.1) !important;
+          /* Desvanecimiento corto que muere rápido */
+      }
+
+      .path-hex.orange {
+          background-color: var(--secondary-orange);
+          opacity: 0.08;
+      }
+      

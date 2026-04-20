@@ -1,9 +1,93 @@
+<?php
+session_start();
+// Si el usuario ya está logueado, lo mandamos directo al panal
+if (isset($_SESSION['user_id'])) {
+    header("Location: panal.php");
+    exit;
+}
+
+require 'conexion.php';
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // REGISTRO
+    if (isset($_POST['action']) && $_POST['action'] === 'register') {
+        $nombre = trim($_POST['nombre']);
+        $email = trim($_POST['email']);
+        $password = $_POST['password'];
+        $hash = password_hash($password, PASSWORD_DEFAULT); // Encriptación segura
+
+        // Verificar si el correo ya existe
+        $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = ?");
+        $stmt->execute([$email]);
+
+        if ($stmt->rowCount() > 0) {
+            $error = "Ese correo ya está registrado. ¡Intenta iniciar sesión!";
+        } else {
+            // Crear el nuevo usuario
+            $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, password_hash) VALUES (?, ?, ?)");
+
+            if ($stmt->execute([$nombre, $email, $hash])) {
+
+                // Obtener ID del nuevo usuario
+                $nuevoUsuarioId = $pdo->lastInsertId();
+
+                // Registrar automáticamente al curso #1
+                $stmtCurso = $pdo->prepare("
+                    INSERT INTO usuario_cursos (usuario_id, curso_id, fecha_inscripcion)
+                    VALUES (?, 1, NOW())
+                ");
+                $stmtCurso->execute([$nuevoUsuarioId]);
+
+                // 🔥 ACTIVAR NODO 1 AUTOMÁTICAMENTE
+                $stmtNodo = $pdo->prepare("
+                    INSERT INTO progreso_usuario (usuario_id, nodo_id, estado)
+                    VALUES (?, 1, 'activo')
+                ");
+                $stmtNodo->execute([$nuevoUsuarioId]);
+
+                // Auto login
+                $_SESSION['user_id'] = $nuevoUsuarioId;
+
+                header("Location: panal.php");
+                exit;
+            }
+        }
+    }
+
+    // LOGIN
+    elseif (isset($_POST['action']) && $_POST['action'] === 'login') {
+        $email = trim($_POST['email']);
+        $password = $_POST['password'];
+
+        $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Verificar si existe y si la contraseña coincide
+        if ($user && password_verify($password, $user['password_hash'])) {
+
+            // Actualizar la fecha de última conexión
+            $pdo->prepare("UPDATE usuarios SET ultima_conexion = NOW() WHERE id = ?")->execute([$user['id']]);
+
+            $_SESSION['user_id'] = $user['id'];
+
+            header("Location: panal.php");
+            exit;
+
+        } else {
+            $error = "Correo o contraseña incorrectos.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <meta name="robots" content="noindex, nofollow">
 
     <title>Entrar | Abeja Go 🐝</title>
@@ -21,15 +105,16 @@
     <link rel="stylesheet" href="css/style_sesion.css">
 
 </head>
+
 <body>
 
     <nav class="navbar fixed-top" id="mainNavbar">
         <div class="container d-flex justify-content-between align-items-center">
-            
+
             <a class="navbar-brand m-0" href="index.php">
                 <i class="fa-solid fa-bug"></i> Abeja Go
             </a>
-            
+
             <a href="index.php" class="btn btn-duo btn-duo-outline btn-mobile-nav d-md-none text-decoration-none">Inicio</a>
 
             <div class="d-none d-md-flex align-items-center gap-4">
@@ -43,33 +128,40 @@
     <div class="auth-wrapper">
         <div class="container d-flex justify-content-center">
             <div class="auth-card">
-                
+
                 <div class="auth-image-col">
                     <h2>¡Qué gusto verte volar por aquí!</h2>
                     <img src="img/logo.png" alt="Abeja Go Mascot" class="auth-mascot">
                 </div>
 
                 <div class="auth-form-col">
-                    
+
                     <div class="auth-form-inner" id="formContainer">
-                        
+
                         <div class="slider-wrapper">
-                            
+
                             <div class="form-view view-login">
                                 <h3>Iniciar Sesión</h3>
                                 <p>Ingresa tus datos para continuar.</p>
-                                
-                                <form action="#" method="POST">
+
+                                <?php if ($error): ?>
+                                    <div class="alert alert-danger" style="border-radius: 14px; font-weight: 800; text-align: center; margin-bottom: 15px;">
+                                        <i class="fa-solid fa-circle-exclamation"></i> <?= $error ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <form action="sesion.php" method="POST">
+                                    <input type="hidden" name="action" value="login">
                                     <div class="input-group-duo">
                                         <i class="fa-solid fa-envelope"></i>
-                                        <input type="email" class="form-control-duo" placeholder="Correo electrónico o usuario" required>
+                                        <input type="email" name="email" class="form-control-duo" placeholder="Correo electrónico" required>
                                     </div>
-                                    
+
                                     <div class="input-group-duo">
                                         <i class="fa-solid fa-lock"></i>
-                                        <input type="password" class="form-control-duo" placeholder="Contraseña" required>
+                                        <input type="password" name="password" class="form-control-duo" placeholder="Contraseña" required>
                                     </div>
-                                    
+
                                     <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
                                     <button type="submit" class="btn-duo-form">¡Entrar al Panal!</button>
                                 </form>
@@ -78,23 +170,24 @@
                             <div class="form-view view-register">
                                 <h3>Crear Cuenta</h3>
                                 <p>Únete hoy y empieza a aprender volando.</p>
-                                
-                                <form action="#" method="POST">
+
+                                <form action="sesion.php" method="POST">
+                                    <input type="hidden" name="action" value="register">
                                     <div class="input-group-duo">
                                         <i class="fa-solid fa-user"></i>
-                                        <input type="text" class="form-control-duo" placeholder="Nombre completo" required>
+                                        <input type="text" name="nombre" class="form-control-duo" placeholder="Nombre completo" required>
                                     </div>
 
                                     <div class="input-group-duo">
                                         <i class="fa-solid fa-envelope"></i>
-                                        <input type="email" class="form-control-duo" placeholder="Correo electrónico" required>
+                                        <input type="email" name="email" class="form-control-duo" placeholder="Correo electrónico" required>
                                     </div>
-                                    
+
                                     <div class="input-group-duo">
                                         <i class="fa-solid fa-lock"></i>
-                                        <input type="password" class="form-control-duo" placeholder="Contraseña nueva" required>
+                                        <input type="password" name="password" class="form-control-duo" placeholder="Contraseña nueva" required>
                                     </div>
-                                    
+
                                     <button type="submit" class="btn-duo-form">¡Registrarme!</button>
                                 </form>
                             </div>
@@ -133,89 +226,90 @@
                 </div>
 
                 <div class="auth-extra-col">
-                    </div>
+                </div>
 
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.css"></script>
-    
+
     <script>
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
-    window.scrollTo(0, 0);
-
-    window.addEventListener('scroll', function() {
-        const navbar = document.getElementById('mainNavbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('navbar-scrolled');
-        } else {
-            navbar.classList.remove('navbar-scrolled');
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
         }
-    });
+        window.scrollTo(0, 0);
 
-    // --- FUNCIÓN PERSONALIZADA PARA SCROLL ---
-    function scrollLento(targetPosition, duration) {
-        const startPosition = window.scrollY;
-        const distance = targetPosition - startPosition;
-        let startTime = null;
-
-        function ease(t, b, c, d) {
-            t /= d / 2;
-            if (t < 1) return c / 2 * t * t + b;
-            t--;
-            return -c / 2 * (t * (t - 2) - 1) + b;
-        }
-
-        function animation(currentTime) {
-            if (startTime === null) startTime = currentTime;
-            const timeElapsed = currentTime - startTime;
-            const run = ease(timeElapsed, startPosition, distance, duration);
-            window.scrollTo(0, run);
-            
-            if (timeElapsed < duration) {
-                requestAnimationFrame(animation);
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
             } else {
-                document.documentElement.style.scrollBehavior = '';
+                navbar.classList.remove('navbar-scrolled');
             }
-        }
+        });
 
-        requestAnimationFrame(animation);
-    }
+        // --- FUNCIÓN PERSONALIZADA PARA SCROLL ---
+        function scrollLento(targetPosition, duration) {
+            const startPosition = window.scrollY;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
 
-    const btnToggle = document.getElementById('btnToggleMode');
-    const formContainer = document.getElementById('formContainer');
-    let isLoginView = true;
-
-    btnToggle.addEventListener('click', function() {
-        // 1. Inicia el cambio de formulario (Animación CSS)
-        if (isLoginView) {
-            formContainer.classList.add('show-register');
-            btnToggle.textContent = 'Iniciar Sesión';
-        } else {
-            formContainer.classList.remove('show-register');
-            btnToggle.textContent = 'Registrarse';
-        }
-        isLoginView = !isLoginView;
-        
-        this.blur(); 
-
-        // 2. Inicia el scroll AL MISMO TIEMPO
-        if (window.innerWidth <= 1024) {
-            const formTopPosition = formContainer.getBoundingClientRect().top;
-            
-            if (formTopPosition < 100) {
-                const offsetPosition = formContainer.getBoundingClientRect().top + window.scrollY - 100;
-                
-                document.documentElement.style.scrollBehavior = 'auto';
-                
-                // 600ms para que vaya a la par con la animación del form (0.5s)
-                scrollLento(offsetPosition, 500); 
+            function ease(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
+                t--;
+                return -c / 2 * (t * (t - 2) - 1) + b;
             }
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const run = ease(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                } else {
+                    document.documentElement.style.scrollBehavior = '';
+                }
+            }
+
+            requestAnimationFrame(animation);
         }
-    });
-</script>
+
+        const btnToggle = document.getElementById('btnToggleMode');
+        const formContainer = document.getElementById('formContainer');
+        let isLoginView = true;
+
+        btnToggle.addEventListener('click', function() {
+            // 1. Inicia el cambio de formulario (Animación CSS)
+            if (isLoginView) {
+                formContainer.classList.add('show-register');
+                btnToggle.textContent = 'Iniciar Sesión';
+            } else {
+                formContainer.classList.remove('show-register');
+                btnToggle.textContent = 'Registrarse';
+            }
+            isLoginView = !isLoginView;
+
+            this.blur();
+
+            // 2. Inicia el scroll AL MISMO TIEMPO
+            if (window.innerWidth <= 1024) {
+                const formTopPosition = formContainer.getBoundingClientRect().top;
+
+                if (formTopPosition < 100) {
+                    const offsetPosition = formContainer.getBoundingClientRect().top + window.scrollY - 100;
+
+                    document.documentElement.style.scrollBehavior = 'auto';
+
+                    // 600ms para que vaya a la par con la animación del form (0.5s)
+                    scrollLento(offsetPosition, 500);
+                }
+            }
+        });
+    </script>
 </body>
+
 </html>
