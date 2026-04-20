@@ -34,11 +34,15 @@
             scroll-snap-stop: always !important;
         }
 
-        /* 2. En móviles, apagamos el imán por completo. 
+        /* 2. En móviles, apagamos el imán por completo y forzamos el reseteo del scroll snap 
            Esto evita el rebote brusco y permite un deslizamiento nativo súper suave */
         @media (max-width: 768px) {
-            html {
+            html, body {
                 scroll-snap-type: none !important;
+            }
+            .snap-section, .features-wrapper, .feature-mobile-snap {
+                scroll-snap-align: none !important;
+                scroll-snap-stop: normal !important;
             }
         }
     </style>
@@ -50,7 +54,7 @@
         <div class="container d-flex justify-content-between align-items-center">
             
             <a class="navbar-brand m-0" href="#">
-                <i class="fa-solid fa-bug"></i> Abeja Go
+                <i class="fa-solid fa-bug"></i> Abeja GO
             </a>
             
             <a href="sesion.php" class="btn btn-duo btn-duo-outline btn-mobile-nav d-md-none text-decoration-none">Entrar</a>
@@ -76,12 +80,12 @@
                     <p class="hero-subtitle">La forma gratuita, divertida y efectiva de aprender programación, ciencias
                         y más, a tu propio ritmo.</p>
                     <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
-                        <button class="btn btn-duo">¡Empieza a volar!</button>
+                        <a href="sesion.php" class="btn btn-duo text-decoration-none">¡Empieza a volar!</a>
                     </div>
                 </div>
                 <div class="col-lg-6 text-center">
                     <img src="img/abeja.png"
-                        alt="Abeja Go Mascot" class="img-fluid hero-mascot">
+                        alt="Abeja GO Mascot" class="img-fluid hero-mascot">
                 </div>
             </div>
         </div>
@@ -97,7 +101,7 @@
             <div class="hex-feature hf-3 d-block d-md-none"></div>
 
             <div class="text-center mb-md-5">
-                <h2 class="fw-bold mb-0 feature-mobile-title" style="font-size: 2.8rem;">¿Por qué aprender en Abeja Go?
+                <h2 class="fw-bold mb-0 feature-mobile-title" style="font-size: 2.8rem;">¿Por qué aprender en Abeja GO?
                 </h2>
             </div>
             <div class="text-center d-block d-md-none">
@@ -113,7 +117,7 @@
                     <div class="feature-card">
                         <div class="feature-icon-wrapper"><i class="fa-solid fa-gamepad"></i></div>
                         <h3 class="fw-bold">Divertido y efectivo</h3>
-                        <p>Aprender con Abeja Go es como jugar. Ganas puntos y desbloqueas niveles mientras dominas
+                        <p>Aprender con Abeja GO es como jugar. Ganas puntos y desbloqueas niveles mientras dominas
                             nuevos temas.</p>
                     </div>
                     <div class="text-center d-block d-md-none">
@@ -164,7 +168,7 @@
                     <p>No estás solo en este panal. Si te atoras en algún tema de programación, matemáticas o ciencias,
                         puedes agendar sesiones en vivo con expertos<span class="hide-on-mobile"> que te guiarán paso a
                             paso hasta que lo domines</span>.</p>
-                    <button class="btn btn-duo">Conoce a los tutores</button>
+                    <a href="sesion.php" class="btn btn-duo text-decoration-none">Conoce a los tutores</a>
                 </div>
             </div>
         </div>
@@ -178,7 +182,7 @@
                 <div class="col-lg-5 info-text-box text-center text-lg-start order-2 order-lg-1">
                     <h2>Material de <br> apoyo <i class="fa-solid fa-book-open text-warning"></i></h2>
                     <p>Obtén acceso a nuestra bóveda de conocimiento: <strong class="text-dark">ejercicios hechos especialmente para ti</strong>, guías paso a paso y hojas de trucos que te salvarán la vida. <span class="hide-on-mobile">Además, te enviamos material físico de apoyo directo a tus manos.</span></p>
-                    <button class="btn btn-duo-outline btn-duo">Ver biblioteca</button>
+                    <a href="sesion.php" class="btn btn-duo-outline btn-duo text-decoration-none">Ver biblioteca</a>
                 </div>
                 <div class="col-lg-6 offset-lg-1 mb-4 mb-lg-0 text-center order-1 order-lg-2">
                     <img src="https://cdn.pixabay.com/photo/2020/09/30/12/18/books-5615562_1280.jpg"
@@ -201,7 +205,7 @@
                 <div class="col-lg-5 offset-lg-1 info-text-box text-center text-lg-start">
                     <h2 class="text-white">Simulacros de Admisión <i class="fa-solid fa-rocket text-warning"></i></h2>
                     <p style="color: #CCCCCC;">¿Nervios por la universidad? Mídete contra el reloj con nuestros <strong class="text-white">simulacros hiperrealistas</strong> tipo UG, UNAM e IPN. Descubre tus puntos débiles y destrúyelos antes del gran día. <br><br><strong>DISPONIBLES APARTIR DEL 22 DE ABRIL</strong></p>
-                    <button class="btn btn-duo" style="border-color: #CC9900;">¡Pon a prueba tu nivel!</button>
+                    <a href="sesion.php" class="btn btn-duo text-decoration-none" style="border-color: #CC9900;">¡Pon a prueba tu nivel!</a>
                 </div>
             </div>
         </div>
@@ -264,12 +268,12 @@
             <div class="row text-center text-lg-start">
                 <div class="col-lg-4 mb-5 mb-lg-0">
                     <h3 class="fw-bold text-white mb-3" style="font-size: 2.2rem;"><i
-                            class="fa-solid fa-bug text-warning"></i> Abeja Go</h3>
+                            class="fa-solid fa-bug text-warning"></i> Abeja GO</h3>
                     <p class="fw-bold" style="color: #AAA; font-size: 1.1rem; line-height: 1.6;">Revolucionando la forma
                         en la que aprendes. Rápido, divertido y diseñado para ti.</p>
                     <div class="social-icons mt-4 justify-content-center justify-content-lg-start d-flex">
                         <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://instagram.com/abejago.app/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
                         <a href="#"><i class="fa-brands fa-twitter"></i></a>
                         <a href="#"><i class="fa-brands fa-discord"></i></a>
                     </div>
@@ -307,7 +311,7 @@
 
             <div class="footer-bottom text-center mt-5 pt-4 d-none d-md-block"
                 style="border-top: 1px solid rgba(255,255,255,0.1);">
-                <p class="mb-0 fs-5 fw-bold" style="color: #777;">© 2026 Abeja Go. Hecho con miel y código.</p>
+                <p class="mb-0 fs-5 fw-bold" style="color: #777;">© 2026 Abeja GO. Hecho con miel y código.</p>
             </div>
         </div>
     </footer>
