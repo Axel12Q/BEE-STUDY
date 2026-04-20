@@ -1,4 +1,13 @@
 <?php
+// Configuración de seguridad para la cookie de sesión (antes de iniciar la sesión)
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => true,     // Solo transmite la cookie por HTTPS (ponlo en false si pruebas en localhost)
+    'httponly' => true,   // Evita que el JavaScript malicioso robe la sesión (ataques XSS)
+    'samesite' => 'Lax'   // Protege contra ataques CSRF
+]);
 session_start();
 // Si el usuario ya está logueado, lo mandamos directo al panal
 if (isset($_SESSION['user_id'])) {
