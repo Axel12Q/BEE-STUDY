@@ -12,7 +12,7 @@
         
         <div style="border: 2px dashed #1CB0F6; border-radius: 18px; padding: 15px; margin: 25px 0; background: #f0f9ff;">
             <span style="color: #1899D6; font-weight: 900; font-size: 1.1rem;">
-                <i class="fa-solid fa-clock-rotate-left me-2"></i> Regresa el 22 de abril
+                <i class="fa-solid fa-clock-rotate-left me-2"></i> Disponible el 22 de junio
             </span>
         </div>
 

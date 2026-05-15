@@ -19,7 +19,7 @@
         
         <div style="background: #FFF9CC; border: 2px solid #FFD700; border-radius: 18px; padding: 15px; margin: 25px 0;">
             <span style="color: #AF8900; font-weight: 900; font-size: 1.1rem;">
-                <i class="fa-solid fa-calendar-check me-2"></i> Disponible el 22 de abril
+                <i class="fa-solid fa-calendar-check me-2"></i> Disponible el 22 de junio
             </span>
         </div>
 

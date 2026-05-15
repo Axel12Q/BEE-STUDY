@@ -12,7 +12,7 @@
         
         <div style="background: #F7F7F7; border-radius: 18px; padding: 15px; margin: 25px 0; border: 2px solid #E5E5E5;">
             <span style="color: #777; font-weight: 900; font-size: 1rem;">
-                <i class="fa-solid fa-lock me-2"></i> Próxima apertura: 22 de Abril
+                <i class="fa-solid fa-lock me-2"></i> Disponible el 22 de junio
             </span>
         </div>
 

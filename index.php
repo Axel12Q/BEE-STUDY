@@ -272,39 +272,8 @@
                     <p class="fw-bold" style="color: #AAA; font-size: 1.1rem; line-height: 1.6;">Revolucionando la forma
                         en la que aprendes. Rápido, divertido y diseñado para ti.</p>
                     <div class="social-icons mt-4 justify-content-center justify-content-lg-start d-flex">
-                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
                         <a href="https://instagram.com/abejago.app/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="#"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-6 mb-4 mb-lg-0 text-start">
-                    <h5>Aprender</h5>
-                    <ul>
-                        <li><a href="#">Programación</a></li>
-                        <li><a href="#">Matemáticas</a></li>
-                        <li><a href="#">Física y Química</a></li>
-                        <li><a href="#">Proyectos 3D</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-6 mb-4 mb-lg-0 text-start">
-                    <h5>Recursos</h5>
-                    <ul>
-                        <li><a href="#">Asesorías 1 a 1</a></li>
-                        <li><a href="#">Tienda Física</a></li>
-                        <li><a href="#">Blog del Panal</a></li>
-                        <li><a href="#">Comunidad</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-4 mt-4 mt-lg-0 text-center text-lg-start d-none d-md-block">
-                    <h5>¡Únete al Panal!</h5>
-                    <p class="fw-bold" style="color: #AAA;">Suscríbete para recibir noticias y recursos gratis cada
-                        semana.</p>
-                    <div class="input-group mt-4">
-                        <input type="email" class="form-control" placeholder="Tu correo electrónico"
-                            style="border-radius: 12px 0 0 12px; border: none; padding: 15px; font-size: 1.1rem;">
-                        <button class="btn btn-warning fw-bold px-4" type="button"
-                            style="border-radius: 0 12px 12px 0; font-size: 1.1rem;">Volar</button>
+
                     </div>
                 </div>
             </div>
