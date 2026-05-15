@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="index.php" class="btn btn-duo btn-duo-outline btn-mobile-nav d-md-none text-decoration-none">Inicio</a>
 
             <div class="d-none d-md-flex align-items-center gap-4">
-                <a class="fw-bold text-dark text-decoration-none" href="#" style="font-size: 1.1rem;">Idioma del sitio</a>
+
                 <a href="index.php" class="btn btn-duo btn-duo-outline text-decoration-none">Volver al inicio</a>
             </div>
 
@@ -171,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <input type="password" name="password" class="form-control-duo" placeholder="Contraseña" required>
                                     </div>
 
-                                    <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+
                                     <button type="submit" class="btn-duo-form">¡Entrar al Panal!</button>
                                 </form>
                             </div>

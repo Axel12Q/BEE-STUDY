@@ -60,7 +60,7 @@
             <a href="sesion.php" class="btn btn-duo btn-duo-outline btn-mobile-nav d-md-none text-decoration-none">Entrar</a>
 
             <div class="d-none d-md-flex align-items-center gap-4">
-                <a class="fw-bold text-dark text-decoration-none" href="#" style="font-size: 1.1rem;">Idioma del sitio</a>
+
                 <a href="sesion.php" class="btn btn-duo btn-duo-outline text-decoration-none">Ya tengo cuenta</a>
             </div>
 
